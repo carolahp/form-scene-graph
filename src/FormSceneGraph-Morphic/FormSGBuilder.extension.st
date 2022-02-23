@@ -12,6 +12,9 @@ FormSGBuilder >> displayScannerFor: paragraph [
 
 { #category : #'*FormSceneGraph-Morphic' }
 FormSGBuilder >> fillRectangle: aRectangle fillStyle: aFillStyle borderStyle: aBorderStyle [
+	
+	aFillStyle isTransparent ifTrue: [ ^ self null ].
+	
 	(aBorderStyle isNil or: [aBorderStyle width < 0]) ifTrue: [
 		^ self fillRectangle: aRectangle style: aFillStyle
 	].
