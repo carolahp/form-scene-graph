@@ -277,7 +277,7 @@ FormSGOSWindowGenericRenderer >> visitClipNode: node [
 ]
 
 { #category : #visiting }
-FormSGOSWindowGenericRenderer >> visitColorNode: node [
+FormSGOSWindowGenericRenderer >> visitColorRectangleNode: node [
 	node color isTransparent ifTrue: [ ^ self ].
 	renderer color: node color;
 		fillRectangle: (self transformRectangle: node rectangle)

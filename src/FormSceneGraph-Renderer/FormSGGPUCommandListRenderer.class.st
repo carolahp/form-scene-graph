@@ -239,7 +239,7 @@ FormSGGPUCommandListRenderer >> visitClipNode: node [
 ]
 
 { #category : #visiting }
-FormSGGPUCommandListRenderer >> visitColorNode: node [
+FormSGGPUCommandListRenderer >> visitColorRectangleNode: node [
 	self drawRectangle: node rectangle color: node color
 ]
 

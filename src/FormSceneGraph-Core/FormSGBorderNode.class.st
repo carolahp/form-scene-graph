@@ -9,7 +9,8 @@ Class {
 		'leftWidth',
 		'rightWidth',
 		'bottomWidth',
-		'topWidth'
+		'topWidth',
+		'content'
 	],
 	#category : #'FormSceneGraph-Core-Nodes'
 }
@@ -49,6 +50,17 @@ FormSGBorderNode >> color [
 { #category : #accessing }
 FormSGBorderNode >> color: anObject [
 	color := anObject
+]
+
+{ #category : #accessing }
+FormSGBorderNode >> content [
+	
+	^ content 
+]
+
+{ #category : #accessing }
+FormSGBorderNode >> content: aNode [ 
+	content := aNode
 ]
 
 { #category : #accessing }

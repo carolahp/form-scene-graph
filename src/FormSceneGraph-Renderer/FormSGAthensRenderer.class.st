@@ -28,6 +28,7 @@ FormSGAthensRenderer >> render: node on: aCanvas [
 
 { #category : #rendering }
 FormSGAthensRenderer >> render: node withTransform: transform on: aCanvas [
+
 	canvas := aCanvas.
 	canvas pathTransform restoreAfter: [
 		canvas pathTransform multiplyBy: transform asAthensTransform.
@@ -117,7 +118,7 @@ FormSGAthensRenderer >> visitClipNode: node [
 ]
 
 { #category : #visiting }
-FormSGAthensRenderer >> visitColorNode: node [
+FormSGAthensRenderer >> visitColorRectangleNode: node [
 	node color isTransparent ifTrue: [ ^ self ].
 	
 	canvas
@@ -219,7 +220,7 @@ FormSGAthensRenderer >> visitTextNode: node [
 
 { #category : #visiting }
 FormSGAthensRenderer >> visitTextureNode: node [
-	| paint sourceRectangle rectangle extent sourceExtent |
+	| paint sourceRectangle rectangle extent sourceExtent x y |
 	rectangle := node rectangle.
 	extent := rectangle extent.
 	(extent x <= 0.0 or: [ extent y <= 0.0 ]) ifTrue: [ ^ self ].
@@ -242,14 +243,29 @@ FormSGAthensRenderer >> visitTextureNode: node [
 			paint repeat
 		] ifFalse: [
 			paint noRepeat.
-			canvas paintTransform
-				scaleBy: extent / sourceExtent;
-				translateBy: sourceRectangle origin.
+			node shouldScale ifTrue: [ 
+				canvas paintTransform
+					scaleBy: extent / sourceExtent.
+				canvas paintTransform
+					translateBy: sourceRectangle origin.					
+					].
+
 		].
+
+		node shouldScale 
+			ifTrue: [  
+				canvas setPaint: paint.
+				canvas pathTransform translateBy: node rectangle origin.
+				canvas drawShape: (0@0 extent: node rectangle extent).				
+			]
+			ifFalse: [
+				canvas pathTransform scaleX: 1.0 Y: 1.0.
+				canvas setPaint: paint.
+				canvas pathTransform translateBy: node rectangle origin.
+				canvas drawShape: (0@0 extent: node rectangle extent)
+			].
 		
-		canvas setPaint: paint.
-		canvas pathTransform translateBy: node rectangle origin.
-		canvas drawShape: (0@0 extent: node rectangle extent).
+
 	].
 
 ]

@@ -38,7 +38,7 @@ FormSGVisitor >> visitClipNode: node [
 ]
 
 { #category : #visiting }
-FormSGVisitor >> visitColorNode: node [
+FormSGVisitor >> visitColorRectangleNode: node [
 	^ self visitRectangleNode: node
 ]
 

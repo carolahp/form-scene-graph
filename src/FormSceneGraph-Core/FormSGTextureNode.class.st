@@ -8,7 +8,8 @@ Class {
 		'isFullyOpaque',
 		'isRepeated',
 		'form',
-		'sourceRectangle'
+		'sourceRectangle',
+		'scaled'
 	],
 	#category : #'FormSceneGraph-Core-Nodes'
 }
@@ -32,6 +33,7 @@ FormSGTextureNode >> form: anObject [
 FormSGTextureNode >> initialize [
 	isFullyOpaque := false.
 	isRepeated := false.
+	scaled := true
 ]
 
 { #category : #accessing }
@@ -57,6 +59,18 @@ FormSGTextureNode >> isRepeated: anObject [
 { #category : #testing }
 FormSGTextureNode >> isTextureNode [
 	^ true
+]
+
+{ #category : #testing }
+FormSGTextureNode >> shouldScale [
+
+	^ scaled ifNil: [ true ]
+]
+
+{ #category : #testing }
+FormSGTextureNode >> shouldScale: aBoolean [
+
+	scaled := aBoolean
 ]
 
 { #category : #accessing }

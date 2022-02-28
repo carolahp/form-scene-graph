@@ -86,7 +86,7 @@ FormSGCanvasRenderer >> visitClipNode: node [
 ]
 
 { #category : #visiting }
-FormSGCanvasRenderer >> visitColorNode: node [
+FormSGCanvasRenderer >> visitColorRectangleNode: node [
 	canvas fillRectangle: node rectangle color: node color
 ]
 

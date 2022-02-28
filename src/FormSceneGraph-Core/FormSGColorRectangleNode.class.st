@@ -12,7 +12,7 @@ Class {
 
 { #category : #visiting }
 FormSGColorRectangleNode >> accept: visitor [
-	^ visitor visitColorNode: self
+	^ visitor visitColorRectangleNode: self
 ]
 
 { #category : #accessing }
