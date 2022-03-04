@@ -63,6 +63,13 @@ FormSGBorderNode >> content: aNode [
 	content := aNode
 ]
 
+{ #category : #initialization }
+FormSGBorderNode >> initialize [
+
+	super initialize.
+	content := FormSGNullNode uniqueInstance
+]
+
 { #category : #accessing }
 FormSGBorderNode >> interiorRectangle [
 	^ rectangle origin + (leftWidth @ bottomWidth) corner: rectangle corner - (rightWidth @ topWidth)

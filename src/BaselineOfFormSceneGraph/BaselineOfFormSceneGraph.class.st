@@ -23,10 +23,11 @@ BaselineOfFormSceneGraph >> baseline: spec [
 			package: 'FormSceneGraph-Roassal' with: [ spec requires: 'FormSceneGraph-Morphic' ];
 			package: 'FormSceneGraph-OpenGLESRenderer' with: [ spec requires: #('FormSceneGraph-Renderer' 'UFFIOpenGL') ];
 			package: 'FormSceneGraph-AbstractGPURenderer' with: [ spec requires: #('FormSceneGraph-Renderer' 'AbstractGPU') ];
+			package: 'FormSceneGraph-Renderer-Test' with: [ spec requires: #('FormSceneGraph-Renderer') ];
 			
 			group: 'default' with: #('Core' 'Tests' 'UI');
 			group: 'Core' with: #('FormSceneGraph-Core' 'FormSceneGraph-Renderer');
-			group: 'Tests' with: #('FormSceneGraph-Core-Tests');
+			group: 'Tests' with: #('FormSceneGraph-Core-Tests' 'FormSceneGraph-Renderer-Test');
 			group: 'UI' with: #('FormSceneGraph-Morphic' 'FormSceneGraph-Roassal');
 			group: 'OpenGL' with: #('FormSceneGraph-OpenGLESRenderer');
 			group: 'AbstractGPURenderer' with: #('FormSceneGraph-AbstractGPURenderer');
