@@ -75,13 +75,15 @@ FormSGAthensRenderer >> visitAthensNode: node [
 
 { #category : #visiting }
 FormSGAthensRenderer >> visitBorderNode: node [
-	node color isTransparent ifTrue: [ ^ self ].
+	node color isTransparent ifTrue: [ 
+		^ self visitNode: node content ].
 	
 	canvas setPaint: node color.
 	node borderRectanglesDo: [ :each |
 		canvas drawShape: each
-	]
+	].
 	
+	self visitNode: node content
 ]
 
 { #category : #visiting }

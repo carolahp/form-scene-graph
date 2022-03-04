@@ -12,6 +12,8 @@ FormSGBuilder >> displayScannerFor: paragraph [
 
 { #category : #'*FormSceneGraph-Morphic' }
 FormSGBuilder >> fillRectangle: aRectangle fillStyle: aFillStyle borderStyle: aBorderStyle [
+
+	| border content |
 	
 	"If there is no border and color transparent"
 	(aFillStyle isTransparent and: [ aBorderStyle width <= 0 ])
@@ -22,9 +24,13 @@ FormSGBuilder >> fillRectangle: aRectangle fillStyle: aFillStyle borderStyle: aB
 		^ self fillRectangle: aRectangle style: aFillStyle
 	].
 
+	border := self borderRectangle: aRectangle style: aBorderStyle.
+	content := self fillRectangle: (aRectangle insetBy: aBorderStyle width) style: aFillStyle.
+	border isNullNode ifTrue: [ ^ content ].
+
 	"If there is a border, we put inside the content that might be a nullNode"	
-	^ (self borderRectangle: aRectangle style: aBorderStyle)
-		content: 	(self fillRectangle: (aRectangle insetBy: aBorderStyle width) style: aFillStyle);
+	^  border
+		content: content;
 		yourself
 		
 ]

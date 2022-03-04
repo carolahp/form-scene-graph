@@ -1,6 +1,12 @@
 Extension { #name : #Form }
 
 { #category : #'*FormSceneGraph-Morphic' }
+Form >> asForm [
+ ^ self.
+ 
+]
+
+{ #category : #'*FormSceneGraph-Morphic' }
 Form >> buildSceneGraphNodeForFilling: aRectangle with: builder [
 	^ builder texturedRectangle: aRectangle form: self
 ]
