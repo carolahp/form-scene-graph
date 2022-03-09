@@ -530,20 +530,6 @@ FormSGBuilderTest >> testTransformNode [
 ]
 
 { #category : #tests }
-FormSGBuilderTest >> testTranslationNode [
-	| node child |
-	child := builder rectangle: (5@5 extent: 32@32) color: Color red.
-	node := builder translate: child with: 4@5.
-	self assert: node isChildAttributeNode.
-	self assert: node isTranslationNode.
-	self assert: node translation equals: 4@5.
-	self assert: node boundingBox equals: (9@10 extent: 32@32).
-	self assert: node child equals: child.
-	self assert: node children equals: {child}.
-
-]
-
-{ #category : #tests }
 FormSGBuilderTest >> testTranslationTransform [
 	| transform |
 	transform := builder transformWithTranslation: 4@5.
@@ -561,38 +547,4 @@ FormSGBuilderTest >> testVerticalLine [
 	self assert: node rectangle origin y equals: 5.
 	self assert: node rectangle corner y equals: 20.
 	self assert: node color equals: Color blue.
-]
-
-{ #category : #tests }
-FormSGBuilderTest >> testWithTranslationBuild [
-	| node child |
-	builder extent: 20@50.
-	self assert: builder clippingBounds equals: (0@0 extent: 20@50).
-	child := builder rectangle: (5@5 extent: 32@32) color: Color red.
-	node := builder withTranslation: 4@5 build: [
-		self assert: builder clippingBounds equals: (-4 @ -5 extent: 20@50).
-		child
-	].
-	self assert: node isTranslationNode.
-	self assert: node translation equals: 4@5.
-	self assert: node boundingBox equals: (9@10 extent: 32@32).
-	self assert: node child equals: child.
-
-]
-
-{ #category : #tests }
-FormSGBuilderTest >> testWithTranslationTransformBuild [
-	| node child |
-	builder extent: 20@50.
-	self assert: builder clippingBounds equals: (0@0 extent: 20@50).
-	child := builder rectangle: (5@5 extent: 32@32) color: Color red.
-	node := builder withTransform: (builder transformWithTranslation: 4@5) build: [
-		self assert: builder clippingBounds equals: (-4 @ -5 extent: 20@50).
-		child
-	].
-	self assert: node isTranslationNode.
-	self assert: node translation equals: 4@5.
-	self assert: node boundingBox equals: (9@10 extent: 32@32).
-	self assert: node child equals: child.
-
 ]

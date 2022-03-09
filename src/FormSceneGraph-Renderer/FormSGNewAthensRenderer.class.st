@@ -39,6 +39,12 @@ FormSGNewAthensRenderer >> visitBorderNode: aBorderNode [
 ]
 
 { #category : #visiting }
+FormSGNewAthensRenderer >> visitCachedSubScene: aFormSGCachingSubSceneNode [ 
+
+	^ self visitNode: aFormSGCachingSubSceneNode child
+]
+
+{ #category : #visiting }
 FormSGNewAthensRenderer >> visitClipNode: aFormSGClipNode [
 
 	canvas clipBy: aFormSGClipNode rectangle during: [ self visitNode: aFormSGClipNode child ]
@@ -74,13 +80,39 @@ FormSGNewAthensRenderer >> visitNullNode: aFormSGNullNode [
 ]
 
 { #category : #visiting }
-FormSGNewAthensRenderer >> visitTextNode: aFormSGTextNode [ 
+FormSGNewAthensRenderer >> visitTextNode: aTextNode [ 
 
+	| fontDescription layout |
+
+	aTextNode strikethrough 
+		ifTrue: [ self halt ].
+
+	fontDescription := PangoFontDescription new.
+	fontDescription autoRelease.
 	
+	fontDescription familyName: aTextNode font familyName.
+	fontDescription size: (aTextNode font pointSize * 1024) asInteger .
+	fontDescription stretch: (PangoStretch at: #PANGO_STRETCH_NORMAL).
+	fontDescription weight: (PangoStyle at: #PANGO_WEIGHT_NORMAL).
+	
+	layout := PangoLayout newCanvas: canvas.
+	layout autoRelease.
+		
+	aTextNode color loadOnCairoCanvas: canvas.
+	canvas moveToX: aTextNode rectangle origin x Y: aTextNode rectangle origin y.
+
+	layout fontDescription: fontDescription.
+	layout text: (aTextNode string copyFrom: aTextNode firstIndex to: aTextNode lastIndex).
+	canvas updateLayout: layout.
+		
+	canvas showLayout: layout.
+
 ]
 
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitTextureNode: aFormSGTextureNode [ 
 
-	
+	canvas setPaint: Color lightYellow.
+	canvas drawShape: aFormSGTextureNode rectangle.
+
 ]

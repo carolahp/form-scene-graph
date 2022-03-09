@@ -47,6 +47,13 @@ FormSGClipNode >> isClipNode [
 	^ true
 ]
 
+{ #category : #printing }
+FormSGClipNode >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream nextPutAll: ' rectangle: '; print: rectangle
+]
+
 { #category : #accessing }
 FormSGClipNode >> rectangle [
 	^ rectangle

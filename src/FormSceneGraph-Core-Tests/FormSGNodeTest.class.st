@@ -31,5 +31,5 @@ FormSGNodeTest >> testDefaultTestingMethods [
 	self deny: node isTextNode.
 	self deny: node isTextureNode.
 	self deny: node isTransformNode.
-	self deny: node isTranslationNode.
+
 ]

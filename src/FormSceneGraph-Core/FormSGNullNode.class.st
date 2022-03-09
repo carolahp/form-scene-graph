@@ -16,6 +16,12 @@ FormSGNullNode class >> uniqueInstance [
 ]
 
 { #category : #visiting }
+FormSGNullNode >> , otherNode [
+
+	^ otherNode
+]
+
+{ #category : #visiting }
 FormSGNullNode >> accept: visitor [
 	^ visitor visitNullNode: self
 ]

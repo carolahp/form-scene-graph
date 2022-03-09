@@ -4,6 +4,9 @@ I am a node in the scene graph. My drawn content is always a rectangle that can 
 Class {
 	#name : #FormSGNode,
 	#superclass : #Object,
+	#instVars : [
+		'morph'
+	],
 	#classVars : [
 		'EmptyRenderingFormResult'
 	],
@@ -29,7 +32,9 @@ FormSGNode class >> nodeTypeName [
 FormSGNode >> , otherNode [
 	otherNode isNullNode ifTrue: [ ^ self ].
 	otherNode isContainerNode ifTrue: [ ^ otherNode copy children: { self } , otherNode children ].
-	^ FormSGContainerNode new children: {self . otherNode}
+	^ FormSGContainerNode new 
+		morph: self morph;
+		children: {self . otherNode}
 ]
 
 { #category : #visiting }
@@ -92,21 +97,37 @@ FormSGNode >> emptyRenderingForm [
 ]
 
 { #category : #inspector }
-FormSGNode >> gtInspectorFormIn: composite [
-	<gtInspectorPresentationOrder: 10>  
-	^ composite morph 
-		title: 'Form';
-		display: [ self asForm asMorph ]
+FormSGNode >> inspectorForm [
+
+	<inspectorPresentationOrder: 920 title: 'Form'>		
+	^ SpMorphPresenter new
+			morph: self asForm asMorph;
+			yourself	
 ]
 
 { #category : #inspector }
-FormSGNode >> gtTreeViewIn: composite [
-	<gtInspectorPresentationOrder: 0>
-	composite tree 
-		title: 'Rendering tree';
-		display: [ :node | self ];
-		children: [ :each | each children];
-		format: [ :node | node asString ]
+FormSGNode >> inspectorTree [
+
+	<inspectorPresentationOrder: 910 title: 'Tree'>	
+
+	| presenter |
+	
+	^ (presenter := SpTreePresenter new)
+		beResizable;
+		items: { self };
+		children: [ :aNode | aNode children ];
+		display: [ :aNode | aNode asString ];
+		contextMenu: (SpMenuPresenter new 
+			addItem: [ :item | 
+				item
+					name: 'Browse';
+					action: [ presenter selectedItem browse ] ];
+			addItem: [ :item | 
+				item
+					name: 'Expand';
+					action: [ presenter expandSubNodes: presenter selection selectedPath ] ];
+			yourself);
+		yourself
 ]
 
 { #category : #testing }
@@ -209,9 +230,16 @@ FormSGNode >> isTransformNode [
 	^ false
 ]
 
-{ #category : #testing }
-FormSGNode >> isTranslationNode [
-	^ false
+{ #category : #accessing }
+FormSGNode >> morph [
+
+	^ morph
+]
+
+{ #category : #accessing }
+FormSGNode >> morph: anObject [
+
+	morph := anObject
 ]
 
 { #category : #printing }
@@ -222,6 +250,12 @@ FormSGNode >> nodeTypeName [
 { #category : #printing }
 FormSGNode >> printOn: aStream [
 	aStream nextPutAll: self nodeTypeName
+]
+
+{ #category : #accessing }
+FormSGNode >> withAllChildren [
+	
+	^  { self } , (self children flatCollect: [:e | e withAllChildren])
 ]
 
 { #category : #enumerating }

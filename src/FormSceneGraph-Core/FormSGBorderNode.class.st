@@ -43,6 +43,18 @@ FormSGBorderNode >> bottomWidth: anObject [
 ]
 
 { #category : #accessing }
+FormSGBorderNode >> children [
+
+	^ { content }
+]
+
+{ #category : #accessing }
+FormSGBorderNode >> childrenDo: aBlock [
+
+	^ aBlock value: content
+]
+
+{ #category : #accessing }
 FormSGBorderNode >> color [
 	^ color
 ]

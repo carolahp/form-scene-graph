@@ -12,11 +12,13 @@ Morph >> buildCachedFullSceneGraphWith: builder [
 	
 	(invalidSceneGraph or: [ cachedSubSceneNode hasValidSubSceneCreationSession not ]) ifTrue: [
 		cachedSubSceneNode
-			child: (self doBuildFullSceneGraphWith: builder) rectangle: cachedSubSceneBounds.
+			child:  (self doBuildFullSceneGraphWith: builder)
+			rectangle: cachedSubSceneBounds.
+
 		self setProperty: #invalidSceneGraph toValue: false.
 	].
 
-	^ builder translate: cachedSubSceneNode with: cachedSubSceneBounds origin - cachedSubSceneNode rectangle origin
+	^ cachedSubSceneNode
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
@@ -101,10 +103,17 @@ Morph >> buildSceneGraphNodeWith: builder [
 
 { #category : #'*FormSceneGraph-Morphic' }
 Morph >> doBuildFullSceneGraphWith: builder [
-	| contentNode childrenNode overlayNode |
-	contentNode := self buildSceneGraphNodeWith: builder.
-	childrenNode := self buildChildrenSceneGraphNodeWith: builder.
-	overlayNode := self buildOverlaySceneGraphNodeWith: builder.
+
+	| contentNode childrenNode overlayNode previousMorph |
+
+	previousMorph := builder currentMorph.
+	builder currentMorph: self.
+
+	[ 	contentNode := self buildSceneGraphNodeWith: builder.
+		childrenNode := self buildChildrenSceneGraphNodeWith: builder.
+		overlayNode := self buildOverlaySceneGraphNodeWith: builder ] 
+		ensure: [ builder currentMorph: previousMorph ].
+
 	^ contentNode , childrenNode , overlayNode
 ]
 

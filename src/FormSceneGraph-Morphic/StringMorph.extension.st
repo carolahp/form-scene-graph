@@ -2,6 +2,7 @@ Extension { #name : #StringMorph }
 
 { #category : #'*FormSceneGraph-Morphic' }
 StringMorph >> buildSceneGraphNodeWith: builder [
+
 	^ (builder fillRectangle: self bounds style: self backgroundColor),
 	 (builder string: self contents 
 		in: self stringBounds 
