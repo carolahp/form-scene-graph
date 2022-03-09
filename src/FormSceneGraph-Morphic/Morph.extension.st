@@ -2,23 +2,20 @@ Extension { #name : #Morph }
 
 { #category : #'*FormSceneGraph-Morphic' }
 Morph >> buildCachedFullSceneGraphWith: builder [
-	| invalidSceneGraph cachedSubSceneNode cachedSubSceneBounds |
-	self shouldCacheSceneGraphSurface ifFalse: [ ^ self doBuildFullSceneGraphWith: builder ].
 	
-	invalidSceneGraph := self valueOfProperty: #invalidSceneGraph ifAbsent: [ true ]. 
-	cachedSubSceneNode := self valueOfProperty: #cachedSubSceneGraph ifAbsentPut: [ builder cachingSubScene ].
+	| cachedSubSceneGraph |
+	(self valueOfProperty: #invalidSceneGraph ifAbsent: [ true ])
+		ifFalse: [ ^ self valueOfProperty: #cachedSubSceneGraph ].
+				
+	cachedSubSceneGraph := self doBuildFullSceneGraphWith: builder.
 	
-	cachedSubSceneBounds := self fullBounds.
+	self shouldCacheSceneGraphSurface	
+			ifTrue: [ cachedSubSceneGraph := builder cachingSubSceneWith: cachedSubSceneGraph ].
 	
-	(invalidSceneGraph or: [ cachedSubSceneNode hasValidSubSceneCreationSession not ]) ifTrue: [
-		cachedSubSceneNode
-			child:  (self doBuildFullSceneGraphWith: builder)
-			rectangle: cachedSubSceneBounds.
+	self setProperty: #cachedSubSceneGraph toValue: cachedSubSceneGraph.
+	self setProperty: #invalidSceneGraph toValue: false.
 
-		self setProperty: #invalidSceneGraph toValue: false.
-	].
-
-	^ cachedSubSceneNode
+	^ cachedSubSceneGraph
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
@@ -74,13 +71,13 @@ Morph >> buildFullSceneGraphWith: builder [
 
 	(self hasProperty: #errorOnDraw) ifTrue: [^ self buildDrawErrorSceneGraphNodeWith: builder ].
 
-	^ [
-		self buildCachedFullSceneGraphWith: builder
-	] on: Error do: [ :err |
+"	^ [
+"		^ self buildCachedFullSceneGraphWith: builder
+"	] on: Error do: [ :err |
 		self setProperty: #errorOnDraw toValue: true.
 		self setProperty: #drawError toValue: err freeze.
 		self buildDrawErrorSceneGraphNodeWith: builder
-	]
+	]"
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }

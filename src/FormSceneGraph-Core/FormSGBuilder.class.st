@@ -50,6 +50,17 @@ FormSGBuilder >> cachingSubScene [
 	^ FormSGCachingSubSceneNode new
 ]
 
+{ #category : #'building node helpers' }
+FormSGBuilder >> cachingSubSceneWith: aChild [
+
+	| caching |
+	
+	caching := self cachingSubScene. 
+	caching child: aChild.
+	
+	^ caching
+]
+
 { #category : #'node building' }
 FormSGBuilder >> clip: node withRectangle: rectangle [
 
@@ -59,9 +70,9 @@ FormSGBuilder >> clip: node withRectangle: rectangle [
 	| translatedRectangle |
 	translatedRectangle := (rectangle translateBy: currentTranslation).
 	
-	node isClipNode 
+	node isClipNode
 		ifTrue: [ 
-			self assert: (translatedRectangle containsRect: node rectangle).
+			node rectangle: (node rectangle intersect: translatedRectangle).
 			^ node ].
 
 	^ FormSGClipNode new

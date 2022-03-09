@@ -2,10 +2,38 @@ Class {
 	#name : #FormSGNewAthensRenderer,
 	#superclass : #Object,
 	#instVars : [
-		'canvas'
+		'canvas',
+		'textBuffer',
+		'pangoLayout'
 	],
 	#category : #'FormSceneGraph-Renderer-Basic'
 }
+
+{ #category : #'as yet unclassified' }
+FormSGNewAthensRenderer >> encodeStringForLayout: aString from: firstIndex length: length [
+
+	"I encode in utf8 the string in a pinned byteArray that is reused"
+	
+	"Check the worst case scenario 4 bytes per character"
+	
+	(textBuffer isNil or: [ textBuffer size < (length * 4) ]) 
+		ifTrue: [ textBuffer := ByteArray newPinned: length * 4 ].	
+	
+	textBuffer writeStreamDo: [ :aStream | 
+		ZnCharacterEncoder utf8 next: length putAll: aString startingAt: firstIndex toStream: aStream].
+	
+	^ textBuffer
+]
+
+{ #category : #'as yet unclassified' }
+FormSGNewAthensRenderer >> pangoLayout [
+
+	^ pangoLayout ifNil: [ 
+		pangoLayout := (PangoLayout newCanvas: canvas)
+			autoRelease;
+			yourself ]
+
+]
 
 { #category : #rendering }
 FormSGNewAthensRenderer >> render: aNode on: aCanvas [ 
@@ -41,7 +69,8 @@ FormSGNewAthensRenderer >> visitBorderNode: aBorderNode [
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitCachedSubScene: aFormSGCachingSubSceneNode [ 
 
-	^ self visitNode: aFormSGCachingSubSceneNode child
+	self visitNode: aFormSGCachingSubSceneNode child.
+	1halt.
 ]
 
 { #category : #visiting }
@@ -82,30 +111,23 @@ FormSGNewAthensRenderer >> visitNullNode: aFormSGNullNode [
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitTextNode: aTextNode [ 
 
-	| fontDescription layout |
+	| stringLength |
 
 	aTextNode strikethrough 
 		ifTrue: [ self halt ].
-
-	fontDescription := PangoFontDescription new.
-	fontDescription autoRelease.
-	
-	fontDescription familyName: aTextNode font familyName.
-	fontDescription size: (aTextNode font pointSize * 1024) asInteger .
-	fontDescription stretch: (PangoStretch at: #PANGO_STRETCH_NORMAL).
-	fontDescription weight: (PangoStyle at: #PANGO_WEIGHT_NORMAL).
-	
-	layout := PangoLayout newCanvas: canvas.
-	layout autoRelease.
 		
 	aTextNode color loadOnCairoCanvas: canvas.
 	canvas moveToX: aTextNode rectangle origin x Y: aTextNode rectangle origin y.
 
-	layout fontDescription: fontDescription.
-	layout text: (aTextNode string copyFrom: aTextNode firstIndex to: aTextNode lastIndex).
-	canvas updateLayout: layout.
+	self pangoLayout fontDescription: aTextNode fontDescription.
+
+	stringLength := aTextNode lastIndex - aTextNode firstIndex + 1.
+
+	self pangoLayout text: (self encodeStringForLayout: aTextNode string from: aTextNode firstIndex length: stringLength) length: stringLength.
+
+	canvas updateLayout: self pangoLayout.
 		
-	canvas showLayout: layout.
+	canvas showLayout: self pangoLayout.
 
 ]
 
