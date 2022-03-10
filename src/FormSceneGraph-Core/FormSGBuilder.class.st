@@ -8,7 +8,8 @@ Class {
 	#instVars : [
 		'clippingBounds',
 		'currentMorph',
-		'currentTranslation'
+		'currentTranslation',
+		'scale'
 	],
 	#category : #'FormSceneGraph-Core-Builder'
 }
@@ -25,12 +26,12 @@ FormSGBuilder >> borderRectangle: rectangle color: color leftWidth: leftWidth ri
 	[bottomWidth = 0 and: [topWidth = 0]]]) ifTrue: [ ^ self null ].
 
 	^ FormSGBorderNode new
-		rectangle: (rectangle translateBy: currentTranslation);
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
 		color: color;
-		leftWidth: leftWidth;
-		rightWidth: rightWidth;
-		bottomWidth: bottomWidth;
-		topWidth: topWidth;
+		leftWidth: leftWidth * scale;
+		rightWidth: rightWidth * scale;
+		bottomWidth: bottomWidth * scale;
+		topWidth: topWidth * scale;
 		yourself
 ]
 
@@ -38,9 +39,9 @@ FormSGBuilder >> borderRectangle: rectangle color: color leftWidth: leftWidth ri
 FormSGBuilder >> borderRectangle: rectangle color: color width: width [
 	(color isTransparent or: [ width = 0 ]) ifTrue: [ ^ self null ].
 	^ FormSGBorderNode new
-		rectangle: (rectangle translateBy: currentTranslation);
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
 		color: color;
-		width: width;
+		width: width * scale;
 		yourself
 ]
 
@@ -68,7 +69,7 @@ FormSGBuilder >> clip: node withRectangle: rectangle [
 	Clipping two times is not useful"
 	
 	| translatedRectangle |
-	translatedRectangle := (rectangle translateBy: currentTranslation).
+	translatedRectangle := (rectangle translateBy: currentTranslation) scaleBy: scale.
 	
 	node isClipNode
 		ifTrue: [ 
@@ -88,8 +89,8 @@ FormSGBuilder >> clip: node withRectangle: rectangle roundBorderRadius: radius [
 
 	^ FormSGRoundedClipNode new
 		child: node;
-		rectangle: (rectangle translateBy: currentTranslation);
-		borderRadius: radius;
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
+		borderRadius: radius * scale;
 		yourself
 ]
 
@@ -138,9 +139,12 @@ FormSGBuilder >> identityTransform [
 
 { #category : #initialization }
 FormSGBuilder >> initialize [
+	
 	super initialize.
+	
 	currentTranslation := 0@0.
 	clippingBounds := Rectangle fullSpace.
+	scale := 1.0
 ]
 
 { #category : #'node building' }
@@ -149,11 +153,11 @@ FormSGBuilder >> insetShadow: rectangle leftWidth: leftWidth rightWidth: rightWi
 	[bottomWidth = 0 and: [topWidth = 0]]]) ifTrue: [ ^ self null ].
 
 	^ FormSGInsetShadowNode new
-		rectangle: (rectangle translateBy: currentTranslation);
-		leftWidth: leftWidth;
-		rightWidth: rightWidth;
-		bottomWidth: bottomWidth;
-		topWidth: topWidth;
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
+		leftWidth: leftWidth * scale;
+		rightWidth: rightWidth * scale;
+		bottomWidth: bottomWidth * scale;
+		topWidth: topWidth * scale;
 		yourself
 ]
 
@@ -162,8 +166,8 @@ FormSGBuilder >> insetShadow: rectangle width: width [
 	width = 0 ifTrue: [ ^ self null ].
 
 	^ FormSGInsetShadowNode new
-		rectangle: (rectangle translateBy: currentTranslation);
-		width: width;
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
+		width: width * scale;
 		yourself
 ]
 
@@ -206,11 +210,11 @@ FormSGBuilder >> outsetShadow: rectangle leftWidth: leftWidth rightWidth: rightW
 	[bottomWidth = 0 and: [topWidth = 0]]]) ifTrue: [ ^ self null ].
 
 	^ FormSGOutsetShadowNode new
-		rectangle: (rectangle translateBy: currentTranslation);
-		leftWidth: leftWidth;
-		rightWidth: rightWidth;
-		bottomWidth: bottomWidth;
-		topWidth: topWidth;
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
+		leftWidth: leftWidth * scale;
+		rightWidth: rightWidth * scale;
+		bottomWidth: bottomWidth * scale;
+		topWidth: topWidth * scale;
 		yourself
 ]
 
@@ -219,8 +223,8 @@ FormSGBuilder >> outsetShadow: rectangle width: width [
 	width = 0 ifTrue: [ ^ self null ].
 	
 	^ FormSGOutsetShadowNode new
-		rectangle: (rectangle translateBy: currentTranslation);
-		width: width;
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
+		width: width * scale;
 		yourself
 ]
 
@@ -239,7 +243,7 @@ FormSGBuilder >> rectangle: rectangle color: color [
 	color isTransparent ifTrue: [ ^ self null ].
 
 	^ FormSGColorRectangleNode new
-		rectangle: (rectangle translateBy: currentTranslation);
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
 		color: color;
 		yourself
 ]
@@ -253,11 +257,11 @@ FormSGBuilder >> rectangle: rectangle drawWithAthens: drawBlock [
 FormSGBuilder >> rectangle: rectangle linearGradientStart: startPoint color: startColor end: endPoint color: endColor [
 	(startColor isTransparent and: [ endColor isTransparent ]) ifTrue: [ ^ self null ].
 	^ FormSGLinearGradientNode new
-		rectangle: (rectangle translateBy: currentTranslation);
-		startPoint: startPoint;
-		startColor: startColor;
-		endPoint: endPoint;
-		endColor: endColor;
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
+		startPoint: startPoint * scale;
+		startColor: startColor * scale;
+		endPoint: endPoint * scale;
+		endColor: endColor * scale;
 		yourself
 ]
 
@@ -284,15 +288,15 @@ FormSGBuilder >> rectangle: rectangle radialGradientCenter: center focalPoint: f
 	(startColor isTransparent and: [ endColor isTransparent ]) ifTrue: [ ^ self null ].
 
 	^ FormSGRadialGradientNode new
-		rectangle: (rectangle translateBy: currentTranslation);
-		center: center;
-		focalPoint: focalPoint;
-		innerRadius: innerRadius;
-		clipInnerRadius: clipInnerRadius;
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
+		center: ((center translateBy: currentTranslation) scaleBy: scale);
+		focalPoint: ((focalPoint translateBy: currentTranslation) scaleBy: scale);
+		innerRadius: innerRadius * scale;
+		clipInnerRadius: clipInnerRadius * scale;
 		startColor: startColor;
-		outerRadius: outerRadius;
+		outerRadius: outerRadius * scale;
 		endColor: endColor;
-		clipOuterRadius: clipOuterRadius;
+		clipOuterRadius: ((clipOuterRadius translateBy: currentTranslation) scaleBy: scale);
 		yourself
 ]
 
@@ -329,10 +333,10 @@ FormSGBuilder >> rectangle: rectangle radialGradientCenter: center
 FormSGBuilder >> rectangle: rectangle repeatingLinearGradientStart: startPoint color: startColor end: endPoint color: endColor [
 	(startColor isTransparent and: [ endColor isTransparent ]) ifTrue: [ ^ self null ].
 	^ FormSGRepeatingLinearGradientNode new
-		rectangle: (rectangle translateBy: currentTranslation);
-		startPoint: startPoint;
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
+		startPoint: (startPoint translateBy: currentTranslation) * scale;
 		startColor: startColor;
-		endPoint: endPoint;
+		endPoint: (endPoint translateBy: currentTranslation) * scale;
 		endColor: endColor;
 		yourself
 ]
@@ -340,7 +344,7 @@ FormSGBuilder >> rectangle: rectangle repeatingLinearGradientStart: startPoint c
 { #category : #'node building' }
 FormSGBuilder >> rectangle: rectangle surface: surface drawWithAthens: drawBlock [
 	^ FormSGAthensNode new
-		rectangle: (rectangle translateBy: currentTranslation);
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
 		surface: surface;
 		drawBlock: drawBlock;
 		yourself
@@ -356,6 +360,11 @@ FormSGBuilder >> rotate: child withDegrees: angle [
 FormSGBuilder >> rotate: child withRadians: angle [
 	(angle closeTo: 0) ifTrue: [ ^ child ].
 	^ self transform: child with: (FormSGAffineTransform rotationInRadians: angle)
+]
+
+{ #category : #accessing }
+FormSGBuilder >> scale: aNumber [ 
+	scale := aNumber
 ]
 
 { #category : #'node building helpers' }
@@ -379,11 +388,12 @@ FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle fon
 FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle font: font color: color kern: kern underline: underline underlineColor: underlineColor strikethrough: strikethrough strikethroughColor: strikethroughColor [
 	
 	^ FormSGTextNode new
-		rectangle: (rectangle translateBy: currentTranslation);
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
 		string: string;
 		firstIndex: firstIndex;
 		lastIndex: lastIndex;
 		font: font;
+		scale: scale;
 		kern: kern;
 		color: color;
 		underline: underline;
@@ -423,23 +433,21 @@ FormSGBuilder >> texturedRectangle: rectangle form: form [
 	^ self texturedRectangle: rectangle form: form opaque: false
 ]
 
-{ #category : #'node building' }
+{ #category : #'node building helpers' }
 FormSGBuilder >> texturedRectangle: rectangle form: form opaque: fullyOpaque [
-	^ FormSGTextureNode new
-		rectangle: (rectangle translateBy: currentTranslation);
-		form: form;
-		isFullyOpaque: fullyOpaque;
-		yourself
+	
+	^ self texturedRectangle: rectangle form: form opaque: fullyOpaque repeated: false
 ]
 
 { #category : #'node building' }
 FormSGBuilder >> texturedRectangle: rectangle form: form opaque: fullyOpaque repeated: repeated [
-	^ FormSGTextureNode new
-		rectangle: rectangle + currentTranslation;
+	
+	^ self cachingSubSceneWith: (FormSGTextureNode new
+		rectangle: ((rectangle translateBy: currentTranslation) scaleBy: scale);
 		form: form;
 		isFullyOpaque: fullyOpaque;
 		isRepeated: repeated;
-		yourself
+		yourself)
 ]
 
 { #category : #'node building' }

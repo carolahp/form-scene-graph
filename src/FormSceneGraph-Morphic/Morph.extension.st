@@ -117,8 +117,11 @@ Morph >> doBuildFullSceneGraphWith: builder [
 { #category : #'*FormSceneGraph-Morphic' }
 Morph >> invalidRect: aRectangle from: aMorph [
 	| damageRect |
+	
 	aRectangle hasPositiveExtent ifFalse: [ ^self ].
-	self setProperty: #invalidSceneGraph toValue: true.
+	
+	self invalidateSceneGraph.
+	
 	damageRect := aRectangle.
 	aMorph == self ifFalse:[
 		"Clip to receiver's clipping bounds if the damage came from a child"

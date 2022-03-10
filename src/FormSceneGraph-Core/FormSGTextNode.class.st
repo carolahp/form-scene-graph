@@ -15,7 +15,8 @@ Class {
 		'underlineColor',
 		'strikethrough',
 		'strikethroughColor',
-		'fontDescription'
+		'fontDescription',
+		'scale'
 	],
 	#category : #'FormSceneGraph-Core-Nodes'
 }
@@ -58,13 +59,14 @@ FormSGTextNode >> font: anObject [
 { #category : #accessing }
 FormSGTextNode >> fontDescription [ 
 
-	fontDescription ifNotNil: [ ^ fontDescription ].
+	(fontDescription isNotNil and: [fontDescription isValid]) 
+		ifTrue: [ ^ fontDescription ].
 
 	fontDescription := PangoFontDescription new.
 	fontDescription autoRelease.
 	
 	fontDescription familyName: self font familyName.
-	fontDescription size: (self font pointSize * 1024) asInteger .
+	fontDescription size: (self font pointSize * 1024 * scale) asInteger .
 	fontDescription stretch: (PangoStretch at: #PANGO_STRETCH_NORMAL).
 	fontDescription weight: (PangoStyle at: #PANGO_WEIGHT_NORMAL).
 
@@ -111,6 +113,12 @@ FormSGTextNode >> printOn: aStream [
 		nextPutAll: '; strikethrough: '; print: strikethrough;
 		nextPutAll: '; strikethroughColor: '; print: strikethroughColor
 
+]
+
+{ #category : #accessing }
+FormSGTextNode >> scale: aNumber [ 
+	
+	scale := aNumber
 ]
 
 { #category : #accessing }

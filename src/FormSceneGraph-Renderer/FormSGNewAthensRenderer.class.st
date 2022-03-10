@@ -9,6 +9,43 @@ Class {
 	#category : #'FormSceneGraph-Renderer-Basic'
 }
 
+{ #category : #caching }
+FormSGNewAthensRenderer >> drawCachedSubScene: aCachedNode [
+
+	canvas
+		pasteSurface: aCachedNode cachedSurface
+		targetX: aCachedNode rectangle origin x asFloat
+		targetY: aCachedNode rectangle origin y asFloat
+		sourceX: 0.0
+		sourceY: 0.0
+		width: aCachedNode rectangle width asFloat
+		height: aCachedNode rectangle height asFloat
+]
+
+{ #category : #'cached scenes' }
+FormSGNewAthensRenderer >> drawChildSubSceneAndCache: aCachedNode [
+
+	| cachedSurface |
+	canvas
+		clipBy: aCachedNode rectangle
+		during: [ self visitNode: aCachedNode child ].
+		
+	cachedSurface := AthensCairoSurface extent: aCachedNode rectangle extent.
+	cachedSurface drawDuring: [ :aCanvas |	
+		cachedSurface clear: Color transparent.
+		aCanvas moveToX: 0.0 Y: 0.0. 
+		aCanvas 
+			pasteSurface: canvas surface 
+			targetX: 0.0
+			targetY: 0.0
+			sourceX: aCachedNode rectangle origin x asFloat
+			sourceY: aCachedNode rectangle origin y asFloat
+			width: aCachedNode rectangle width
+			height: aCachedNode rectangle height].
+	
+	aCachedNode cachedSurface: cachedSurface
+]
+
 { #category : #'as yet unclassified' }
 FormSGNewAthensRenderer >> encodeStringForLayout: aString from: firstIndex length: length [
 
@@ -67,10 +104,13 @@ FormSGNewAthensRenderer >> visitBorderNode: aBorderNode [
 ]
 
 { #category : #visiting }
-FormSGNewAthensRenderer >> visitCachedSubScene: aFormSGCachingSubSceneNode [ 
+FormSGNewAthensRenderer >> visitCachedSubScene: aCachedNode [ 
 
-	self visitNode: aFormSGCachingSubSceneNode child.
-	1halt.
+
+	aCachedNode isValid 
+		ifTrue: [ self drawCachedSubScene: aCachedNode ]
+		ifFalse: [ self drawChildSubSceneAndCache: aCachedNode ]
+
 ]
 
 { #category : #visiting }
@@ -132,9 +172,34 @@ FormSGNewAthensRenderer >> visitTextNode: aTextNode [
 ]
 
 { #category : #visiting }
-FormSGNewAthensRenderer >> visitTextureNode: aFormSGTextureNode [ 
+FormSGNewAthensRenderer >> visitTextureNode: node [ 
 
-	canvas setPaint: Color lightYellow.
-	canvas drawShape: aFormSGTextureNode rectangle.
+	| rectangle extent paint sourceRectangle sourceExtent |
+	rectangle := node rectangle.
+	extent := rectangle extent.
+		
+	paint := node form asAthensPaintOn: canvas.
+	sourceRectangle := node validSourceRectangle.
+	sourceExtent := sourceRectangle extent.
+	(sourceExtent x <= 0.0 or: [ sourceExtent y <= 0.0 ]) ifTrue: [ ^ self ].
+	
+	canvas pathTransform restoreAfter: [
+		canvas paintTransform
+			loadIdentity.
+		node isRepeated ifTrue: [
+			paint repeat
+		] ifFalse: [
+			paint noRepeat.
+			canvas paintTransform
+				scaleBy: extent / sourceExtent.
+			canvas paintTransform
+					translateBy: sourceRectangle origin.					
+		].
+
+		canvas setPaint: paint.
+		canvas pathTransform translateBy: node rectangle origin.
+		canvas drawShape: (0@0 extent: node rectangle extent).				
+
+	].
 
 ]
