@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'canvas',
 		'textBuffer',
-		'pangoLayout'
+		'pangoLayout',
+		'clipping'
 	],
 	#category : #'FormSceneGraph-Renderer-Basic'
 }
@@ -30,7 +31,10 @@ FormSGNewAthensRenderer >> drawChildSubSceneAndCache: aCachedNode [
 		clipBy: aCachedNode rectangle
 		during: [ self visitNode: aCachedNode child ].
 		
+	aCachedNode child isNullNode ifTrue: [ ^ self ].	
+		
 	cachedSurface := AthensCairoSurface extent: aCachedNode rectangle extent.
+
 	cachedSurface drawDuring: [ :aCanvas |	
 		cachedSurface clear: Color transparent.
 		aCanvas moveToX: 0.0 Y: 0.0. 
@@ -75,7 +79,16 @@ FormSGNewAthensRenderer >> pangoLayout [
 { #category : #rendering }
 FormSGNewAthensRenderer >> render: aNode on: aCanvas [ 
 
+
+	self render: aNode on: aCanvas clipping: #()
+]
+
+{ #category : #rendering }
+FormSGNewAthensRenderer >> render: aNode on: aCanvas clipping: damageRectangles [
+
 	canvas := aCanvas.
+	clipping := damageRectangles.
+	
 	aNode accept: self
 ]
 
@@ -139,7 +152,11 @@ FormSGNewAthensRenderer >> visitContainerNode: aContainerNode [
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitNode: aNode [ 
 	
-	^ aNode accept: self
+	clipping ifEmpty: [ ^ aNode accept: self ].
+
+	clipping detect: [ :e | e intersects: aNode boundingBox ]
+		ifFound: [ :aRect | "canvas clipBy: aRect during: [" aNode accept: self "]"]
+		ifNone: [ ^ self ].	
 ]
 
 { #category : #visiting }
@@ -153,9 +170,6 @@ FormSGNewAthensRenderer >> visitTextNode: aTextNode [
 
 	| stringLength |
 
-	aTextNode strikethrough 
-		ifTrue: [ self halt ].
-		
 	aTextNode color loadOnCairoCanvas: canvas.
 	canvas moveToX: aTextNode rectangle origin x Y: aTextNode rectangle origin y.
 

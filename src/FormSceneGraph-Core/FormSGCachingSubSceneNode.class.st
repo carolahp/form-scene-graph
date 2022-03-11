@@ -7,7 +7,6 @@ Class {
 	#name : #FormSGCachingSubSceneNode,
 	#superclass : #FormSGNode,
 	#instVars : [
-		'rectangle',
 		'child',
 		'cachedSurface'
 	],
@@ -23,7 +22,7 @@ FormSGCachingSubSceneNode >> accept: visitor [
 { #category : #'accessing - bounds' }
 FormSGCachingSubSceneNode >> boundingBox [
 	
-	^ rectangle
+	^ child boundingBox 
 ]
 
 { #category : #accessing }
@@ -45,21 +44,7 @@ FormSGCachingSubSceneNode >> child [
 { #category : #accessing }
 FormSGCachingSubSceneNode >> child: aChild [
 
-	self child: aChild rectangle: aChild boundingBox
-]
-
-{ #category : #accessing }
-FormSGCachingSubSceneNode >> child: aChild extent: anExtent [
-
-	self child: aChild rectangle: (0@0 extent: anExtent)
-]
-
-{ #category : #accessing }
-FormSGCachingSubSceneNode >> child: aChild rectangle: aClippingRectangle [
-
-	self rectangle: aClippingRectangle.
-	child := aChild.
-
+	child := aChild
 ]
 
 { #category : #accessing }
@@ -69,7 +54,8 @@ FormSGCachingSubSceneNode >> children [
 
 { #category : #accessing }
 FormSGCachingSubSceneNode >> extent: anExtent [
-	self rectangle: (0@0 extent: anExtent)
+
+	
 ]
 
 { #category : #initialization }
@@ -77,7 +63,6 @@ FormSGCachingSubSceneNode >> initialize [
 
 	super initialize.
 
-	rectangle := 0@0 corner: 0@0.
 	child := FormSGNullNode uniqueInstance
 ]
 
@@ -95,11 +80,5 @@ FormSGCachingSubSceneNode >> isValid [
 { #category : #accessing }
 FormSGCachingSubSceneNode >> rectangle [
 	
-	^ rectangle
-]
-
-{ #category : #accessing }
-FormSGCachingSubSceneNode >> rectangle: aRectangle [
-	
-	rectangle := aRectangle 
+	^ child boundingBox
 ]

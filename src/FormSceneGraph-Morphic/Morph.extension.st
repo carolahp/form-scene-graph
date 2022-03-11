@@ -71,13 +71,13 @@ Morph >> buildFullSceneGraphWith: builder [
 
 	(self hasProperty: #errorOnDraw) ifTrue: [^ self buildDrawErrorSceneGraphNodeWith: builder ].
 
-"	^ [
-"		^ self buildCachedFullSceneGraphWith: builder
-"	] on: Error do: [ :err |
+	^ [
+		self buildCachedFullSceneGraphWith: builder
+	] on: Error do: [ :err |
 		self setProperty: #errorOnDraw toValue: true.
 		self setProperty: #drawError toValue: err freeze.
 		self buildDrawErrorSceneGraphNodeWith: builder
-	]"
+	]
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }

@@ -22,11 +22,18 @@ HandMorph >> buildSceneGraphNodeWith: builder [
 { #category : #'*FormSceneGraph-Morphic' }
 HandMorph >> computeDamageRectForNextFrame [
 	| savedDamageRectangle damageRect myBounds |
-	savedDamageRectangle := self sceneSavedDamageRectangle ifNil: [Rectangle empty].
-	(submorphs isEmpty and: [savedDamageRectangle isEmpty and: [self shouldUseHardwareCursorForScene ]]) ifTrue: [ ^ savedDamageRectangle ].
-	
+	savedDamageRectangle := self sceneSavedDamageRectangle.
+
+	(submorphs isEmpty 
+		and: [savedDamageRectangle isNil 
+			and: [self shouldUseHardwareCursorForScene ]]) 
+		ifTrue: [ ^ Rectangle empty ].
+		
 	damageRect := myBounds := self fullBounds.
-	damageRect := damageRect merge: savedDamageRectangle.
+	
+	savedDamageRectangle isEmpty 
+		ifFalse: [ damageRect := damageRect merge: savedDamageRectangle].
+	
 	self sceneSavedDamageRectangle: damageRect.
 	hasChanged := false.
 
@@ -55,7 +62,7 @@ HandMorph >> sceneRenderingCursor [
 
 { #category : #'*FormSceneGraph-Morphic' }
 HandMorph >> sceneSavedDamageRectangle [
-	^ self valueOfProperty: #sceneSavedDamageRectangle ifAbsent: [ nil ]
+	^ self valueOfProperty: #sceneSavedDamageRectangle ifAbsent: [ Rectangle empty ]
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }

@@ -149,14 +149,12 @@ FormSGAbstractWorldRenderer >> displayWorldState: aWorldState ofWorld: aWorld [
 { #category : #operations }
 FormSGAbstractWorldRenderer >> doDisplayWorldState: aWorldState ofWorld: aWorld [
 	| newSceneGraph damageRectangle |
-	newSceneGraph := self buildSceneGraphForWorldState: aWorldState ofWorld: aWorld.
-	newSceneGraph ifNil: [
-		aWorldState damageRecorder reset.
-		^ self
-	].
 
 	damageRectangle := self extractMergedDamageRectangleFromWorldState: aWorldState ofWorld: aWorld.
 	damageRectangle isEmpty ifTrue: [ ^ self ].
+
+	newSceneGraph := self buildSceneGraphForWorldState: aWorldState ofWorld: aWorld.
+
 	self displayNewSceneGraph: newSceneGraph withDamageRectangle: damageRectangle.
 
 ]
