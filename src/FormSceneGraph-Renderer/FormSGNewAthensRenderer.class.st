@@ -5,10 +5,17 @@ Class {
 		'canvas',
 		'textBuffer',
 		'pangoLayout',
-		'clipping'
+		'clippingRectangles',
+		'mergedRectangle'
 	],
 	#category : #'FormSceneGraph-Renderer-Basic'
 }
+
+{ #category : #accessing }
+FormSGNewAthensRenderer >> clippingRectangles: aCollection [ 
+	
+	clippingRectangles := aCollection
+]
 
 { #category : #caching }
 FormSGNewAthensRenderer >> drawCachedSubScene: aCachedNode [
@@ -77,19 +84,16 @@ FormSGNewAthensRenderer >> pangoLayout [
 ]
 
 { #category : #rendering }
-FormSGNewAthensRenderer >> render: aNode on: aCanvas [ 
-
-
-	self render: aNode on: aCanvas clipping: #()
-]
-
-{ #category : #rendering }
-FormSGNewAthensRenderer >> render: aNode on: aCanvas clipping: damageRectangles [
+FormSGNewAthensRenderer >> render: aNode on: aCanvas [
 
 	canvas := aCanvas.
-	clipping := damageRectangles.
+
+	mergedRectangle := Rectangle merging: clippingRectangles.
+
+	"canvas 
+		clipBy: mergedRectangle
+		during: [" aNode accept: self "]"
 	
-	aNode accept: self
 ]
 
 { #category : #visiting }
@@ -151,12 +155,8 @@ FormSGNewAthensRenderer >> visitContainerNode: aContainerNode [
 
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitNode: aNode [ 
-	
-	clipping ifEmpty: [ ^ aNode accept: self ].
 
-	clipping detect: [ :e | e intersects: aNode boundingBox ]
-		ifFound: [ :aRect | "canvas clipBy: aRect during: [" aNode accept: self "]"]
-		ifNone: [ ^ self ].	
+	aNode accept: self
 ]
 
 { #category : #visiting }
@@ -169,7 +169,6 @@ FormSGNewAthensRenderer >> visitNullNode: aFormSGNullNode [
 FormSGNewAthensRenderer >> visitTextNode: aTextNode [ 
 
 	| stringLength |
-
 	aTextNode color loadOnCairoCanvas: canvas.
 	canvas moveToX: aTextNode rectangle origin x Y: aTextNode rectangle origin y.
 
@@ -189,9 +188,10 @@ FormSGNewAthensRenderer >> visitTextNode: aTextNode [
 FormSGNewAthensRenderer >> visitTextureNode: node [ 
 
 	| rectangle extent paint sourceRectangle sourceExtent |
+
 	rectangle := node rectangle.
 	extent := rectangle extent.
-		
+	
 	paint := node form asAthensPaintOn: canvas.
 	sourceRectangle := node validSourceRectangle.
 	sourceExtent := sourceRectangle extent.

@@ -21,6 +21,17 @@ Rectangle >> mergeAllowingEmpty: other [
 ]
 
 { #category : #'*FormSceneGraph-Core' }
+Rectangle >> random [
+
+	| newOrigin newExtent |
+	
+	newOrigin := self extent random.
+	newExtent := self extent random.
+	
+	^ Rectangle origin: newOrigin extent: newExtent
+]
+
+{ #category : #'*FormSceneGraph-Core' }
 Rectangle >> setEmpty [
 	origin := Float infinity @ Float infinity.
 	corner := Float negativeInfinity @ Float negativeInfinity.

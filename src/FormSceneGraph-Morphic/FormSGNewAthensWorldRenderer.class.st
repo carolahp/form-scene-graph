@@ -10,9 +10,16 @@ Class {
 { #category : #operations }
 FormSGNewAthensWorldRenderer >> buildSceneGraphForWorldState: aWorldState ofWorld: aWorld [
 	
+	self halt
+]
+
+{ #category : #operations }
+FormSGNewAthensWorldRenderer >> buildSceneGraphForWorldState: aWorldState ofWorld: aWorld damagedRectangles: damagedRectangles [
+	
 	| builder rootNodes |
 	builder := FormSGBuilder new
 					scale: self scaleFactor asFloat;
+					clippingRectangles: damagedRectangles;
 					yourself.
 	
 	rootNodes := OrderedCollection new.
@@ -34,16 +41,17 @@ FormSGNewAthensWorldRenderer >> displayNewSceneGraph: nodes withDamageRectangle:
 	| windowRenderer |
 
 	windowRenderer := self osWindowRenderer.
+	renderer clippingRectangles: damageRectangles.
 
 	windowRenderer drawDuring: [ :aCanvas |
 		aCanvas surface clear: Color white.
-		renderer render: nodes on: aCanvas clipping: #()"damageRectangles" ].
+		renderer render: nodes on: aCanvas ].
 
-"	damageRectangles do: [:aRect | 
+	damageRectangles do: [:aRect | 
 		windowRenderer updateRectangle: aRect].
 "
 	windowRenderer updateAll.
-"
+
 	damageRectangles do: [:aRect | windowRenderer showDamagedRect: aRect].
 "	
 	windowRenderer present
@@ -54,6 +62,19 @@ FormSGNewAthensWorldRenderer >> doActivate [
 
 	super doActivate.
 	World allMorphsDo: [ :m | m invalidateSceneGraph ].
+]
+
+{ #category : #operations }
+FormSGNewAthensWorldRenderer >> doDisplayWorldState: aWorldState ofWorld: aWorld [
+	| newSceneGraph damageRectangles |
+
+	damageRectangles := self extractMergedDamageRectangleFromWorldState: aWorldState ofWorld: aWorld.
+	damageRectangles isEmpty ifTrue: [ ^ self ].
+
+	newSceneGraph := self buildSceneGraphForWorldState: aWorldState ofWorld: aWorld damagedRectangles: damageRectangles.
+
+	self displayNewSceneGraph: newSceneGraph withDamageRectangle: damageRectangles.
+
 ]
 
 { #category : #private }

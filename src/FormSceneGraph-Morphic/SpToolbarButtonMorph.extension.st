@@ -20,6 +20,7 @@ SpToolbarButtonMorph >> buildBadgeSceneGraphNodeWith: builder [
 { #category : #'*FormSceneGraph-Morphic' }
 SpToolbarButtonMorph >> buildSceneGraphNodeWith: builder [
 	| result |
+	
 	result := super buildSceneGraphNodeWith: builder.
 	self hasBadge ifTrue: [
 		result := result , (self buildBadgeSceneGraphNodeWith: builder)

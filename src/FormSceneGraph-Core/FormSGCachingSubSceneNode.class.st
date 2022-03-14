@@ -52,12 +52,6 @@ FormSGCachingSubSceneNode >> children [
 	^ { child }
 ]
 
-{ #category : #accessing }
-FormSGCachingSubSceneNode >> extent: anExtent [
-
-	
-]
-
 { #category : #initialization }
 FormSGCachingSubSceneNode >> initialize [
 

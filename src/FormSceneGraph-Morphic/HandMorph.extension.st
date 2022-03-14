@@ -26,7 +26,7 @@ HandMorph >> computeDamageRectForNextFrame [
 
 	(submorphs isEmpty 
 		and: [savedDamageRectangle isNil 
-			and: [self shouldUseHardwareCursorForScene ]]) 
+			"and: [self shouldUseHardwareCursorForScene ]"]) 
 		ifTrue: [ ^ Rectangle empty ].
 		
 	damageRect := myBounds := self fullBounds.

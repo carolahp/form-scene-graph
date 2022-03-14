@@ -9,7 +9,9 @@ Class {
 		'clippingBounds',
 		'currentMorph',
 		'currentTranslation',
-		'scale'
+		'scale',
+		'clippingRectangles',
+		'combinedRectangles'
 	],
 	#category : #'FormSceneGraph-Core-Builder'
 }
@@ -101,6 +103,18 @@ FormSGBuilder >> clippingBounds [
 	^ clippingBounds
 ]
 
+{ #category : #accessing }
+FormSGBuilder >> clippingRectangles: aCollection [ 
+	
+	clippingRectangles := aCollection collect: [ :e | (e scaleBy: 1 / scale) roundTo: 1 ]
+]
+
+{ #category : #'building context' }
+FormSGBuilder >> combinedRectangles [
+
+	^ combinedRectangles ifNil: [ combinedRectangles := Rectangle merging: clippingRectangles]
+]
+
 { #category : #'node building' }
 FormSGBuilder >> containerWith: nodes [
 	
@@ -178,7 +192,16 @@ FormSGBuilder >> insetShadow: rectangle width: width [
 
 { #category : #'building context' }
 FormSGBuilder >> isRectangleVisible: aRectangle [
-	^ clippingBounds intersects: aRectangle
+
+	"If the size of the clipping rectangles is only one, I compare exactly against the clipping bounds"
+	clippingRectangles size = 1 
+		ifTrue: [ ^ self combinedRectangles intersects: aRectangle ].
+
+	"First check with the merge of all rectangles, if you are out of this... you are not visible"	
+	(self combinedRectangles intersects: aRectangle) ifFalse: [ ^ false ].
+		
+	"Do the expensive check"
+	^ clippingRectangles anySatisfy: [ :aRect | aRect intersects: aRectangle ]
 ]
 
 { #category : #'node building helpers' }
@@ -206,6 +229,7 @@ FormSGBuilder >> node: child withOpacityFactor: opacityFactor [
 
 { #category : #'node building' }
 FormSGBuilder >> null [
+
 	^ FormSGNullNode uniqueInstance
 ]
 
@@ -410,6 +434,9 @@ FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle fon
 { #category : #'node building' }
 FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle font: font color: color kern: kern underline: underline underlineColor: underlineColor strikethrough: strikethrough strikethroughColor: strikethroughColor [
 
+	(self isRectangleVisible: (rectangle translateBy: currentTranslation )) 
+		ifFalse: [ ^ self null ].
+			
 	^ FormSGTextNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
 		  string: string;
