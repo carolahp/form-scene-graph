@@ -492,12 +492,12 @@ FormSGBuilder >> texturedRectangle: rectangle form: form opaque: fullyOpaque [
 { #category : #'node building' }
 FormSGBuilder >> texturedRectangle: rectangle form: form opaque: fullyOpaque repeated: repeated [
 
-	^ self cachingSubSceneWith: (FormSGTextureNode new
+	^ FormSGTextureNode new
 			   rectangle: (self translateAndScaleRectangle: rectangle);
 			   form: form;
 			   isFullyOpaque: fullyOpaque;
 			   isRepeated: repeated;
-			   yourself)
+			   yourself
 ]
 
 { #category : #'node building' }
