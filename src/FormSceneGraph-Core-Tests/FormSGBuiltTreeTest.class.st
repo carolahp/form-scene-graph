@@ -10,7 +10,10 @@ Class {
 { #category : #tests }
 FormSGBuiltTreeTest >> buildGraphFor: morph [
 
-	builder := FormSGBuilder extent: morph extent * 2.
+	builder := FormSGBuilder new
+						scale: 1;
+						clippingRectangles: { morph bounds };
+						yourself.
 
 	^ morph buildFullSceneGraphWith: builder
 ]
