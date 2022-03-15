@@ -9,6 +9,12 @@ AthensCairoCanvas >> pasteSurface: aSurface targetX: targetX targetY: targetY so
 ]
 
 { #category : #'*FormSceneGraph-Renderer' }
+AthensCairoCanvas >> primScaleX: scaleX Y: scaleY [
+
+	^ self ffiCall: #( void cairo_scale ( self , double scaleX , double scaleY ) )
+]
+
+{ #category : #'*FormSceneGraph-Renderer' }
 AthensCairoCanvas >> primSetSourceSurface: aSurface x: x y: y [
 
 	^ self ffiCall: #( void cairo_set_source_surface ( self , AthensCairoSurface aSurface , double x , double y ) )

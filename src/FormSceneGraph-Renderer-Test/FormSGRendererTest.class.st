@@ -31,7 +31,7 @@ FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 	renderer := FormSGNewAthensRenderer new.
 	renderer clippingRectangles: clipping.
 
-	surface := FormSGAthensSurface extent: aMorph extent * aScale.
+	surface := FormSGAthensSurface extent: (World extent * aScale).
 	builder := FormSGBuilder new 
 		scale: aScale; 
 		clippingRectangles: clipping;
@@ -40,11 +40,54 @@ FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 	nodes := aMorph buildFullSceneGraphWith: builder.
 
 	surface drawDuring: [ :aCanvas |
-		surface clear: Color transparent.
+		surface clear: Color white.
 		renderer render: nodes on: aCanvas ].
 	
 	^ surface
 
+]
+
+{ #category : #tests }
+FormSGRendererTest >> testCalypso [
+
+	| surface window |
+	[ 
+		window := ClyFullBrowserMorph open owner.
+		window position: 10@10.
+		surface := self renderMorph: window withScale: 1.
+
+	] ensure: [ window delete ].
+
+	surface asForm inspect
+]
+
+{ #category : #tests }
+FormSGRendererTest >> testCalypsoScaled [
+
+	| surface window |
+	[ 
+		window := ClyFullBrowserMorph open owner.
+		window position: 10@10.
+		surface := self renderMorph: window withScale: 1.5.
+
+	] ensure: [ window delete ].
+
+	surface asForm inspect
+]
+
+{ #category : #tests }
+FormSGRendererTest >> testLabelAtPosition1010 [
+
+	| surface window |
+	[ 
+		window := 'aaaa' asStringMorph.
+		window backgroundColor: Color blue.
+		window position: 10@10.
+		surface := self renderMorph: window withScale: 1.
+
+	] ensure: [ window delete ].
+
+	surface asForm inspect
 ]
 
 { #category : #tests }

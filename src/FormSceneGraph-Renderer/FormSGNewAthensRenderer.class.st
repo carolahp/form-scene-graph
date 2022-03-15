@@ -68,7 +68,8 @@ FormSGNewAthensRenderer >> encodeStringForLayout: aString from: firstIndex lengt
 		ifTrue: [ textBuffer := ByteArray newPinned: length * 4 ].	
 	
 	textBuffer writeStreamDo: [ :aStream | 
-		ZnCharacterEncoder utf8 next: length putAll: aString startingAt: firstIndex toStream: aStream].
+		ZnCharacterEncoder utf8 next: length putAll: aString startingAt: firstIndex toStream: aStream.
+		aStream nextPut: 0].
 	
 	^ textBuffer
 ]
@@ -133,7 +134,7 @@ FormSGNewAthensRenderer >> visitCachedSubScene: aCachedNode [
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitClipNode: aFormSGClipNode [
 
-	canvas clipBy: aFormSGClipNode rectangle during: [ self visitNode: aFormSGClipNode child ]
+	"canvas clipBy: aFormSGClipNode rectangle during: [ "self visitNode: aFormSGClipNode child "]"
 ]
 
 { #category : #visiting }
@@ -169,6 +170,9 @@ FormSGNewAthensRenderer >> visitNullNode: aFormSGNullNode [
 FormSGNewAthensRenderer >> visitTextNode: aTextNode [ 
 
 	| stringLength |
+
+"	1haltIf: [ aTextNode string = 'Scoped View' or: [ aTextNode string = 'All Packages' ] ].
+"	
 	aTextNode color loadOnCairoCanvas: canvas.
 	canvas moveToX: aTextNode rectangle origin x Y: aTextNode rectangle origin y.
 
@@ -176,7 +180,7 @@ FormSGNewAthensRenderer >> visitTextNode: aTextNode [
 
 	stringLength := aTextNode lastIndex - aTextNode firstIndex + 1.
 
-	self pangoLayout text: (self encodeStringForLayout: aTextNode string from: aTextNode firstIndex length: stringLength) length: stringLength.
+	self pangoLayout text: (self encodeStringForLayout: aTextNode string from: aTextNode firstIndex length: stringLength) length: -1.
 
 	canvas updateLayout: self pangoLayout.
 		
@@ -187,33 +191,26 @@ FormSGNewAthensRenderer >> visitTextNode: aTextNode [
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitTextureNode: node [ 
 
-	| rectangle extent paint sourceRectangle sourceExtent |
+	| rectangle extent originSurface originalExtent ourScale |
 
 	rectangle := node rectangle.
 	extent := rectangle extent.
 	
-	paint := node form asAthensPaintOn: canvas.
-	sourceRectangle := node validSourceRectangle.
-	sourceExtent := sourceRectangle extent.
-	(sourceExtent x <= 0.0 or: [ sourceExtent y <= 0.0 ]) ifTrue: [ ^ self ].
-	
-	canvas pathTransform restoreAfter: [
-		canvas paintTransform
-			loadIdentity.
-		node isRepeated ifTrue: [
-			paint repeat
-		] ifFalse: [
-			paint noRepeat.
-			canvas paintTransform
-				scaleBy: extent / sourceExtent.
-			canvas paintTransform
-					translateBy: sourceRectangle origin.					
-		].
+	originSurface := canvas surface class fromForm: (node form asFormOfDepth: 32).
 
-		canvas setPaint: paint.
-		canvas pathTransform translateBy: node rectangle origin.
-		canvas drawShape: (0@0 extent: node rectangle extent).				
+	originalExtent := node form extent. 
+	ourScale := (extent / originalExtent) x asFloat.
 
-	].
+	canvas primScaleX: ourScale Y: ourScale.
 
+	canvas
+		pasteSurface: originSurface
+		targetX: rectangle origin x asFloat / ourScale
+		targetY: rectangle origin y asFloat / ourScale
+		sourceX: 0.0
+		sourceY: 0.0
+		width: originalExtent x asFloat
+		height: originalExtent y asFloat.
+		
+	canvas primScaleX: 1 / ourScale  Y: 1 / ourScale 
 ]
