@@ -66,7 +66,7 @@ FormSGTextNode >> fontDescription [
 	fontDescription autoRelease.
 	
 	fontDescription familyName: self font familyName.
-	fontDescription size: (self font pointSize * 1024 * scale) asInteger .
+	fontDescription fontSize: (self font pointSize * 1024 * scale) asInteger .
 	fontDescription stretch: (PangoStretch at: #PANGO_STRETCH_NORMAL).
 	fontDescription weight: (PangoStyle at: #PANGO_WEIGHT_NORMAL).
 

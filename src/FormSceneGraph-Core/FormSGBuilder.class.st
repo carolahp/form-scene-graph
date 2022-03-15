@@ -159,6 +159,7 @@ FormSGBuilder >> initialize [
 	super initialize.
 	
 	currentTranslation := 0@0.
+	clippingRectangles := { Rectangle fullSpace }.
 	clippingBounds := Rectangle fullSpace.
 	scale := 1.0
 ]
@@ -324,15 +325,14 @@ FormSGBuilder >> rectangle: rectangle radialGradientCenter: center focalPoint: f
 
 	^ FormSGRadialGradientNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
-		  center: (self translateAndScaleRectangle: center);
-		  focalPoint: (self translateAndScaleRectangle: focalPoint);
+		  center: center * scale;
+		  focalPoint: focalPoint * scale;
 		  innerRadius: innerRadius * scale;
 		  clipInnerRadius: clipInnerRadius * scale;
 		  startColor: startColor;
 		  outerRadius: outerRadius * scale;
 		  endColor: endColor;
-		  clipOuterRadius:
-			  (self translateAndScaleRectangle: clipOuterRadius);
+		  clipOuterRadius: clipOuterRadius * scale;
 		  yourself
 ]
 
@@ -372,9 +372,9 @@ FormSGBuilder >> rectangle: rectangle repeatingLinearGradientStart: startPoint c
 		^ self null ].
 	^ FormSGRepeatingLinearGradientNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
-		  startPoint: (self translateAndScalePoint: startPoint);
+		  startPoint: startPoint * scale;
 		  startColor: startColor;
-		  endPoint: (self translateAndScalePoint: endPoint);
+		  endPoint: endPoint * scale;
 		  endColor: endColor;
 		  yourself
 ]

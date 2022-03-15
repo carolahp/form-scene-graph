@@ -85,8 +85,7 @@ FormSGBuilderTest >> testCachingSubSceneNode [
 	node child: rectangle.
 	self assert: node boundingBox equals: (0@0 extent: 250@250).
 	self assert: node child equals: rectangle.
-	clipChildNode := node clipChildNode.
-	self assert: node children equals: {clipChildNode}.
+	self assert: node children equals: {node child}.
 
 ]
 
