@@ -3,6 +3,7 @@ Extension { #name : #LabelMorph }
 { #category : #'*FormSceneGraph-Morphic' }
 LabelMorph >> buildSceneGraphNodeWith: builder [
 	| result |
+
 	result := super buildSceneGraphNodeWith: builder.
 	(self enabled not and: [ self disabledStyle = #inset ])	ifTrue: [
 		result := result , (builder

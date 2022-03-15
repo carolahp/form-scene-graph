@@ -12,8 +12,8 @@ FormSGRendererTest >> grayProportionOf: aSurface [
 	
 	blackCount := 0.
 	
-	0 to: aForm width do: [ :x |
-		0 to: aForm height do: [ :y |
+	0 to: aForm width - 1 do: [ :x |
+		0 to: aForm height - 1 do: [ :y |
 		(aForm colorAt: x@y) isGray 
 			ifTrue: [ blackCount := blackCount + 1  ]
 	]].
@@ -45,6 +45,21 @@ FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 	
 	^ surface
 
+]
+
+{ #category : #tests }
+FormSGRendererTest >> testRenderingButtonRendersCorrectly [
+
+	| aMorph surface proportion originalProportion |
+	aMorph := PluggableButtonMorph new 
+						label: 'Ahhh';
+						yourself.
+
+	originalProportion := self grayProportionOf: aMorph asForm.	
+	surface := self renderMorph: aMorph withScale: 1.
+	proportion := self grayProportionOf: surface asForm.
+	
+	self assert: (proportion asFloat closeTo: originalProportion asFloat precision: 0.2)
 ]
 
 { #category : #tests }
