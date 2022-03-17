@@ -24,14 +24,16 @@ FormSGRendererTest >> grayProportionOf: aSurface [
 { #category : #utils }
 FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 	
-	| nodes clipping renderer surface builder |
+	| nodes clipping renderer surface builder morphBounds |
+	
+	morphBounds := aMorph bounds.
 
-	clipping := {aMorph bounds scaleBy: aScale}.
+	clipping := { morphBounds scaleBy: aScale}.
 
 	renderer := FormSGNewAthensRenderer new.
 	renderer clippingRectangles: clipping.
 
-	surface := FormSGAthensSurface extent: (World extent * aScale).
+	surface := FormSGAthensSurface extent: (morphBounds bottomRight * aScale).
 	builder := FormSGBuilder new 
 		scale: aScale; 
 		clippingRectangles: clipping;
@@ -99,6 +101,7 @@ FormSGRendererTest >> testRenderingButtonRendersCorrectly [
 						yourself.
 
 	originalProportion := self grayProportionOf: aMorph asForm.	
+		self halt.
 	surface := self renderMorph: aMorph withScale: 1.
 	proportion := self grayProportionOf: surface asForm.
 	
