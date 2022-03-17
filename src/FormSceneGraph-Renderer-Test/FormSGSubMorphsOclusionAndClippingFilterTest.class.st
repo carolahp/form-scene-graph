@@ -45,7 +45,9 @@ FormSGSubMorphsOclusionAndClippingFilterTest >> testASubmorphIsNonOcludedByAnoth
 	morphs := {redWindow. yellowWindow}.
 		
 	builder := FormSGBuilder new.
-	graphs := morphs collect: [ :aMorph | aMorph buildFullSceneGraphWith: builder].
+	graphs := morphs collect: [ :aMorph | 
+		builder resetAfterRoot.
+		aMorph buildFullSceneGraphWith: builder].
 	yellowSubGraph := graphs at: 2.
 		
 	self assert: yellowSubGraph isContainerNode.
@@ -76,7 +78,9 @@ FormSGSubMorphsOclusionAndClippingFilterTest >> testASubmorphOcludedByAnotherWin
 	morphs := {redWindow. yellowWindow}.
 	
 	builder := FormSGBuilder new.
-	graphs := morphs collect: [ :aMorph | aMorph buildFullSceneGraphWith: builder].
+	graphs := morphs collect: [ :aMorph | 
+		builder resetAfterRoot.
+		aMorph buildFullSceneGraphWith: builder ].
 	yellowSubGraph := graphs at: 2.
 		
 	self assert: yellowSubGraph isContainerNode.

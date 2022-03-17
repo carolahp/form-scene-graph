@@ -23,7 +23,8 @@ FormSGBuilder class >> extent: anExtent [
 { #category : #testing }
 FormSGBuilder >> addDrawnArea: aRect [
 
-	drawnAreas add: aRect
+	drawnAreas add: (self clippingBounds intersect: aRect)
+
 ]
 
 { #category : #'node building' }
@@ -129,6 +130,12 @@ FormSGBuilder >> currentMorph [
 { #category : #accessing }
 FormSGBuilder >> currentMorph: aSpWindow [ 
 	currentMorph := aSpWindow
+]
+
+{ #category : #testing }
+FormSGBuilder >> drawnAreas [
+
+	^ drawnAreas 
 ]
 
 { #category : #'building context' }

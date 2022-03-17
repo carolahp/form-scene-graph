@@ -33,6 +33,8 @@ FormSGNewAthensWorldRenderer >> buildSceneGraphForWorldState: aWorldState ofWorl
 	builder resetAfterRoot.
 	rootNodes add: (aWorld buildSceneGraphNodeWith: builder).
 	
+	builder drawnAreas size traceCr.
+	
 	"The graph renderer draws things from the first to the last, we need to put the closer to the user at the end (Morphic does it in the other direction)"
 	^ builder containerWith: rootNodes reverse
 ]

@@ -138,3 +138,17 @@ FormSGRendererTest >> testRenderingTextScaledHasTheSameProportionOfNonScaled [
 
 	self assert: scaledProportion asFloat closeTo: originalProportion asFloat precision: 0.2 
 ]
+
+{ #category : #tests }
+FormSGRendererTest >> testSettings [
+
+	| surface window |
+	[ 
+		window := SettingBrowser new open.
+		window position: 10@10.
+		surface := self renderMorph: window withScale: 1.
+
+	] ensure: [ window delete ].
+
+	surface asForm inspect
+]

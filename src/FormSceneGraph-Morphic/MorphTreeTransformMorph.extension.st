@@ -3,6 +3,7 @@ Extension { #name : #MorphTreeTransformMorph }
 { #category : #'*FormSceneGraph-Morphic' }
 MorphTreeTransformMorph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 	| submorphNodes top bottom |
+
 	submorphs ifEmpty: [ ^ #() ].
 	submorphNodes := OrderedCollection new.
 	top := self rowAtLocation: builder clippingBounds topLeft.
@@ -15,7 +16,7 @@ MorphTreeTransformMorph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 		submorphNodes add: (m buildFullSceneGraphWith: builder)
 	].
 
-	^ submorphNodes reverse
+	^ submorphNodes
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
