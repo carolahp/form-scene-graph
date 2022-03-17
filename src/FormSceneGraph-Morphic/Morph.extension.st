@@ -35,7 +35,7 @@ Morph >> buildChildrenSceneGraphNodeWith: builder [
 Morph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 	| submorphNodes |
 	submorphNodes := OrderedCollection new.
-	submorphs reverseDo: [ :each |
+	submorphs do: [ :each |
 		| childNode |
 		childNode := each buildFullSceneGraphWith: builder.
 		childNode isNullNode ifFalse: [
@@ -43,7 +43,7 @@ Morph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 		]
 	].
 
-	^ submorphNodes
+	^ submorphNodes reverse
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
@@ -70,18 +70,25 @@ Morph >> buildDrawErrorSceneGraphNodeWith: builder [
 
 { #category : #'*FormSceneGraph-Morphic' }
 Morph >> buildFullSceneGraphWith: builder [ 
+	
+	| graph |
 	self visible ifFalse: [^ builder null].
+	(builder isAlreadyDrawn: self fullBoundsInWorld)	
+			ifTrue: [ ^ builder null ].
+	
 	(builder isRectangleVisible: self fullBoundsInWorld) ifFalse: [ ^ builder null ].
 
 	(self hasProperty: #errorOnDraw) ifTrue: [^ self buildDrawErrorSceneGraphNodeWith: builder ].
 
-	^ [
-		self buildCachedFullSceneGraphWith: builder
-	] on: Error do: [ :err |
-		self setProperty: #errorOnDraw toValue: true.
-		self setProperty: #drawError toValue: err freeze.
-		self buildDrawErrorSceneGraphNodeWith: builder
-	]
+	[graph := self buildCachedFullSceneGraphWith: builder] 
+		on: Error do: [ :err |
+								self setProperty: #errorOnDraw toValue: true.
+								self setProperty: #drawError toValue: err freeze.
+								self buildDrawErrorSceneGraphNodeWith: builder].
+
+	self color isTransparent ifFalse: [ builder addDrawnArea: self fullBoundsInWorld].
+
+	^ graph.
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }

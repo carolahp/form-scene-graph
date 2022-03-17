@@ -13,12 +13,12 @@ RubScrolledTextMorph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 	].
 
 	subs := submorphs copyWithoutAll: self sideRulers.
-	subs reverseDo: drawBlock.
+	subs do: drawBlock.
 
 	subs := self sideRulers.
-	subs reverseDo: drawBlock.
+	subs do: drawBlock.
 
-	^ submorphNodes
+	^ submorphNodes reverse
 
 ]
 

@@ -10,8 +10,7 @@ Class {
 		'currentMorph',
 		'currentTranslation',
 		'scale',
-		'clippingRectangles',
-		'combinedRectangles'
+		'drawnAreas'
 	],
 	#category : #'FormSceneGraph-Core-Builder'
 }
@@ -19,6 +18,12 @@ Class {
 { #category : #geometry }
 FormSGBuilder class >> extent: anExtent [
 	^ self new extent: anExtent; yourself
+]
+
+{ #category : #testing }
+FormSGBuilder >> addDrawnArea: aRect [
+
+	drawnAreas add: aRect
 ]
 
 { #category : #'node building' }
@@ -103,18 +108,6 @@ FormSGBuilder >> clippingBounds [
 	^ clippingBounds
 ]
 
-{ #category : #accessing }
-FormSGBuilder >> clippingRectangles: aCollection [ 
-	
-	clippingRectangles := aCollection collect: [ :e | (e scaleBy: 1 / scale) roundTo: 1 ]
-]
-
-{ #category : #'building context' }
-FormSGBuilder >> combinedRectangles [
-
-	^ combinedRectangles ifNil: [ combinedRectangles := Rectangle merging: clippingRectangles]
-]
-
 { #category : #'node building' }
 FormSGBuilder >> containerWith: nodes [
 	
@@ -158,8 +151,8 @@ FormSGBuilder >> initialize [
 	
 	super initialize.
 	
+	drawnAreas := OrderedCollection new.
 	currentTranslation := 0@0.
-	clippingRectangles := { Rectangle fullSpace }.
 	clippingBounds := Rectangle fullSpace.
 	scale := 1.0
 ]
@@ -191,18 +184,17 @@ FormSGBuilder >> insetShadow: rectangle width: width [
 		  yourself
 ]
 
+{ #category : #testing }
+FormSGBuilder >> isAlreadyDrawn: aRect [
+
+	^ drawnAreas anySatisfy: [ :anArea |
+			anArea containsRect: aRect]
+]
+
 { #category : #'building context' }
 FormSGBuilder >> isRectangleVisible: aRectangle [
 
-	"If the size of the clipping rectangles is only one, I compare exactly against the clipping bounds"
-	clippingRectangles size = 1 
-		ifTrue: [ ^ self combinedRectangles intersects: aRectangle ].
-
-	"First check with the merge of all rectangles, if you are out of this... you are not visible"	
-	(self combinedRectangles intersects: aRectangle) ifFalse: [ ^ false ].
-		
-	"Do the expensive check"
-	^ clippingRectangles anySatisfy: [ :aRect | aRect intersects: aRectangle ]
+	^ true
 ]
 
 { #category : #'node building helpers' }

@@ -12,7 +12,6 @@ FormSGBuiltTreeTest >> buildGraphFor: morph [
 
 	builder := FormSGBuilder new
 						scale: 1;
-						clippingRectangles: { morph bounds };
 						yourself.
 
 	^ morph buildFullSceneGraphWith: builder

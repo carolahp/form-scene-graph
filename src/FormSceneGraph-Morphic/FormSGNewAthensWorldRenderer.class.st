@@ -16,23 +16,25 @@ FormSGNewAthensWorldRenderer >> buildSceneGraphForWorldState: aWorldState ofWorl
 { #category : #operations }
 FormSGNewAthensWorldRenderer >> buildSceneGraphForWorldState: aWorldState ofWorld: aWorld damagedRectangles: damagedRectangles [
 	
-	| builder rootNodes |
+	| builder rootNodes morphsToRender |
 	builder := FormSGBuilder new
 					scale: self scaleFactor asFloat;
-					clippingRectangles: damagedRectangles;
 					yourself.
 	
-	rootNodes := OrderedCollection new.
-	rootNodes add: (aWorld buildFullSceneGraphWith: builder).
-	builder resetAfterRoot.
-	
-	aWorldState hands reverseDo: [ :each |
-		each allMorphsDo: [ :m | m invalidateSceneGraph ].
-		rootNodes add: (each buildFullSceneGraphWith: builder).
-		builder resetAfterRoot.
-	].
+	morphsToRender := FormSGMorphOclusionAndClippingFilter new
+		filterMorphs: aWorldState hands, aWorld submorphs inVisibleRectangles: damagedRectangles.
 
-	^ builder containerWith: rootNodes
+	rootNodes := morphsToRender collect: [ :aMorph | |node|
+			aMorph allMorphsDo: [ :m | m invalidateSceneGraph ].
+			node := aMorph buildFullSceneGraphWith: builder.
+			builder resetAfterRoot.
+			node ].
+
+	builder resetAfterRoot.
+	rootNodes add: (aWorld buildSceneGraphNodeWith: builder).
+	
+	"The graph renderer draws things from the first to the last, we need to put the closer to the user at the end (Morphic does it in the other direction)"
+	^ builder containerWith: rootNodes reverse
 ]
 
 { #category : #operations }
@@ -49,11 +51,7 @@ FormSGNewAthensWorldRenderer >> displayNewSceneGraph: nodes withDamageRectangle:
 
 	damageRectangles do: [:aRect | 
 		windowRenderer updateRectangle: aRect].
-"
-	windowRenderer updateAll.
 
-	damageRectangles do: [:aRect | windowRenderer showDamagedRect: aRect].
-"	
 	windowRenderer present
 ]
 
@@ -87,9 +85,9 @@ FormSGNewAthensWorldRenderer >> extractMergedDamageRectangleFromWorldState: aWor
 	scaleFactor := self scaleFactor.
 	
 	damageRectangles := 
-		(worldDamageRectangles collect: [ :r | r scaleBy: scaleFactor ]) ,
+		worldDamageRectangles ,
 		(handsToDraw 
-			collect: [:each | each computeDamageRectForNextFrame scaleBy: scaleFactor  ]
+			collect: [:each | each computeDamageRectForNextFrame  ]
 			thenReject: [:each | each isEmpty ]).
 	
 	aWorldState damageRecorder reset.

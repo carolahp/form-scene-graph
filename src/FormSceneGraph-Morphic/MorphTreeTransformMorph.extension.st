@@ -7,7 +7,7 @@ MorphTreeTransformMorph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 	submorphNodes := OrderedCollection new.
 	top := self rowAtLocation: builder clippingBounds topLeft.
 	bottom := self rowAtLocation: builder clippingBounds bottomRight startingAt: top.
-	bottom to: top by: -1 do: [:row | | m |
+	top to: bottom do: [:row | | m |
 		m := submorphs basicAt: row.
 		(self buildRawColorWith: builder forSubmorph: m) ifNotNil: [ :n |
 			submorphNodes add: n
@@ -15,7 +15,7 @@ MorphTreeTransformMorph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 		submorphNodes add: (m buildFullSceneGraphWith: builder)
 	].
 
-	^ submorphNodes
+	^ submorphNodes reverse
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }

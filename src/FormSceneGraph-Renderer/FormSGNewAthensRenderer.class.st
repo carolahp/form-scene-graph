@@ -134,7 +134,7 @@ FormSGNewAthensRenderer >> visitCachedSubScene: aCachedNode [
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitClipNode: aFormSGClipNode [
 
-	"canvas clipBy: aFormSGClipNode rectangle during: [ "self visitNode: aFormSGClipNode child "]"
+	canvas clipBy: aFormSGClipNode rectangle during: [ self visitNode: aFormSGClipNode child ]
 ]
 
 { #category : #visiting }
@@ -171,8 +171,6 @@ FormSGNewAthensRenderer >> visitTextNode: aTextNode [
 
 	| stringLength |
 
-"	1haltIf: [ aTextNode string = 'Scoped View' or: [ aTextNode string = 'All Packages' ] ].
-"	
 	aTextNode color loadOnCairoCanvas: canvas.
 	canvas moveToX: aTextNode rectangle origin x Y: aTextNode rectangle origin y.
 

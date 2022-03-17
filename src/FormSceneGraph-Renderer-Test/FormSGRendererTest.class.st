@@ -36,7 +36,6 @@ FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 	surface := FormSGAthensSurface extent: (morphBounds bottomRight * aScale).
 	builder := FormSGBuilder new 
 		scale: aScale; 
-		clippingRectangles: clipping;
 		yourself.
 
 	nodes := aMorph buildFullSceneGraphWith: builder.
@@ -101,7 +100,6 @@ FormSGRendererTest >> testRenderingButtonRendersCorrectly [
 						yourself.
 
 	originalProportion := self grayProportionOf: aMorph asForm.	
-		self halt.
 	surface := self renderMorph: aMorph withScale: 1.
 	proportion := self grayProportionOf: surface asForm.
 	

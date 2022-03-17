@@ -5,19 +5,20 @@ Class {
 }
 
 { #category : #generation }
-FormSGMorphOclusionAndClippingFilter >> generatedTreeForMorphs: morphs visibleRectangles: visibleRectangles [
-	| builder alreadyDrawn visibleMorphs |
-	builder := FormSGBuilder new.
-	
-	alreadyDrawn := OrderedCollection new.
+FormSGMorphOclusionAndClippingFilter >> filterMorphs: morphs inVisibleRectangles: visibleRectangles [
 
-	visibleMorphs := OrderedCollection new.
-	
-	morphs do: [ :aMorph | 
-		(alreadyDrawn noneSatisfy: [ :aRectangle | aRectangle containsRect: aMorph bounds ])
-			ifTrue: [ 
-				alreadyDrawn add: aMorph bounds.
-				visibleMorphs add: aMorph ]].
-		
-	^ visibleMorphs collect: [ :morph | morph buildSceneGraphNodeWith: builder ]
+	| alreadyDrawn unoclusedMorph visibleMorphs |
+	alreadyDrawn := OrderedCollection new.
+	visibleMorphs := morphs select: [ :morph | 
+		                 visibleRectangles anySatisfy: [ :rect | 
+			                 rect intersects: morph bounds ] ].
+	unoclusedMorph := OrderedCollection new.
+
+	visibleMorphs do: [ :aMorph | 
+		(alreadyDrawn noneSatisfy: [ :aRectangle | 
+			 aRectangle containsRect: aMorph bounds ]) ifTrue: [ 
+			alreadyDrawn add: aMorph bounds.
+			unoclusedMorph add: aMorph ] ].
+
+	^ unoclusedMorph
 ]
