@@ -155,6 +155,27 @@ FormSGNewAthensRenderer >> visitContainerNode: aContainerNode [
 ]
 
 { #category : #visiting }
+FormSGNewAthensRenderer >> visitLinearGradientNode: node [
+	| paint |
+	
+	(node startColor isTransparent and: [ node endColor isTransparent ]) ifTrue: [ ^ self ].
+	
+	paint := (LinearGradientPaint fromArray: {
+		0 -> node startColor.
+		1 -> node endColor.
+		})
+		start: node startPoint;
+		stop: node endPoint;
+		yourself.
+
+	canvas paintTransform loadIdentity.
+	canvas
+		setPaint: paint;
+		drawShape: node rectangle
+	
+]
+
+{ #category : #visiting }
 FormSGNewAthensRenderer >> visitNode: aNode [ 
 
 	aNode accept: self

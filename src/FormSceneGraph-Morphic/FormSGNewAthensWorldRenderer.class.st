@@ -21,11 +21,13 @@ FormSGNewAthensWorldRenderer >> buildSceneGraphForWorldState: aWorldState ofWorl
 					scale: self scaleFactor asFloat;
 					yourself.
 	
-	morphsToRender := FormSGMorphOclusionAndClippingFilter new
-		filterMorphs: aWorldState hands, aWorld submorphs inVisibleRectangles: damagedRectangles.
+	morphsToRender := (FormSGMorphOclusionAndClippingFilter new
+			filterMorphs: aWorldState hands, aWorld submorphs inVisibleRectangles: damagedRectangles).
+	
+	aWorldState hands do: [ :m | m invalidateSceneGraph ].
 
 	rootNodes := morphsToRender collect: [ :aMorph | |node|
-			aMorph allMorphsDo: [ :m | m invalidateSceneGraph ].
+			(aWorldState hands includes: aMorph) ifTrue: [ aMorph allMorphsDo: [ :subMorph | subMorph invalidateSceneGraph ] ] .
 			node := aMorph buildFullSceneGraphWith: builder.
 			builder resetAfterRoot.
 			node ].
@@ -79,12 +81,11 @@ FormSGNewAthensWorldRenderer >> doDisplayWorldState: aWorldState ofWorld: aWorld
 
 { #category : #private }
 FormSGNewAthensWorldRenderer >> extractMergedDamageRectangleFromWorldState: aWorldState ofWorld: aWorld [
-	| handsToDraw worldDamageRectangles damageRectangles scaleFactor |
+	| handsToDraw worldDamageRectangles damageRectangles |
 	
 	worldDamageRectangles := aWorldState damageRecorder invalidRectsFullBounds: self drawingSurfaceBounds.
 	
 	handsToDraw := aWorldState hands.
-	scaleFactor := self scaleFactor.
 	
 	damageRectangles := 
 		worldDamageRectangles ,
