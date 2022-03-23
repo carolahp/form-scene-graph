@@ -16,7 +16,7 @@ FormSGSubMorphsCacheAndInvalidationTest >> testInvalidateSceneGraphInSystemWindo
 		cache := window valueOfProperty: #cachedSubSceneGraph.
 		self assert: cache isCachingSubSceneNode.
 		window invalidateSceneGraph .
-		self deny: (window valueOfProperty: #invalidSceneGraph) equals: cache.
+		self deny: (window valueOfProperty: #cachedSubSceneGraph) equals: cache.
 		
 	] ensure: [ window delete ]
 ]

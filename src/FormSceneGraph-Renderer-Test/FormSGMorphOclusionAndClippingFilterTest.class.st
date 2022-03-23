@@ -64,6 +64,35 @@ FormSGMorphOclusionAndClippingFilterTest >> testHiddenSmallerMorphIsNotVisible [
 ]
 
 { #category : #tests }
+FormSGMorphOclusionAndClippingFilterTest >> testHiddenSmallerMorphIsNotVisibleInWorld [
+	
+	| morphs world blueWindow redWindow greenWindow hand |
+	
+	world := WorldMorph new extent: 1000@1000.
+	hand := HandMorph new.
+	world addHand: hand.
+	world activeHand: hand.
+	
+	blueWindow := SystemWindow new setLabel: 'blue'; yourself.
+	redWindow := SystemWindow new setLabel: 'red'; yourself.
+	greenWindow  := SystemWindow new setLabel: 'green'; yourself.
+
+	greenWindow openInWorld: world.
+	blueWindow openInWorld: world.
+	redWindow openInWorld: world.
+		
+	redWindow position: 50@40.
+	greenWindow bounds: redWindow bounds.
+
+	morphs := preparer 
+						filterMorphs: world submorphs
+						inVisibleRectangles: { greenWindow bounds }.
+
+	self assertCollection: morphs hasSameElements: { redWindow }.
+
+]
+
+{ #category : #tests }
 FormSGMorphOclusionAndClippingFilterTest >> testMorphOutOfVisibleRectangleIsNotVisible [
 	
 	| morphs blueMorph redMorph |
@@ -90,13 +119,13 @@ FormSGMorphOclusionAndClippingFilterTest >> testPartiallyHiddenMorphIsVisible [
 	redMorph position: 50@40.
 	greenMorph position: 20@20.
 	
-"	self showMorphs: { blueMorph. redMorph. greenMorph }.
-"
+	self showMorphs: { blueMorph. redMorph. greenMorph }.
+
 	morphs := preparer 
 						filterMorphs: { blueMorph . redMorph . greenMorph } 
 						inVisibleRectangles: { blueMorph bounds . redMorph bounds }.
 
-	self assertCollection: morphs hasSameElements: { blueMorph. redMorph. greenMorph }.
+	self assertCollection: morphs hasSameElements: { blueMorph. redMorph }.
 
 ]
 

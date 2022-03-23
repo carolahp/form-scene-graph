@@ -9,16 +9,23 @@ FormSGMorphOclusionAndClippingFilter >> filterMorphs: morphs inVisibleRectangles
 
 	| alreadyDrawn unoclusedMorph visibleMorphs |
 	alreadyDrawn := OrderedCollection new.
-	visibleMorphs := morphs select: [ :morph | 
-		                 visibleRectangles anySatisfy: [ :rect | 
-			                 rect intersects: morph bounds ] ].
+	visibleMorphs := OrderedCollection new.
+	
+	morphs do: [ :aMorph | 
+		visibleRectangles do: [ :rect | |intersection|
+			intersection := rect intersect: aMorph bounds.
+			intersection isZero 
+				ifFalse: [ visibleMorphs add: { aMorph. intersection } ]]].
+	
 	unoclusedMorph := OrderedCollection new.
 
-	visibleMorphs do: [ :aMorph | 
+	visibleMorphs do: [ :aPair | 
 		(alreadyDrawn noneSatisfy: [ :aRectangle | 
-			 aRectangle containsRect: aMorph bounds ]) ifTrue: [ 
-			alreadyDrawn add: aMorph bounds.
-			unoclusedMorph add: aMorph ] ].
+			aRectangle containsRect: aPair second
+			 ])
+			ifTrue: [ 
+				alreadyDrawn add: aPair second.
+				unoclusedMorph add: aPair first] ].
 
 	^ unoclusedMorph
 ]
