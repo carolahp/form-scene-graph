@@ -22,8 +22,8 @@ FormSGNewAthensRenderer >> drawCachedSubScene: aCachedNode [
 
 	canvas
 		pasteSurface: aCachedNode cachedSurface
-		targetX: aCachedNode rectangle origin x asFloat
-		targetY: aCachedNode rectangle origin y asFloat
+		targetX: aCachedNode currentBounds origin x asFloat
+		targetY: aCachedNode currentBounds origin y asFloat
 		sourceX: 0.0
 		sourceY: 0.0
 		width: aCachedNode rectangle width asFloat
@@ -88,13 +88,23 @@ FormSGNewAthensRenderer >> pangoLayout [
 FormSGNewAthensRenderer >> render: aNode on: aCanvas [
 
 	canvas := aCanvas.
+	"mergedRectangle := Rectangle merging: clippingRectangles.
+	aNode accept: self."
+	[
+		canvas primSaveState.
 
-	mergedRectangle := Rectangle merging: clippingRectangles.
+		canvas newPath.
+		clippingRectangles do: [ :aRect |
+			canvas 
+				rectangleX: aRect left
+				y: aRect top
+				width: aRect width
+				height: aRect height].
+		canvas primClip.
 
-	"canvas 
-		clipBy: mergedRectangle
-		during: [" aNode accept: self "]"
-	
+		aNode accept: self.
+		
+	] ensure: [ canvas primRestoreState ].
 ]
 
 { #category : #visiting }

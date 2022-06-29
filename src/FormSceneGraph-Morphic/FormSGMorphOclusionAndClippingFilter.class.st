@@ -24,7 +24,8 @@ FormSGMorphOclusionAndClippingFilter >> filterMorphs: morphs inVisibleRectangles
 			aRectangle containsRect: aPair second
 			 ])
 			ifTrue: [ 
-				alreadyDrawn add: aPair second.
+				aPair first color isTranslucent 
+					ifFalse: [ alreadyDrawn add: aPair second ].
 				unoclusedMorph add: aPair first] ].
 
 	^ unoclusedMorph

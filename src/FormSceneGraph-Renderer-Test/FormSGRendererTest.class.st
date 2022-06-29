@@ -49,6 +49,56 @@ FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 ]
 
 { #category : #tests }
+FormSGRendererTest >> testCachedMorphIsCorrectlyPositioned [
+
+	| surface morph container |
+	[ 
+		container := Morph new.
+		morph := MorphWithCache new.
+
+		container addMorph: morph.
+				
+		container color: Color red.
+		morph color: Color blue.
+		
+		"draw once to cache morphs"
+		container position: 0@0.
+		self renderMorph: container withScale: 1.
+
+		container position: 10@10.
+		surface := self renderMorph: container withScale: 1.
+		self assert: (surface asForm colorAt: 59@49) equals: Color blue.
+	] ensure: [ morph delete. container delete ].
+
+	surface asForm inspect
+]
+
+{ #category : #tests }
+FormSGRendererTest >> testCachedMorphIsCorrectlyPositionedWithScale [
+
+	| surface morph container |
+	[ 
+		container := Morph new.
+		morph := MorphWithCache new.
+
+		container addMorph: morph.
+				
+		container color: Color red.
+		morph color: Color blue.
+		
+		"draw once to cache morphs"
+		container position: 0@0.
+		self renderMorph: container withScale: 2.
+
+		container position: 10@10.
+		surface := self renderMorph: container withScale: 2.
+		self assert: (surface asForm colorAt: 119@99) equals: Color blue.
+	] ensure: [ morph delete. container delete ].
+
+	surface asForm inspect
+]
+
+{ #category : #tests }
 FormSGRendererTest >> testCalypso [
 
 	| surface window |
@@ -92,9 +142,46 @@ FormSGRendererTest >> testLabelAtPosition1010 [
 ]
 
 { #category : #tests }
+FormSGRendererTest >> testMorphWithAlpha [
+
+	| surface morph container |
+	[ 
+		container := Morph new.
+		morph := Morph new.
+
+		container addMorph: morph.
+				
+		container color: Color red.
+		morph color: (Color blue alpha: 0.1).
+		morph position: 10@10.
+		
+		surface := self renderMorph: container withScale: 1.
+
+	] ensure: [ morph delete. container delete ].
+
+	surface asForm inspect
+]
+
+{ #category : #tests }
+FormSGRendererTest >> testPlayground [
+
+	| surface window |
+	[ 
+		window := (SmalltalkImage current tools toolNamed: #workspace) open adapter widget.
+		window position: 10@10.
+		surface := self renderMorph: window withScale: 1.
+
+	] ensure: [ window delete ].
+
+	surface asForm inspect
+]
+
+{ #category : #tests }
 FormSGRendererTest >> testRenderingButtonRendersCorrectly [
 
 	| aMorph surface proportion originalProportion |
+
+	self skip: 'Find a better way to compare rendered surfaces'.
 	aMorph := PluggableButtonMorph new 
 						label: 'Ahhh';
 						yourself.

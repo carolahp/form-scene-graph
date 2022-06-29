@@ -8,7 +8,8 @@ Class {
 	#superclass : #FormSGNode,
 	#instVars : [
 		'child',
-		'cachedSurface'
+		'cachedSurface',
+		'currentBounds'
 	],
 	#category : #'FormSceneGraph-Core-Nodes'
 }
@@ -50,6 +51,16 @@ FormSGCachingSubSceneNode >> child: aChild [
 { #category : #accessing }
 FormSGCachingSubSceneNode >> children [
 	^ { child }
+]
+
+{ #category : #accessing }
+FormSGCachingSubSceneNode >> currentBounds [
+	^ currentBounds
+]
+
+{ #category : #accessing }
+FormSGCachingSubSceneNode >> currentBounds: aRectangle [ 
+	currentBounds := aRectangle
 ]
 
 { #category : #initialization }

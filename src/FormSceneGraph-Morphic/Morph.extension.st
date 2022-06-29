@@ -7,7 +7,10 @@ Morph >> buildCachedFullSceneGraphWith: builder [
 	
 	self shouldCacheSceneGraphSurface	 ifTrue: [  
 		(self valueOfProperty: #invalidSceneGraph ifAbsent: [ true ])
-				ifFalse: [ ^ self valueOfProperty: #cachedSubSceneGraph ]].
+				ifFalse: [ 
+					^ (self valueOfProperty: #cachedSubSceneGraph) 
+						currentBounds: (builder translateAndScaleRectangle: self bounds); 
+						yourself ]].
 				
 	cachedSubSceneGraph := self doBuildFullSceneGraphWith: builder.	
 	cachedSubSceneGraph isNullNode ifTrue: [ ^ cachedSubSceneGraph ].
