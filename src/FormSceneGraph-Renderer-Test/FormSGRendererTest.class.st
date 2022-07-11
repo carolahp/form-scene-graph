@@ -239,3 +239,31 @@ FormSGRendererTest >> testSettings [
 
 	surface asForm inspect
 ]
+
+{ #category : #tests }
+FormSGRendererTest >> testSpinner [
+
+	| surface window |
+	[ 
+		window := SpSpinnerMorph new.
+		window step; step.
+		surface := self renderMorph: window withScale: 1.
+
+	] ensure: [ window delete ].
+
+	surface asForm inspect
+]
+
+{ #category : #tests }
+FormSGRendererTest >> testSpotter [
+
+	| surface window |
+	[ 
+		window := StSpotter open adapter widget.
+		window position: 10@10.
+		surface := self renderMorph: window withScale: 1.
+
+	] ensure: [ window delete ].
+
+	surface asForm inspect
+]

@@ -87,7 +87,7 @@ Morph >> buildFullSceneGraphWith: builder [
 		on: Error do: [ :err |
 								self setProperty: #errorOnDraw toValue: true.
 								self setProperty: #drawError toValue: err freeze.
-								self buildDrawErrorSceneGraphNodeWith: builder].
+								^ self buildDrawErrorSceneGraphNodeWith: builder].
 
 	self color isTransparent ifFalse: [ builder addDrawnArea: self fullBoundsInWorld].
 
