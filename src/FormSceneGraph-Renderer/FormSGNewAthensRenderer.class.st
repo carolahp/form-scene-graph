@@ -225,7 +225,7 @@ FormSGNewAthensRenderer >> visitTextureNode: node [
 	rectangle := node rectangle.
 	extent := rectangle extent.
 	
-	originSurface := canvas surface class fromForm: (node form asFormOfDepth: 32).
+	originSurface := (node form asFormOfDepth: 32) asSurface.
 
 	originalExtent := node form extent. 
 	ourScale := (extent / originalExtent) x asFloat.
