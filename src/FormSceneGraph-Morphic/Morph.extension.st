@@ -63,6 +63,8 @@ Morph >> buildDrawErrorSceneGraphNodeWith: builder [
 		add: (builder borderRectangle: bounds color: Color yellow width: 1).
 		
 	self valueOfProperty: #drawError ifPresentDo: [ :error| | trace stringBounds |
+		Smalltalk logError: error messageText inContext: error signalerContext.
+		
 		trace := String streamContents: [ :s| error signalerContext shortDebugStackOn: s].
 		stringBounds := bounds insetBy: 5.
 		trace linesDo: [ :aString|
