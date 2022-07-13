@@ -170,7 +170,7 @@ FormSGAffineTransform >> inverseTransformRectangle: aRectangle [
 { #category : #converting }
 FormSGAffineTransform >> inverted [
 	| det |
-	det := (m11*m22) - (m21*m21).
+	det := (m11*m22) - (m21*m12).
 	(det closeTo: 0.0) ifTrue: [ self error: 'Affine transform does not have an inverse.' ].
 	^ self class new
 		m11: m22 / det; m12: m12 negated / det ; m13: m13 negated;
