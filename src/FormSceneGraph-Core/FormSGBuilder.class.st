@@ -545,13 +545,13 @@ FormSGBuilder >> withClippingBounds: additionalClippingBound when: clippingEnabl
 { #category : #'building context' }
 FormSGBuilder >> withTransform: transform build: aBlock [
 	| child oldClippingBounds |
-	transform isTranslationOnly 
-		ifTrue: [ ^ self withTranslation: transform translation build: aBlock ].
-	
-	self error.
+	transform isPureTranslation 
+		ifTrue: [ ^ self withTranslation: transform offset negated truncated build: aBlock ].
 	
 	oldClippingBounds := clippingBounds.
-	clippingBounds := transform inverseTransformRectangle: clippingBounds.
+	
+	clippingBounds := transform invertBoundsRect: clippingBounds.
+
 	child := aBlock ensure: [ clippingBounds := oldClippingBounds ].
 	^ child isNullNode
 		ifTrue: [ child ]

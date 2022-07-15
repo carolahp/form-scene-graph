@@ -5,7 +5,7 @@ TransformMorph >> buildChildrenSceneGraphNodeWith: builder [
 
 	submorphs isEmpty ifTrue: [ ^ builder null ].
 	^ builder withClippingBounds: self innerBounds when: self clipSubmorphs build: [ 
-		builder withTransform: transform asFormSGTransform build: [ 
+		builder withTransform: transform build: [ 
 			self buildClippedChildrenSceneGraphNodeWith: builder
 		]
 	].

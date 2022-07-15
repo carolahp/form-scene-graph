@@ -243,3 +243,12 @@ FormSGNewAthensRenderer >> visitTextureNode: node [
 		
 	canvas primScaleX: 1 / ourScale  Y: 1 / ourScale 
 ]
+
+{ #category : #visiting }
+FormSGNewAthensRenderer >> visitTransformNode: node [
+	
+	canvas pathTransform restoreAfter: [
+		canvas pathTransform multiplyBy: node transform asMatrixTransform2x3 asAthensTransform.
+		self visitNode: node child
+	]
+]
