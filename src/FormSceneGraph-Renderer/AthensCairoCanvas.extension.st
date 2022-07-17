@@ -4,6 +4,7 @@ Extension { #name : #AthensCairoCanvas }
 AthensCairoCanvas >> pasteSurface: aSurface targetX: targetX targetY: targetY sourceX: sourceX sourceY: sourceY width: width height: height [ 
 
 	self primSetSourceSurface: aSurface x: (targetX - sourceX) asFloat y: (targetY - sourceY).
+	self setMatrixForPattern: self primGetSource.
 	self primRectangleX: targetX y: targetY width: width height: height. 
 	self fill
 ]
