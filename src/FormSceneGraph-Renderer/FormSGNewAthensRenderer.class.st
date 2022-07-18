@@ -220,38 +220,27 @@ FormSGNewAthensRenderer >> visitTextNode: aTextNode [
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitTextureNode: node [ 
 
-	| rectangle extent originSurface originalExtent ourScale targetX targetY sourceX sourceY width height |
+	| rectangle extent originSurface originalExtent ourScale |
 
 	rectangle := node rectangle.
 	extent := rectangle extent.
-	
+
 	originSurface := (node form asFormOfDepth: 32) asSurface.
 
 	originalExtent := node form extent. 
 	ourScale := (extent / originalExtent) x asFloat.
 
-	
+	canvas setPathMatrix.
 	canvas primScaleX: ourScale Y: ourScale.
-	targetX := rectangle origin x asFloat / ourScale.
-	targetY := rectangle origin y asFloat / ourScale.
-	sourceX := 0.0.
-	sourceY := 0.0.
-	width := originalExtent x asFloat.
-	height := originalExtent y asFloat.
-		
-	canvas primSetSourceSurface: originSurface x: (targetX - sourceX) asFloat y: (targetY - sourceY).
-	canvas setMatrixForPattern: canvas primGetSource.
-	canvas primRectangleX: targetX y: targetY width: width height: height. 
-	canvas fill.
-
-	"canvas
+	
+	canvas
 		pasteSurface: originSurface
 		targetX: rectangle origin x asFloat / ourScale
 		targetY: rectangle origin y asFloat / ourScale
 		sourceX: 0.0
 		sourceY: 0.0
 		width: originalExtent x asFloat
-		height: originalExtent y asFloat."
+		height: originalExtent y asFloat.
 		
 	canvas primScaleX: 1 / ourScale  Y: 1 / ourScale 
 ]
