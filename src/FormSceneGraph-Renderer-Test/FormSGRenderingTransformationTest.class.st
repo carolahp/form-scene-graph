@@ -4,41 +4,44 @@ Class {
 	#instVars : [
 		'morphExtent',
 		'morph',
-		'transformationMorph'
+		'transformationMorph',
+		'containerMorph'
 	],
 	#category : #'FormSceneGraph-Renderer-Test'
 }
 
-{ #category : #tests }
+{ #category : #'building suites' }
 FormSGRenderingTransformationTest class >> testParameters [
 
-	| morph |
 	^ ParametrizedTestMatrix new
 		  forSelector: #morph 
 		  addOptions: { 
-				(morph := Morph new) .
-				(morph := (Smalltalk ui icons iconNamed: #up) asMorph) .
-				 };
+				(Morph new) .
+				((Smalltalk ui icons iconNamed: #up) asMorph) .
+				 }";
 		  
 		  forSelector: #transformationMorph
 		  addOptions: { 
-				(TransformationMorph new
-				   addMorph: morph;
-				   yourself) }
+				(TransformationMorph new) .
+				(TransformMorph new) }"
 ]
 
 { #category : #asserting }
 FormSGRenderingTransformationTest >> assert: form1 closeTo: form2 [
 	
 	| diff greenProportion redProportion |
+	
 	diff := self diffBetween: form1 and: form2.
 	greenProportion := self color: Color green proportionIn: diff.
 	redProportion := self color: Color red proportionIn: diff.
+	
+	form1 inspect.
 	((greenProportion asFloat > 0.02 ) or: [(redProportion asFloat > 0.02 )]) 
-		ifTrue: [ form1 inspect. form2 inspect ]. 
+		ifTrue: [  form2 inspect. diff inspect ]. 
+	
 	self assert: (greenProportion asFloat < 0.02 ).
-	self assert: (redProportion asFloat < 0.02 ).
-	"diff inspect"
+	self assert: (redProportion asFloat < 0.02 )
+	
 ]
 
 { #category : #'building-rendering' }
@@ -62,7 +65,7 @@ FormSGRenderingTransformationTest >> color: aColor proportionIn: aForm [
 	colorCount := 0.
 	
 	0 to: aForm width - 1 do: [ :x |
-		0 to: aForm height - 1 do: [ :y |
+		0 to: aForm height - 1 do: [ :y |. 
 		(aForm colorAt: x@y) = aColor 
 			ifTrue: [ colorCount := colorCount + 1  ]
 	]].
@@ -75,25 +78,27 @@ FormSGRenderingTransformationTest >> diffBetween: form and: reference [
 	"Receives two Forms and returns a surface representing the differences found between form and reference.
 	A red pixel means the pixel is painted in form but not in reference.
 	A green pixel means the pixel is painted in reference but not in form."
+	| diff |
+	diff := reference deepCopy.
 	0 to: reference extent x do: [ :x | 
 		0 to: reference extent y do: [ :y | 
 			((form colorAt: x @ y) diff: (reference colorAt: x @ y)) < 0.2 
 				ifFalse: [ 
 					((form colorAt: x @ y) isTransparent not and: [ 
 						 (reference colorAt: x @ y) isTransparent ]) ifTrue: [ 
-						reference colorAt: x @ y put: Color red ].
+						diff colorAt: x @ y put: Color red ].
 					((form colorAt: x @ y) isTransparent and: [ 
 						 (reference colorAt: x @ y) isTransparent not ]) ifTrue: [ 
-						reference colorAt: x @ y put: Color green ] ] ] ].
-	^ reference
+						diff colorAt: x @ y put: Color green ] ] ] ].
+	^ diff
 ]
 
-{ #category : #'building-rendering' }
+{ #category : #asserting }
 FormSGRenderingTransformationTest >> morph [
-	^ morph
+	^ morph 
 ]
 
-{ #category : #'building-rendering' }
+{ #category : #asserting }
 FormSGRenderingTransformationTest >> morph: aMorph [
 	morph := aMorph
 ]
@@ -108,8 +113,16 @@ FormSGRenderingTransformationTest >> newContainerMorph [
 ]
 
 { #category : #'building-rendering' }
+FormSGRenderingTransformationTest >> newTransformationMorph [
+
+	^ TransformationMorph new
+		  position: 20 @ 20;
+		  yourself
+]
+
+{ #category : #'building-rendering' }
 FormSGRenderingTransformationTest >> renderMorph: aMorph withScale: aScale [
-	
+
 	^ self renderNodes: (self buildNodesFromMorph: aMorph withScale: aScale) 
 		    withScale: aScale
 ]
@@ -133,133 +146,124 @@ FormSGRenderingTransformationTest >> renderNodes: nodes withScale: aScale [
 
 ]
 
-{ #category : #tests }
-FormSGRenderingTransformationTest >> testIdentityTransformOnRectangle [
-
-	| surface container |
-	container := self newContainerMorph.
-	[ 
-		container addMorph: self transformationMorph.
-		surface := self renderMorph: container withScale: 1.
-		
-		self assert: surface asForm extent equals: container asForm extent.
-		self assert: surface asForm closeTo: container asForm.
-			
-	] ensure: [ container delete ]
-]
-
-{ #category : #tests }
-FormSGRenderingTransformationTest >> testRotateAndScaleRectangle [
-
-	| surface container transformation |
-	container := self newContainerMorph.
-	[ 
-		transformation := self transformationMorph.
-		transformation angle: -45.
-		transformation scale: 2.
-		container addMorph: transformation.
-
-		surface := self renderMorph: container withScale: 1.
-
-		self assert: surface asForm extent equals: container asForm extent.
-		self assert: surface asForm closeTo: container asForm ] 
+{ #category : #running }
+FormSGRenderingTransformationTest >> setUp [ 	
+	super setUp.
+	containerMorph := self newContainerMorph.
+	transformationMorph := self newTransformationMorph.
+	containerMorph addMorph: transformationMorph.
 	
-	ensure: [ container delete ]
 ]
 
-{ #category : #tests }
-FormSGRenderingTransformationTest >> testRotateAndTranslateRectangle [
-
-	| surface container transformation |
-	container := self newContainerMorph.
-	[ 
-		transformation := self transformationMorph.
-		transformation angle: 30.
-		transformation position: 0@0.
-		container addMorph: transformation.
-
-		surface := self renderMorph: container withScale: 1.
-
-		self assert: surface asForm extent equals: container asForm extent.
-		self assert: surface asForm closeTo: container asForm ] 
+{ #category : #running }
+FormSGRenderingTransformationTest >> tearDown [
 	
-	ensure: [ container delete ]
+	containerMorph delete.
+	transformationMorph delete.
+	morph delete.
+	super tearDown
 ]
 
 { #category : #tests }
-FormSGRenderingTransformationTest >> testRotateRectangle [
+FormSGRenderingTransformationTest >> testIdentityTransform [
 
-	| surface container transformation |
-	container := self newContainerMorph.
-	[ 
-		transformation := self transformationMorph.
-		transformation rotationDegrees: -45.
-		container addMorph: transformation.
-
-		surface := self renderMorph: container withScale: 1.
-		
-		self assert: surface asForm extent equals: container asForm extent.
-		self assert: surface asForm closeTo: container asForm.
-		
-		 ] 
-	ensure: [ container delete ]
-]
-
-{ #category : #tests }
-FormSGRenderingTransformationTest >> testScaleRectangle [
-
-	| surface container transformation |
-	container := self newContainerMorph.
-	[ 
-		transformation := self transformationMorph.
-		transformation scale: 3.
-		container addMorph: transformation.
-		surface := self renderMorph: container withScale: 1.
-
-		self assert: surface asForm extent equals: container asForm extent.
-		self assert: surface asForm closeTo: container asForm ] 
+	| surface |
+	transformationMorph addMorph: morph.
 	
-	ensure: [ container delete ]
+	surface := self renderMorph: containerMorph withScale: 1.
+
+	self assert: surface asForm extent equals: containerMorph asForm extent.
+	self assert: surface asForm closeTo: containerMorph asForm
 ]
 
 { #category : #tests }
-FormSGRenderingTransformationTest >> testTranslateAndScaleRectangle [
+FormSGRenderingTransformationTest >> testRotate [
 
-	| surface container transformation |
-	container := self newContainerMorph.
-	[ 
-		transformation := self transformationMorph position: 20@20.
-		transformation scale: 2.
-
-		container addMorph: transformation.
-
-		surface := self renderMorph: container withScale: 1.
-		
-		self assert: surface asForm extent equals: container asForm extent.
-		self assert: surface asForm closeTo: container asForm ] 
+	| surface |
+	transformationMorph asFlexOf: morph.
+	transformationMorph rotationDegrees: -45.
 	
-	ensure: [ container delete ]
+	surface := self renderMorph: containerMorph withScale: 1.
+	
+	self assert: surface asForm extent equals: containerMorph asForm extent.
+	self assert: surface asForm closeTo: containerMorph asForm	
 ]
 
 { #category : #tests }
-FormSGRenderingTransformationTest >> testTranslateRectangle [
+FormSGRenderingTransformationTest >> testRotateAndScale [
 
-	| surface container transformation |
-	container := self newContainerMorph.
-	[ 
-		transformation := self transformationMorph setOffset: -15@(-30) angle: 0 scale: 1.
-		container addMorph: transformation.
-		surface := self renderMorph: container withScale: 1.
-		
-		self assert: surface asForm extent equals: container asForm extent.
-		self assert: surface asForm closeTo: container asForm ] 
+	| surface |
+	transformationMorph asFlexOf: morph.
+	transformationMorph rotationDegrees: -45.
+	transformationMorph scale: 2.
 	
-	ensure: [ container delete ]
+	surface := self renderMorph: containerMorph withScale: 1.
+	
+	self assert: surface asForm extent equals: containerMorph asForm extent.
+	self assert: surface asForm closeTo: containerMorph asForm	
+]
+
+{ #category : #tests }
+FormSGRenderingTransformationTest >> testRotateAndTranslate [
+
+	| surface |
+	transformationMorph asFlexOf: morph.
+	transformationMorph rotationDegrees: -45.
+	transformationMorph position: 30@30.
+	
+	surface := self renderMorph: containerMorph withScale: 1.
+	
+	self assert: surface asForm extent equals: containerMorph asForm extent.
+	self assert: surface asForm closeTo: containerMorph asForm	
+]
+
+{ #category : #tests }
+FormSGRenderingTransformationTest >> testScale [
+
+	| surface |
+	transformationMorph addMorph: morph.
+	transformationMorph scale: 2.
+	
+	surface := self renderMorph: containerMorph withScale: 1.
+	
+	self assert: surface asForm extent equals: containerMorph asForm extent.
+	self assert: surface asForm closeTo: containerMorph asForm	
+]
+
+{ #category : #tests }
+FormSGRenderingTransformationTest >> testTranslate [
+
+	| surface |
+	transformationMorph addMorph: morph.
+	transformationMorph position: 30@30.
+	
+	surface := self renderMorph: containerMorph withScale: 1.
+	
+	self assert: surface asForm extent equals: containerMorph asForm extent.
+	self assert: surface asForm closeTo: containerMorph asForm	
+]
+
+{ #category : #tests }
+FormSGRenderingTransformationTest >> testTranslateAndScale [
+
+	| surface |
+	transformationMorph addMorph: morph.
+	transformationMorph scale: 3.
+	transformationMorph position: 30@30.
+	
+	surface := self renderMorph: containerMorph withScale: 1.
+	
+	self assert: surface asForm extent equals: containerMorph asForm extent.
+	self assert: surface asForm closeTo: containerMorph asForm	
 ]
 
 { #category : #'building-rendering' }
 FormSGRenderingTransformationTest >> transformationMorph [
-	^ transformationMorph
+
+	^ transformationMorph ifNil: [ 
+		  transformationMorph := TransformationMorph new
+			                         position: 20 @ 20;
+			                         yourself ]
 ]
 
 { #category : #'building-rendering' }
