@@ -1,11 +1,31 @@
 Class {
 	#name : #FormSGRenderingTransformationTest,
-	#superclass : #TestCase,
+	#superclass : #ParametrizedTestCase,
 	#instVars : [
-		'morphExtent'
+		'morphExtent',
+		'morph',
+		'transformationMorph'
 	],
 	#category : #'FormSceneGraph-Renderer-Test'
 }
+
+{ #category : #tests }
+FormSGRenderingTransformationTest class >> testParameters [
+
+	| morph |
+	^ ParametrizedTestMatrix new
+		  forSelector: #morph 
+		  addOptions: { 
+				(morph := Morph new) .
+				(morph := (Smalltalk ui icons iconNamed: #up) asMorph) .
+				 };
+		  
+		  forSelector: #transformationMorph
+		  addOptions: { 
+				(TransformationMorph new
+				   addMorph: morph;
+				   yourself) }
+]
 
 { #category : #asserting }
 FormSGRenderingTransformationTest >> assert: form1 closeTo: form2 [
@@ -14,9 +34,10 @@ FormSGRenderingTransformationTest >> assert: form1 closeTo: form2 [
 	diff := self diffBetween: form1 and: form2.
 	greenProportion := self color: Color green proportionIn: diff.
 	redProportion := self color: Color red proportionIn: diff.
-	
-	self assert: (greenProportion < 0.01 ).
-	self assert: (redProportion < 0.01 ).
+	((greenProportion asFloat > 0.02 ) or: [(redProportion asFloat > 0.02 )]) 
+		ifTrue: [ form1 inspect. form2 inspect ]. 
+	self assert: (greenProportion asFloat < 0.02 ).
+	self assert: (redProportion asFloat < 0.02 ).
 	"diff inspect"
 ]
 
@@ -67,6 +88,16 @@ FormSGRenderingTransformationTest >> diffBetween: form and: reference [
 	^ reference
 ]
 
+{ #category : #'building-rendering' }
+FormSGRenderingTransformationTest >> morph [
+	^ morph
+]
+
+{ #category : #'building-rendering' }
+FormSGRenderingTransformationTest >> morph: aMorph [
+	morph := aMorph
+]
+
 { #category : #utilities }
 FormSGRenderingTransformationTest >> newContainerMorph [
 
@@ -105,13 +136,10 @@ FormSGRenderingTransformationTest >> renderNodes: nodes withScale: aScale [
 { #category : #tests }
 FormSGRenderingTransformationTest >> testIdentityTransformOnRectangle [
 
-	| surface transformation container morph |
+	| surface container |
 	container := self newContainerMorph.
 	[ 
-		morph := Morph new.
-		transformation := TransformationMorph new asFlexOf: morph.
-		container addMorph: transformation.
-		
+		container addMorph: self transformationMorph.
 		surface := self renderMorph: container withScale: 1.
 		
 		self assert: surface asForm extent equals: container asForm extent.
@@ -123,14 +151,12 @@ FormSGRenderingTransformationTest >> testIdentityTransformOnRectangle [
 { #category : #tests }
 FormSGRenderingTransformationTest >> testRotateAndScaleRectangle [
 
-	| surface container transformation morph |
+	| surface container transformation |
 	container := self newContainerMorph.
 	[ 
-		morph := Morph new bounds: (45@45 corner: 55@55).
-		transformation := TransformationMorph new asFlexOf: morph.
-		transformation scale: 5.
-		transformation rotationDegrees: -45.
-
+		transformation := self transformationMorph.
+		transformation angle: -45.
+		transformation scale: 2.
 		container addMorph: transformation.
 
 		surface := self renderMorph: container withScale: 1.
@@ -144,14 +170,12 @@ FormSGRenderingTransformationTest >> testRotateAndScaleRectangle [
 { #category : #tests }
 FormSGRenderingTransformationTest >> testRotateAndTranslateRectangle [
 
-	| surface container transformation morph |
+	| surface container transformation |
 	container := self newContainerMorph.
 	[ 
-		morph := Morph new bounds: (45@45 corner: 55@55).
-		transformation := TransformationMorph new asFlexOf: morph.
+		transformation := self transformationMorph.
 		transformation angle: 30.
 		transformation position: 0@0.
-
 		container addMorph: transformation.
 
 		surface := self renderMorph: container withScale: 1.
@@ -165,34 +189,33 @@ FormSGRenderingTransformationTest >> testRotateAndTranslateRectangle [
 { #category : #tests }
 FormSGRenderingTransformationTest >> testRotateRectangle [
 
-	| surface container transformation morph |
+	| surface container transformation |
 	container := self newContainerMorph.
 	[ 
-		morph := Morph new bounds: (20@20 corner: 70@60).
-		transformation := TransformationMorph new asFlexOf: morph.
+		transformation := self transformationMorph.
 		transformation rotationDegrees: -45.
 		container addMorph: transformation.
 
 		surface := self renderMorph: container withScale: 1.
 		
 		self assert: surface asForm extent equals: container asForm extent.
-		self assert: surface asForm closeTo: container asForm ] 
-	
+		self assert: surface asForm closeTo: container asForm.
+		
+		 ] 
 	ensure: [ container delete ]
 ]
 
 { #category : #tests }
 FormSGRenderingTransformationTest >> testScaleRectangle [
 
-	| surface container transformation morph |
+	| surface container transformation |
 	container := self newContainerMorph.
 	[ 
-		morph := Morph new bounds: (45@45 corner: 55@55).
-		transformation := TransformMorph new.
-		transformation scale: 6.
+		transformation := self transformationMorph.
+		transformation scale: 3.
 		container addMorph: transformation.
-
 		surface := self renderMorph: container withScale: 1.
+
 		self assert: surface asForm extent equals: container asForm extent.
 		self assert: surface asForm closeTo: container asForm ] 
 	
@@ -202,18 +225,16 @@ FormSGRenderingTransformationTest >> testScaleRectangle [
 { #category : #tests }
 FormSGRenderingTransformationTest >> testTranslateAndScaleRectangle [
 
-	| surface container transformation morph |
+	| surface container transformation |
 	container := self newContainerMorph.
 	[ 
-		morph := Morph new bounds: (45@45 corner: 55@55).
-		transformation := TransformationMorph new asFlexOf: morph.
-		transformation scale: 5.
-		transformation position: 0@0.
+		transformation := self transformationMorph position: 20@20.
+		transformation scale: 2.
 
 		container addMorph: transformation.
 
 		surface := self renderMorph: container withScale: 1.
-
+		
 		self assert: surface asForm extent equals: container asForm extent.
 		self assert: surface asForm closeTo: container asForm ] 
 	
@@ -221,20 +242,27 @@ FormSGRenderingTransformationTest >> testTranslateAndScaleRectangle [
 ]
 
 { #category : #tests }
-FormSGRenderingTransformationTest >> testTranslateRectangleXY [
+FormSGRenderingTransformationTest >> testTranslateRectangle [
 
-	| surface container transformation morph |
+	| surface container transformation |
 	container := self newContainerMorph.
 	[ 
-		morph := Morph new bounds: (0@0 corner: 50@40).
-		transformation := TransformMorph new.
-		transformation position: 15@30.
+		transformation := self transformationMorph setOffset: -15@(-30) angle: 0 scale: 1.
 		container addMorph: transformation.
-		
 		surface := self renderMorph: container withScale: 1.
 		
 		self assert: surface asForm extent equals: container asForm extent.
 		self assert: surface asForm closeTo: container asForm ] 
 	
 	ensure: [ container delete ]
+]
+
+{ #category : #'building-rendering' }
+FormSGRenderingTransformationTest >> transformationMorph [
+	^ transformationMorph
+]
+
+{ #category : #'building-rendering' }
+FormSGRenderingTransformationTest >> transformationMorph: aMorph [
+	transformationMorph := aMorph
 ]
