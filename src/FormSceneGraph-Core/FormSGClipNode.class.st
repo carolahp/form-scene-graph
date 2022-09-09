@@ -47,6 +47,13 @@ FormSGClipNode >> isClipNode [
 	^ true
 ]
 
+{ #category : #operation }
+FormSGClipNode >> offsetPositionBy: offset [ 
+	
+	rectangle := rectangle translateBy: offset.
+	child offsetPositionBy: offset
+]
+
 { #category : #printing }
 FormSGClipNode >> printOn: aStream [
 
@@ -62,4 +69,10 @@ FormSGClipNode >> rectangle [
 { #category : #accessing }
 FormSGClipNode >> rectangle: anObject [
 	rectangle := anObject
+]
+
+{ #category : #caches }
+FormSGClipNode >> resetCaches [
+
+	child resetCaches
 ]

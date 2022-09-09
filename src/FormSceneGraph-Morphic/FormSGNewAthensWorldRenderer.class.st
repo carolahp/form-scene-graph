@@ -60,6 +60,7 @@ FormSGNewAthensWorldRenderer >> buildSceneGraphForWorldState: aWorldState ofWorl
 			filterMorphs: aWorld submorphs inVisibleRectangles: damagedRectangles).
 	
 	rootNodes := morphsToRender collect: [ :aMorph | |node|
+			builder clippingRectangles: damagedRectangles.
 			node := aMorph buildFullSceneGraphWith: builder.
 			builder resetAfterRoot.
 			node ].

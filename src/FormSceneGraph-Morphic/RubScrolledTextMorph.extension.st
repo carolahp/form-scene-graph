@@ -3,6 +3,7 @@ Extension { #name : #RubScrolledTextMorph }
 { #category : #'*FormSceneGraph-Morphic' }
 RubScrolledTextMorph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 	| submorphNodes drawBlock subs |
+
 	submorphNodes := OrderedCollection new.
 	drawBlock := [ :each |
 		| childNode |
@@ -38,6 +39,7 @@ RubScrolledTextMorph >> buildHighlightsSceneGraphNodeWith: builder [
 
 { #category : #'*FormSceneGraph-Morphic' }
 RubScrolledTextMorph >> buildSceneGraphNodeWith: builder [
+
 	^ (super buildSceneGraphNodeWith: builder) ,
 	(self buildHighlightsSceneGraphNodeWith: builder)
 ]

@@ -20,20 +20,24 @@ FormSGNewAthensRenderer >> clippingRectangles: aCollection [
 { #category : #caching }
 FormSGNewAthensRenderer >> drawCachedSubScene: aCachedNode [
 
+	| translated |
+
+	translated := canvas pathTransform transformRectangle: aCachedNode currentBounds.
+
 	canvas
 		pasteSurface: aCachedNode cachedSurface
-		targetX: aCachedNode currentBounds origin x asFloat
-		targetY: aCachedNode currentBounds origin y asFloat
+		targetX: translated origin x asFloat
+		targetY: translated origin y asFloat
 		sourceX: 0.0
 		sourceY: 0.0
-		width: aCachedNode rectangle width asFloat
-		height: aCachedNode rectangle height asFloat
+		width: translated width asFloat
+		height: translated height asFloat
 ]
 
 { #category : #'cached scenes' }
 FormSGNewAthensRenderer >> drawChildSubSceneAndCache: aCachedNode [
 
-	| cachedSurface |
+	| cachedSurface transformed |
 	canvas
 		clipBy: aCachedNode rectangle
 		during: [ self visitNode: aCachedNode child ].
@@ -42,6 +46,8 @@ FormSGNewAthensRenderer >> drawChildSubSceneAndCache: aCachedNode [
 		
 	cachedSurface := AthensCairoSurface extent: aCachedNode rectangle extent.
 
+	transformed := 	canvas pathTransform transformRectangle: aCachedNode rectangle.
+
 	cachedSurface drawDuring: [ :aCanvas |	
 		cachedSurface clear: Color transparent.
 		aCanvas moveToX: 0.0 Y: 0.0. 
@@ -49,12 +55,15 @@ FormSGNewAthensRenderer >> drawChildSubSceneAndCache: aCachedNode [
 			pasteSurface: canvas surface 
 			targetX: 0.0
 			targetY: 0.0
-			sourceX: aCachedNode rectangle origin x asFloat
-			sourceY: aCachedNode rectangle origin y asFloat
-			width: aCachedNode rectangle width
-			height: aCachedNode rectangle height].
+			sourceX: transformed origin x asFloat
+			sourceY: transformed origin y asFloat
+			width: transformed width
+			height: transformed height].
 	
-	aCachedNode cachedSurface: cachedSurface
+	aCachedNode 
+		cachedSurface: cachedSurface;
+		currentBounds: aCachedNode rectangle
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -247,9 +256,9 @@ FormSGNewAthensRenderer >> visitTextureNode: node [
 
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitTransformNode: node [
-	
+
 	canvas pathTransform restoreAfter: [
-		canvas pathTransform multiplyBy: node transform asMatrixTransform2x3 asAthensTransform.
+		canvas pathTransform multiplyBy: node transform asAthensTransform.
 		self visitNode: node child
 	]
 ]

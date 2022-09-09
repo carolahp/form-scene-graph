@@ -55,7 +55,14 @@ FormSGCanvasRenderer >> visitCachedSubScene: node [
 
 	surfaceExtent := (rectangle extent * surfaceScaleFactor) ceiling.
 
-	form := node validCachedFormWithExtent: surfaceExtent.
+	form := Form extent: surfaceExtent depth: 32.
+	
+	FormSGCanvasRenderer 
+		render: (FormSGTransformNode new
+						child: node child;
+						transform: (FormSGAffineTransform translation: node child boundingBox origin) inverted) 
+		on: form getCanvas.
+
 	form ifNil: [ ^ self ].
 	
 	canvas translucentImage: form at: node rectangle origin

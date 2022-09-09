@@ -25,6 +25,12 @@ FormSGRectangleNode >> isRectangleNode [
 	^ true
 ]
 
+{ #category : #operation }
+FormSGRectangleNode >> offsetPositionBy: aPoint [ 
+	
+	rectangle := rectangle translateBy: aPoint
+]
+
 { #category : #printing }
 FormSGRectangleNode >> printOn: aStream [
 	super printOn: aStream.

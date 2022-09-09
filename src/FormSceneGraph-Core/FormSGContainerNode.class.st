@@ -51,3 +51,15 @@ FormSGContainerNode >> childrenDo: aBlock [
 FormSGContainerNode >> isContainerNode [
 	^ true
 ]
+
+{ #category : #operation }
+FormSGContainerNode >> offsetPositionBy: aPoint [ 
+	
+	children do: [ :e | e offsetPositionBy: aPoint  ]
+]
+
+{ #category : #caches }
+FormSGContainerNode >> resetCaches [
+
+	children do: [:e | e resetCaches]
+]

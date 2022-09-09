@@ -56,24 +56,22 @@ FormSGNode >> asForm [
 
 { #category : #converting }
 FormSGNode >> asFormWithBackgroundColor: backgroundColor [
-	| boundingBox boundingBoxExtent form topLevelNode |
-	boundingBox := self boundingBox.
-	boundingBox isEmpty ifTrue: [ ^ self emptyRenderingForm ].
-	boundingBoxExtent := boundingBox extent ceiling.
-	(boundingBoxExtent x = 0 or: [boundingBoxExtent y = 0]) ifTrue: [ ^ self emptyRenderingForm ].
-	
-	form := Form extent: boundingBoxExtent ceiling depth: 32.
-	form fillColor: backgroundColor.
-	topLevelNode := self.
-	boundingBox origin = (0@0) ifFalse: [
-		topLevelNode := FormSGTranslationNode new
-			child: topLevelNode;
-			translation: boundingBox origin negated;
-			yourself
-	].
+	| surface renderer originalOrigin |
 
-	FormSGCanvasRenderer render: topLevelNode on: form getCanvas.
-	^ form
+	originalOrigin := self boundingBox origin.
+
+	surface := FormSGAthensSurface extent: self boundingBox extent.	
+
+	originalOrigin = (0@0) ifFalse: [ self offsetPositionBy: originalOrigin negated ].
+
+	[	renderer := FormSGNewAthensRenderer new.
+		renderer clippingRectangles: {(0@0 corner: self boundingBox extent)}.
+
+		surface drawDuring: [ :aCanvas |
+			surface clear: backgroundColor.
+			renderer render: self on: aCanvas ].
+
+		^ surface asForm ] ensure: [ self offsetPositionBy: originalOrigin ]
 ]
 
 { #category : #'accessing - bounds' }
@@ -247,9 +245,21 @@ FormSGNode >> nodeTypeName [
 	^ self class nodeTypeName
 ]
 
+{ #category : #operation }
+FormSGNode >> offsetPositionBy: aPoint [ 
+	
+	"Nothing to do"
+]
+
 { #category : #printing }
 FormSGNode >> printOn: aStream [
 	aStream nextPutAll: self nodeTypeName
+]
+
+{ #category : #caches }
+FormSGNode >> resetCaches [
+	
+	
 ]
 
 { #category : #accessing }

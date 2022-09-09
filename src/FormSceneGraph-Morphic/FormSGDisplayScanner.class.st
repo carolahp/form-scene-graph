@@ -19,6 +19,7 @@ FormSGDisplayScanner class >> for: paragraph with: builder [
 { #category : #displaying }
 FormSGDisplayScanner >> displayString: string from: startIndex to: stopIndex at: aPoint [
 	| rectangle underline strikethrough |
+	
 	rectangle := aPoint extent: ((font widthOfString: string from: startIndex to: stopIndex) @ font height).
 	
 	underline := emphasisCode allMask: 4.

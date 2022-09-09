@@ -82,8 +82,22 @@ FormSGCachingSubSceneNode >> isValid [
 	^ cachedSurface isNotNil and: [ cachedSurface isValidSession ]
 ]
 
+{ #category : #operation }
+FormSGCachingSubSceneNode >> offsetPositionBy: aPoint [ 
+	
+	currentBounds ifNotNil: [currentBounds := currentBounds translateBy: aPoint].
+	child offsetPositionBy: aPoint.
+]
+
 { #category : #accessing }
 FormSGCachingSubSceneNode >> rectangle [
 	
 	^ child boundingBox
+]
+
+{ #category : #initialization }
+FormSGCachingSubSceneNode >> resetCaches [
+
+	cachedSurface := nil.
+	child resetCaches
 ]

@@ -119,8 +119,8 @@ FormSGMorphOclusionAndClippingFilterTest >> testPartiallyHiddenMorphIsVisible [
 	redMorph position: 50@40.
 	greenMorph position: 20@20.
 	
-	self showMorphs: { blueMorph. redMorph. greenMorph }.
-
+"	self showMorphs: { blueMorph. redMorph. greenMorph }.
+"
 	morphs := preparer 
 						filterMorphs: { blueMorph . redMorph . greenMorph } 
 						inVisibleRectangles: { blueMorph bounds . redMorph bounds }.

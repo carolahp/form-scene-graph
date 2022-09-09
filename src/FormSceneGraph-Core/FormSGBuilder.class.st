@@ -23,7 +23,7 @@ FormSGBuilder class >> extent: anExtent [
 { #category : #testing }
 FormSGBuilder >> addDrawnArea: aRect [
 
-	drawnAreas add: (self clippingBounds intersect: aRect)
+	drawnAreas add: (self clippingBounds intersect: (self scaleRectangle: aRect))
 
 ]
 
@@ -38,6 +38,7 @@ FormSGBuilder >> borderRectangle: rectangle color: color leftWidth: leftWidth ri
 	^ FormSGBorderNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
 		  color: color;
+		  morph: currentMorph;
 		  leftWidth: leftWidth * scale;
 		  rightWidth: rightWidth * scale;
 		  bottomWidth: bottomWidth * scale;
@@ -52,6 +53,7 @@ FormSGBuilder >> borderRectangle: rectangle color: color width: width [
 	^ FormSGBorderNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
 		  color: color;
+		  morph: currentMorph;	
 		  width: width * scale;
 		  yourself
 ]
@@ -60,6 +62,9 @@ FormSGBuilder >> borderRectangle: rectangle color: color width: width [
 FormSGBuilder >> cachingSubScene [
 
 	^ FormSGCachingSubSceneNode new
+		  morph: currentMorph;
+		  yourself
+
 ]
 
 { #category : #'building node helpers' }
@@ -88,6 +93,7 @@ FormSGBuilder >> clip: node withRectangle: rectangle [
 
 	^ FormSGClipNode new
 		  child: node;
+		  morph: currentMorph;
 		  rectangle: translatedRectangle;
 		  yourself
 ]
@@ -99,6 +105,7 @@ FormSGBuilder >> clip: node withRectangle: rectangle roundBorderRadius: radius [
 
 	^ FormSGRoundedClipNode new
 		  child: node;
+		  morph: currentMorph;
 		  rectangle: (self translateAndScaleRectangle: rectangle);
 		  borderRadius: radius * scale;
 		  yourself
@@ -107,6 +114,12 @@ FormSGBuilder >> clip: node withRectangle: rectangle roundBorderRadius: radius [
 { #category : #'building context' }
 FormSGBuilder >> clippingBounds [
 	^ clippingBounds
+]
+
+{ #category : #'building context' }
+FormSGBuilder >> clippingRectangles: aCollection [ 
+
+	clippingBounds := aCollection allButFirst inject: aCollection first into: [ :a :b | a merge: b ].
 ]
 
 { #category : #'node building' }
@@ -172,6 +185,7 @@ FormSGBuilder >> insetShadow: rectangle leftWidth: leftWidth rightWidth: rightWi
 		ifTrue: [ ^ self null ].
 
 	^ FormSGInsetShadowNode new
+		  morph: currentMorph;
 		  rectangle: (self translateAndScaleRectangle: rectangle);
 		  leftWidth: leftWidth * scale;
 		  rightWidth: rightWidth * scale;
@@ -186,6 +200,7 @@ FormSGBuilder >> insetShadow: rectangle width: width [
 	width = 0 ifTrue: [ ^ self null ].
 
 	^ FormSGInsetShadowNode new
+		  morph: currentMorph;
 		  rectangle: (self translateAndScaleRectangle: rectangle);
 		  width: width * scale;
 		  yourself
@@ -194,14 +209,17 @@ FormSGBuilder >> insetShadow: rectangle width: width [
 { #category : #testing }
 FormSGBuilder >> isAlreadyDrawn: aRect [
 
+	| aTransformedRect |
+	aTransformedRect := self scaleRectangle: aRect.
+
 	^ drawnAreas anySatisfy: [ :anArea |
-			anArea containsRect: aRect]
+			anArea containsRect: aTransformedRect]
 ]
 
 { #category : #'building context' }
 FormSGBuilder >> isRectangleVisible: aRectangle [
 
-	^ true
+	^ (self scaleRectangle: aRectangle) intersects: clippingBounds 
 ]
 
 { #category : #'node building helpers' }
@@ -223,6 +241,7 @@ FormSGBuilder >> node: child withOpacityFactor: opacityFactor [
 
 	^ FormSGOpacityNode new
 		opacityFactor: opacityFactor;
+		morph: currentMorph;
 		child: child;
 		yourself
 ]
@@ -242,6 +261,7 @@ FormSGBuilder >> outsetShadow: rectangle leftWidth: leftWidth rightWidth: rightW
 
 	^ FormSGOutsetShadowNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
+		  morph: currentMorph;
 		  leftWidth: leftWidth * scale;
 		  rightWidth: rightWidth * scale;
 		  bottomWidth: bottomWidth * scale;
@@ -256,6 +276,7 @@ FormSGBuilder >> outsetShadow: rectangle width: width [
 
 	^ FormSGOutsetShadowNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
+		  morph: currentMorph;
 		  width: width * scale;
 		  yourself
 ]
@@ -277,6 +298,7 @@ FormSGBuilder >> rectangle: rectangle color: color [
 
 	^ FormSGColorRectangleNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
+		  morph: currentMorph;
 		  color: color;
 		  yourself
 ]
@@ -293,6 +315,7 @@ FormSGBuilder >> rectangle: rectangle linearGradientStart: startPoint color: sta
 		^ self null ].
 	^ FormSGLinearGradientNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
+		  morph: currentMorph;
 		  startPoint: startPoint * scale;
 		  startColor: startColor * scale;
 		  endPoint: endPoint * scale;
@@ -324,6 +347,7 @@ FormSGBuilder >> rectangle: rectangle radialGradientCenter: center focalPoint: f
 
 	^ FormSGRadialGradientNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
+		  morph: currentMorph;
 		  center: center * scale;
 		  focalPoint: focalPoint * scale;
 		  innerRadius: innerRadius * scale;
@@ -371,6 +395,7 @@ FormSGBuilder >> rectangle: rectangle repeatingLinearGradientStart: startPoint c
 		^ self null ].
 	^ FormSGRepeatingLinearGradientNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
+		  morph: currentMorph;
 		  startPoint: startPoint * scale;
 		  startColor: startColor;
 		  endPoint: endPoint * scale;
@@ -383,6 +408,7 @@ FormSGBuilder >> rectangle: rectangle surface: surface drawWithAthens: drawBlock
 
 	^ FormSGAthensNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
+		  morph: currentMorph;
 		  surface: surface;
 		  drawBlock: drawBlock;
 		  yourself
@@ -425,6 +451,13 @@ FormSGBuilder >> scale: child withFactorX: scaleFactorX Y: scaleFactorY [
 	^ self transform: child with: (FormSGAffineTransform scaleX: scaleFactorX Y: scaleFactorY)
 ]
 
+{ #category : #utils }
+FormSGBuilder >> scaleRectangle: aRectangle [ 
+	
+	scale = 1 ifTrue: [ ^ aRectangle ].
+	^ (aRectangle scaleBy: scale) roundTo: 1
+]
+
 { #category : #'node building helpers' }
 FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle font: font color: color kern: kern [ 
 	^ self string: string from: firstIndex to: lastIndex in: rectangle font: font color: color kern: kern underline: false underlineColor: nil strikethrough: false strikethroughColor: nil
@@ -433,11 +466,12 @@ FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle fon
 { #category : #'node building' }
 FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle font: font color: color kern: kern underline: underline underlineColor: underlineColor strikethrough: strikethrough strikethroughColor: strikethroughColor [
 
-	(self isRectangleVisible: (rectangle translateBy: currentTranslation )) 
+"	(self isRectangleVisible: (rectangle translateBy: currentTranslation )) 
 		ifFalse: [ ^ self null ].
-			
+"			
 	^ FormSGTextNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
+		  morph: currentMorph;
 		  string: string;
 		  firstIndex: firstIndex;
 		  lastIndex: lastIndex;
@@ -493,6 +527,7 @@ FormSGBuilder >> texturedRectangle: rectangle form: form opaque: fullyOpaque rep
 
 	^ FormSGTextureNode new
 			   rectangle: (self translateAndScaleRectangle: rectangle);
+			   morph: currentMorph;
 			   form: form;
 			   isFullyOpaque: fullyOpaque;
 			   isRepeated: repeated;
@@ -501,8 +536,13 @@ FormSGBuilder >> texturedRectangle: rectangle form: form opaque: fullyOpaque rep
 
 { #category : #'node building' }
 FormSGBuilder >> transform: child with: transform [
+	
+	transform m13: transform m13 * scale.
+	transform m23: transform m23 * scale.
+	
 	^ FormSGTransformNode new
 		transform: transform;
+		morph: currentMorph;
 		child: child;
 		yourself
 ]
@@ -515,7 +555,14 @@ FormSGBuilder >> transformWithTranslation: translation [
 { #category : #transformations }
 FormSGBuilder >> translateAndScaleRectangle: aRectangle [
 
-	^ ((aRectangle translateBy: currentTranslation) scaleBy: scale) roundTo: 1 
+	^ ((aRectangle scaleBy: scale) roundTo: 1) translateBy: currentTranslation 
+]
+
+{ #category : #accessing }
+FormSGBuilder >> untransformedClippingBounds [
+	
+	^ ((clippingBounds translateBy: currentTranslation negated) scaleBy: 1/scale) roundTo: 1
+		
 ]
 
 { #category : #'node building helpers' }
@@ -525,14 +572,18 @@ FormSGBuilder >> verticalLineFrom: startPoint to: endPoint width: lineWidth colo
 
 { #category : #'building context' }
 FormSGBuilder >> withClippingBounds: additionalClippingBound build: aBlock [
-	| newClippingBounds oldClippingBounds result |
+	| newClippingBounds oldClippingBounds result translatedRectangle |
 
-	newClippingBounds := clippingBounds intersect: additionalClippingBound ifNone: [ ^ self null ].
+	translatedRectangle := self translateAndScaleRectangle: additionalClippingBound.
+
+	newClippingBounds := clippingBounds intersect: translatedRectangle ifNone: [ ^ self null ].
 	oldClippingBounds := clippingBounds.
 	clippingBounds := newClippingBounds.
 
 	result := aBlock ensure: [ clippingBounds := oldClippingBounds ].
 	result isNullNode ifTrue: [ ^ result ].
+	
+	"The clipping is always with the non transformed rect"
 	^ self clip: result withRectangle: additionalClippingBound
 ]
 
@@ -544,34 +595,26 @@ FormSGBuilder >> withClippingBounds: additionalClippingBound when: clippingEnabl
 
 { #category : #'building context' }
 FormSGBuilder >> withTransform: transform build: aBlock [
-	| child oldClippingBounds |
+	| child  |
 	transform isPureTranslation 
 		ifTrue: [ ^ self withTranslation: transform offset negated truncated build: aBlock ].
-	
-	oldClippingBounds := clippingBounds.
-	
-	clippingBounds := transform invertBoundsRect: clippingBounds.
 
-	child := aBlock ensure: [ clippingBounds := oldClippingBounds ].
+	child := aBlock value.
 	^ child isNullNode
 		ifTrue: [ child ]
-		ifFalse: [ self transform: child with: transform ].
+		ifFalse: [ 
+			self transform: child with: transform asFormSGTransform ].
 ]
 
 { #category : #'building context' }
 FormSGBuilder >> withTranslation: translation build: aBlock [
 
-	| oldClippingBounds oldTranslation |
-	
+	| oldTranslation |
 	translation isZero ifTrue: [ ^ aBlock value ].
 
 	oldTranslation := currentTranslation.
-	oldClippingBounds := clippingBounds.
-
-	currentTranslation := currentTranslation translateBy: translation.
-	clippingBounds := clippingBounds translateBy: translation negated.
+	currentTranslation := currentTranslation translateBy: (translation * scale).
 
 	^ aBlock ensure: [ 
-		  clippingBounds := oldClippingBounds.
 		  currentTranslation := oldTranslation ]
 ]

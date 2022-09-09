@@ -18,7 +18,7 @@ RubLineNumberDisplayer >> buildSceneGraphNodeWith: builder [
 			| backBnd clippedNodes |
 			clippedNodes := OrderedCollection new.
 			clippedNodes add: (builder rectangle: self verticalSeparatorBounds color: self verticalSeparatorColor).
-			visibleRectangle := builder clippingBounds.
+			visibleRectangle := builder untransformedClippingBounds.
 			(self lineIndexForPoint: visibleRectangle topLeft) to: (self lineIndexForPoint: visibleRectangle bottomRight) do: [ :i | 
 				| line |
 				line := lines at: i.

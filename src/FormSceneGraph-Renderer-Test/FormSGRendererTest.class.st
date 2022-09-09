@@ -36,10 +36,11 @@ FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 	surface := FormSGAthensSurface extent: (morphBounds bottomRight * aScale).
 	builder := FormSGBuilder new 
 		scale: aScale; 
+		clippingRectangles: clipping;
 		yourself.
 
 	nodes := aMorph buildFullSceneGraphWith: builder.
-
+1halt.
 	surface drawDuring: [ :aCanvas |
 		surface clear: Color white.
 		renderer render: nodes on: aCanvas ].
@@ -69,8 +70,6 @@ FormSGRendererTest >> testCachedMorphIsCorrectlyPositioned [
 		surface := self renderMorph: container withScale: 1.
 		self assert: (surface asForm colorAt: 59@49) equals: Color blue.
 	] ensure: [ morph delete. container delete ].
-
-	surface asForm inspect
 ]
 
 { #category : #tests }
@@ -95,7 +94,7 @@ FormSGRendererTest >> testCachedMorphIsCorrectlyPositionedWithScale [
 		self assert: (surface asForm colorAt: 119@99) equals: Color blue.
 	] ensure: [ morph delete. container delete ].
 
-	surface asForm inspect
+	"surface asForm inspect"
 ]
 
 { #category : #tests }
@@ -120,7 +119,6 @@ FormSGRendererTest >> testCalypsoScaled [
 		window := ClyFullBrowserMorph open owner.
 		window position: 10@10.
 		surface := self renderMorph: window withScale: 1.5.
-
 	] ensure: [ window delete ].
 
 	surface asForm inspect
@@ -167,9 +165,23 @@ FormSGRendererTest >> testPlayground [
 
 	| surface window |
 	[ 
-		window := (SmalltalkImage current tools toolNamed: #workspace) open adapter widget.
+		window := ((SmalltalkImage current tools toolNamed: #workspace) openContents: (Object >> #printString) sourceCode) adapter widget.
 		window position: 10@10.
 		surface := self renderMorph: window withScale: 1.
+
+	] ensure: [ window delete ].
+
+	surface asForm inspect
+]
+
+{ #category : #tests }
+FormSGRendererTest >> testPlaygroundScaled [
+
+	| surface window |
+	[ 
+		window := ((SmalltalkImage current tools toolNamed: #workspace) openContents: (Object >> #printString) sourceCode) adapter widget.
+		window position: 10@10.
+		surface := self renderMorph: window withScale: 1.5.
 
 	] ensure: [ window delete ].
 
@@ -255,11 +267,31 @@ FormSGRendererTest >> testSpinner [
 ]
 
 { #category : #tests }
-FormSGRendererTest >> testSpotter [
+FormSGRendererTest >> testSpinnerScalled [
 
 	| surface window |
 	[ 
-		window := StSpotter open adapter widget.
+		window := SpSpinnerMorph new.
+		window position: 10@10.
+		window step; step; step; step; step.
+		surface := self renderMorph: window withScale: 1.5.
+
+	] ensure: [ window delete ].
+
+	surface asForm inspect
+]
+
+{ #category : #tests }
+FormSGRendererTest >> testSpotter [
+
+	| surface window spotter |
+	[ 
+		spotter := StSpotter new.
+		spotter searchText text: ''.
+		spotter whenDisplayDo: [ spotter searchText cursorPositionIndex: 1 ].
+		spotter open.
+	
+		window := spotter adapter widget.
 		window position: 10@10.
 		surface := self renderMorph: window withScale: 1.
 

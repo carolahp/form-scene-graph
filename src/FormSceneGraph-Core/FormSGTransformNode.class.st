@@ -17,7 +17,7 @@ FormSGTransformNode >> accept: visitor [
 
 { #category : #'accessing - bounds' }
 FormSGTransformNode >> boundingBox [
-	^ transform transformBoundsRect: child boundingBox
+	^ transform transformRectangle: child boundingBox
 ]
 
 { #category : #testing }

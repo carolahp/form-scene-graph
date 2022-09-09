@@ -44,3 +44,15 @@ FormSGChildAttributeNode >> childrenDo: aBlock [
 FormSGChildAttributeNode >> isChildAttributeNode [
 	^ true
 ]
+
+{ #category : #operation }
+FormSGChildAttributeNode >> offsetPositionBy: aPoint [ 
+
+	child offsetPositionBy: aPoint 
+]
+
+{ #category : #initialization }
+FormSGChildAttributeNode >> resetCaches [
+
+	child resetCaches
+]

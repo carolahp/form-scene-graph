@@ -102,6 +102,13 @@ FormSGBorderNode >> leftWidth: anObject [
 	leftWidth := anObject
 ]
 
+{ #category : #operation }
+FormSGBorderNode >> offsetPositionBy: aPoint [ 
+	
+	super offsetPositionBy: aPoint.
+	content offsetPositionBy: aPoint.
+]
+
 { #category : #printing }
 FormSGBorderNode >> printOn: aStream [
 	super printOn: aStream.

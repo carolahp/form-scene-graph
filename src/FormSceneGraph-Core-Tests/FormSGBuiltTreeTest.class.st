@@ -18,6 +18,20 @@ FormSGBuiltTreeTest >> buildGraphFor: morph [
 ]
 
 { #category : #tests }
+FormSGBuiltTreeTest >> grabMorphFromSpec: aPresenter [
+
+	| window morph |
+	window := aPresenter open.
+	morph := aPresenter adapter widget.
+	window delete.
+	
+	morph position: 0@0.
+	
+	^ morph
+
+]
+
+{ #category : #tests }
 FormSGBuiltTreeTest >> testColorMorphWithBorderReturnsBorder [
 
 	| morph graph |
@@ -31,6 +45,118 @@ FormSGBuiltTreeTest >> testColorMorphWithBorderReturnsBorder [
 	self assert: graph isBorderNode.
 	self assert: graph content isRectangleNode.
 	self assert: graph content color equals: Color red.
+
+]
+
+{ #category : #tests }
+FormSGBuiltTreeTest >> testFastTable [
+
+	| list graph |
+	list := FTTableMorph new
+		extent: 300@300;
+		dataSource: (FTExampleDataSource elements: (Smalltalk allClassesAndTraits 
+			sorted: [ :a :b | a name < b name]));
+		yourself.
+
+	graph := self buildGraphFor: list.
+	
+	self assert: graph isCachingSubSceneNode.
+	self assert: graph rectangle equals: list bounds.
+
+]
+
+{ #category : #tests }
+FormSGBuiltTreeTest >> testFastTableMoved [
+
+	| list graph |
+	list := FTTableMorph new
+		extent: 300@300;
+		position: 100@100;
+		dataSource: (FTExampleDataSource elements: (Smalltalk allClassesAndTraits 
+			sorted: [ :a :b | a name < b name]));
+		yourself.
+
+	graph := self buildGraphFor: list.
+
+	self assert: graph isCachingSubSceneNode.
+	self assert: graph rectangle equals: list bounds.
+
+]
+
+{ #category : #tests }
+FormSGBuiltTreeTest >> testFastTableRow [
+
+	| aTable row graph |
+	aTable := FTTableMorph new.
+	row := (FTTableRowMorph table: aTable)
+		       bounds: (1.0 @ 280.0 corner: 287.0 @ 300.0);
+		       addMorph: (FTCellMorph new
+				        bounds: (1.0 @ 280.0 corner: 287.0 @ 300.0);
+				        addMorph: 'AIGraphReducer' asStringMorph;
+				        addMorph: (Smalltalk ui theme iconNamed: #class) asMorph;
+				        yourself) yourself.
+
+	graph := self buildGraphFor: row.
+
+	self assert: graph isClipNode.
+	self assert: graph rectangle equals: row bounds.
+	self assert: (graph child children at: 1) string equals: 'AIGraphReducer'.
+	self assert: (graph child children at: 2) form equals: (Smalltalk ui theme iconNamed: #class)
+]
+
+{ #category : #tests }
+FormSGBuiltTreeTest >> testMultipleFastTable [
+
+	| graph panel |
+	
+	panel := PanelMorph new.
+	panel layoutPolicy: ProportionalLayout new.
+	panel extent: 700@300.
+		
+	panel addMorph: (FTTableMorph new
+		position: 0@0;
+		extent: 300@300;
+		dataSource: (FTExampleDataSource elements: (Smalltalk allClassesAndTraits 
+			sorted: [ :a :b | a name < b name]));
+		yourself).
+
+	panel addMorph: (FTTableMorph new
+		position: 300@0;
+		extent: 300@300;
+		dataSource: (FTExampleDataSource elements: (Smalltalk allTraits 
+			sorted: [ :a :b | a name < b name]));
+		yourself).
+
+	graph := self buildGraphFor: panel.
+	
+1halt.
+]
+
+{ #category : #tests }
+FormSGBuiltTreeTest >> testRubricTextArea [
+
+	| textMorph graph |
+	textMorph := Morph new
+		addMorph: (
+			SpRubScrolledTextMorph new
+				beForSmalltalkCode;
+				position: 10@10;
+				extent: 700@300;
+				setText: (Object >> #printString) sourceCode;
+				yourself);
+		addMorph: (
+			SpRubScrolledTextMorph new
+				beForSmalltalkCode;
+				position: 720@10;
+				extent: 700@300;
+				setText: (Object >> #printString) sourceCode;
+				yourself)	.
+
+	graph := self buildGraphFor: textMorph.
+	
+	1halt.
+	self assert: graph isCachingSubSceneNode.
+	self assert: graph rectangle equals: textMorph bounds.
 
 ]
 
@@ -61,6 +187,57 @@ FormSGBuiltTreeTest >> testSimpleMorphReturnsColorRectangleNotAtOrigin [
 	self assert: graph color equals: morph color.
 	self assert: graph rectangle equals: morph bounds.
 	self assert: graph rectangle origin equals: 50@50
+]
+
+{ #category : #tests }
+FormSGBuiltTreeTest >> testToolbarButtons [
+
+	| toolbar morph graph |
+	toolbar := SpToolbarPresenter new
+		addItem: (SpToolbarButtonPresenter new
+				label: 'Do it';
+				icon: (Smalltalk ui theme iconNamed: #smallOk);
+				yourself
+			).
+	
+	morph := self grabMorphFromSpec: toolbar.			
+
+	graph := self buildGraphFor: morph.
+	
+	self assert: graph isClipNode.
+	self assert: graph child isContainerNode.
+	self assert: (graph child children at: 1) isTextNode.
+	self assert: (graph child children at: 1) string equals: 'Do it'.
+	self assert: (graph child children at: 1) rectangle equals: ((12@135) corner: (32@147)).	
+
+]
+
+{ #category : #tests }
+FormSGBuiltTreeTest >> testToolbarButtonsInMillerList [
+
+	| presenter morph graph |
+	presenter := 
+		SpMillerColumnPresenter new
+			presenterBlock:[ :aValue | 
+				SpToolbarPresenter new
+					addItem: (SpToolbarButtonPresenter new
+							label: aValue;
+							icon: (Smalltalk ui theme iconNamed: #smallOk);
+							yourself
+						)];
+			setRootModel: 'Do it';
+			yourself.
+	
+	morph := self grabMorphFromSpec: presenter.			
+
+	graph := self buildGraphFor: morph.
+	
+	self assert: graph isClipNode.
+	self assert: graph child isContainerNode.
+	self assert: (graph child children at: 1) isTextNode.
+	self assert: (graph child children at: 1) string equals: 'Do it'.
+	self assert: (graph child children at: 1) rectangle equals: ((12@135) corner: (32@147)).	
+
 ]
 
 { #category : #tests }
