@@ -151,7 +151,7 @@ FormSGBuiltTreeTest >> testRubricTextArea [
 				yourself	.
 
 	graph := self buildGraphFor: textMorph.
-	
+
 	self assert: (graph withAllChildren anySatisfy: [ :e | e isTextNode and: [ e string = (Object >> #printString) sourceCode ] ])
 ]
 

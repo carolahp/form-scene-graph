@@ -3,10 +3,9 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'canvas',
-		'textBuffer',
-		'pangoLayout',
 		'clippingRectangles',
-		'mergedRectangle'
+		'mergedRectangle',
+		'textRenderer'
 	],
 	#category : #'FormSceneGraph-Renderer-Basic'
 }
@@ -66,37 +65,12 @@ FormSGNewAthensRenderer >> drawChildSubSceneAndCache: aCachedNode [
 
 ]
 
-{ #category : #'as yet unclassified' }
-FormSGNewAthensRenderer >> encodeStringForLayout: aString from: firstIndex length: length [
-
-	"I encode in utf8 the string in a pinned byteArray that is reused"
-	
-	"Check the worst case scenario 4 bytes per character"
-	
-	(textBuffer isNil or: [ textBuffer size < (length * 4) ]) 
-		ifTrue: [ textBuffer := ByteArray newPinned: length * 4 ].	
-	
-	textBuffer writeStreamDo: [ :aStream | 
-		ZnCharacterEncoder utf8 next: length putAll: aString startingAt: firstIndex toStream: aStream.
-		aStream nextPut: 0].
-	
-	^ textBuffer
-]
-
-{ #category : #'as yet unclassified' }
-FormSGNewAthensRenderer >> pangoLayout [
-
-	^ pangoLayout ifNil: [ 
-		pangoLayout := (PangoLayout newCanvas: canvas)
-			autoRelease;
-			yourself ]
-
-]
-
 { #category : #rendering }
 FormSGNewAthensRenderer >> render: aNode on: aCanvas [
 
 	canvas := aCanvas.
+	textRenderer := FormSGAthensTextRenderer new.
+	
 	"mergedRectangle := Rectangle merging: clippingRectangles.
 	aNode accept: self."
 	[
@@ -207,23 +181,9 @@ FormSGNewAthensRenderer >> visitNullNode: aFormSGNullNode [
 ]
 
 { #category : #visiting }
-FormSGNewAthensRenderer >> visitTextNode: aTextNode [ 
+FormSGNewAthensRenderer >> visitTextNode: node [
 
-	| stringLength |
-
-	aTextNode color loadOnCairoCanvas: canvas.
-	canvas moveToX: aTextNode rectangle origin x Y: aTextNode rectangle origin y.
-
-	self pangoLayout fontDescription: aTextNode fontDescription.
-
-	stringLength := aTextNode lastIndex - aTextNode firstIndex + 1.
-
-	self pangoLayout text: (self encodeStringForLayout: aTextNode string from: aTextNode firstIndex length: stringLength) length: -1.
-
-	canvas updateLayout: self pangoLayout.
-		
-	canvas showLayout: self pangoLayout.
-
+	^ textRenderer renderTextNode: node on: canvas.
 ]
 
 { #category : #visiting }

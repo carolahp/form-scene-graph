@@ -116,6 +116,11 @@ FormSGTextNode >> printOn: aStream [
 ]
 
 { #category : #accessing }
+FormSGTextNode >> scale [
+	^ scale
+]
+
+{ #category : #accessing }
 FormSGTextNode >> scale: aNumber [ 
 	
 	scale := aNumber
