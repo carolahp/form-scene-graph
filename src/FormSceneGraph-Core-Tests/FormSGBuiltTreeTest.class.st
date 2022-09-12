@@ -129,35 +129,30 @@ FormSGBuiltTreeTest >> testMultipleFastTable [
 
 	graph := self buildGraphFor: panel.
 	
-1halt.
+	self assert: graph isClipNode.
+	self assert: (graph child children at: 1) isCachingSubSceneNode.
+	self assert: (graph child children at: 2) isCachingSubSceneNode.	
+	"The morphs are in reverse order in the three"
+	self assert: (graph child children at: 1) boundingBox equals: panel submorphs second bounds.
+	self assert: (graph child children at: 2) boundingBox equals: panel submorphs first bounds
+
 ]
 
 { #category : #tests }
 FormSGBuiltTreeTest >> testRubricTextArea [
 
 	| textMorph graph |
-	textMorph := Morph new
-		addMorph: (
+	textMorph := 
 			SpRubScrolledTextMorph new
 				beForSmalltalkCode;
 				position: 10@10;
 				extent: 700@300;
 				setText: (Object >> #printString) sourceCode;
-				yourself);
-		addMorph: (
-			SpRubScrolledTextMorph new
-				beForSmalltalkCode;
-				position: 720@10;
-				extent: 700@300;
-				setText: (Object >> #printString) sourceCode;
-				yourself)	.
+				yourself	.
 
 	graph := self buildGraphFor: textMorph.
 	
-	1halt.
-	self assert: graph isCachingSubSceneNode.
-	self assert: graph rectangle equals: textMorph bounds.
-
+	self assert: (graph withAllChildren anySatisfy: [ :e | e isTextNode and: [ e string = (Object >> #printString) sourceCode ] ])
 ]
 
 { #category : #tests }
