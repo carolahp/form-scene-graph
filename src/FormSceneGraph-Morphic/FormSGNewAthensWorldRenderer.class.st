@@ -6,6 +6,9 @@ Class {
 		'worldSurface',
 		'handSurface'
 	],
+	#pools : [
+		'SDL2Constants'
+	],
 	#category : #'FormSceneGraph-Morphic-WorldRenderer'
 }
 
@@ -98,10 +101,22 @@ FormSGNewAthensWorldRenderer >> displayWorldRectangles: damageRectangles handRec
 				width: self handSurface extent x 
 				height: self handSurface extent y.
 		].
-
+	
 	windowRenderer updateAll.
+	windowRenderer renderer
+			clear;
+			copy: windowRenderer texture.
+	
+	windowRenderer renderer drawBlendMode: SDL_BLENDMODE_ADD.
+	windowRenderer renderer drawColorR: 255 g: 0 b: 0 a: 5.
 
-	windowRenderer present
+	damageRectangles do: [ :aRect |
+		windowRenderer renderer fillRect: aRect asSDLRect ].
+	
+	Stdio stdout << damageRectangles printString; crlf; flush.
+
+	windowRenderer renderer present.
+
 ]
 
 { #category : #private }
