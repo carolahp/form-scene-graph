@@ -71,8 +71,6 @@ FormSGNewAthensWorldRenderer >> buildSceneGraphForWorldState: aWorldState ofWorl
 	builder resetAfterRoot.
 	rootNodes add: (aWorld buildSceneGraphNodeWith: builder).
 	
-	builder drawnAreas size traceCr.
-	
 	"The graph renderer draws things from the first to the last, we need to put the closer to the user at the end (Morphic does it in the other direction)"
 	^ builder containerWith: rootNodes reverse
 ]
@@ -93,28 +91,31 @@ FormSGNewAthensWorldRenderer >> displayWorldRectangles: damageRectangles handRec
 				width: self worldSurface extent x 
 				height: self worldSurface extent y.
 
-		aCanvas pasteSurface: self handSurface 
+"		aCanvas pasteSurface: self handSurface 
 				targetX: 0 
 				targetY: 0 
 				sourceX: 0
 				sourceY: 0 
 				width: self handSurface extent x 
 				height: self handSurface extent y.
-		].
+"		].
 	
 	windowRenderer updateAll.
 	windowRenderer renderer
 			clear;
 			copy: windowRenderer texture.
 	
-	windowRenderer renderer drawBlendMode: SDL_BLENDMODE_ADD.
-	windowRenderer renderer drawColorR: 255 g: 0 b: 0 a: 5.
+	windowRenderer renderer drawBlendMode: SDL_BLENDMODE_BLEND.
+	windowRenderer renderer drawColorR: 255 g: 0 b: 0 a: 192.
 
 	damageRectangles do: [ :aRect |
 		windowRenderer renderer fillRect: aRect asSDLRect ].
-	
-	Stdio stdout << damageRectangles printString; crlf; flush.
 
+	windowRenderer renderer drawColorR: 0 g: 0 b: 255 a: 192.
+		
+	handRectangles do: [ :aRect |
+		windowRenderer renderer fillRect: aRect asSDLRect ].	
+	
 	windowRenderer renderer present.
 
 ]
@@ -129,43 +130,18 @@ FormSGNewAthensWorldRenderer >> doActivate [
 { #category : #operations }
 FormSGNewAthensWorldRenderer >> doDisplayWorldState: aWorldState ofWorld: aWorld [
 
-	| newSceneGraph damageRectangles handGraph handGraphRectanglePair handRectangles |
-	damageRectangles := self
-		                    extractMergedDamageRectangleFromWorldState:
-		                    aWorldState
-		                    ofWorld: aWorld.
-	damageRectangles isEmpty ifTrue: [ ^ self ].
+	| worldTreeBuilder tree |
+	worldTreeBuilder := FormSGNewWorldTreeBuilder new.	
+	tree := worldTreeBuilder buildTreeForDamagedAreasOf: world.
 
-	handGraphRectanglePair := self buildSceneGraphForHandsofWorld: aWorld.
-	handGraph := handGraphRectanglePair first.
-	handRectangles := handGraphRectanglePair second flattened.
-
-	self handSurface drawDuring: [ :aCanvas | 
-		self handSurface clear: Color transparent ].
-
-	handRectangles ifNotEmpty: [ 
-		renderer clippingRectangles:
-			(handRectangles collect: [ :rect | rect scaleBy: self scaleFactor ]).
-
-		self handSurface drawDuring: [ :aCanvas | 
-			renderer render: handGraph on: aCanvas ] ].
-
-
-	newSceneGraph := self
-		                 buildSceneGraphForWorldState: aWorldState
-		                 ofWorld: aWorld
-		                 damagedRectangles: damageRectangles.
-
-	renderer clippingRectangles: (damageRectangles collect: [ :rect | rect scaleBy: self scaleFactor ]).
+	renderer clippingRectangles: worldTreeBuilder clippingRectangles.
 
 	self worldSurface drawDuring: [ :aCanvas | 
-		renderer render: newSceneGraph on: aCanvas ].
-
+		renderer render: tree on: aCanvas ].
+	
 	self
-		displayWorldRectangles:
-		(damageRectangles collect: [ :e | e scaleBy: self scaleFactor ])
-		handRectangles:
-		(handRectangles collect: [ :e | e scaleBy: self scaleFactor ])
+		displayWorldRectangles: worldTreeBuilder clippingRectangles
+		handRectangles: #()
 ]
 
 { #category : #private }
@@ -177,10 +153,10 @@ FormSGNewAthensWorldRenderer >> extractMergedDamageRectangleFromWorldState: aWor
 	handsToDraw := aWorldState hands.
 	
 	damageRectangles := 
-		worldDamageRectangles ,
+		worldDamageRectangles ",
 		(handsToDraw 
 			collect: [:each | each computeDamageRectForNextFrame  ]
-			thenReject: [:each | each isEmpty ]).
+			thenReject: [:each | each isEmpty ])".
 	
 	aWorldState damageRecorder reset.
 

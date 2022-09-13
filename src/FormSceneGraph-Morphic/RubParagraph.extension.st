@@ -5,7 +5,10 @@ RubParagraph >> buildSceneGraphNodeWith: builder bounds: aRectangle color: aColo
 	| displayScanner offset leftInRun result visibleRectangle |
 
 	displayScanner := builder displayScannerFor: self.
-	visibleRectangle := aRectangle intersect: builder untransformedClippingBounds ifNone: [ ^ builder null ].
+	visibleRectangle := aRectangle 
+		intersect: builder untransformedFullClipping 
+		ifNone: [ ^ builder null ].
+		
 	offset := aRectangle topLeft - self position.
 	leftInRun := 0.
 	self

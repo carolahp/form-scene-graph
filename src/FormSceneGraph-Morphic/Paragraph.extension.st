@@ -5,7 +5,7 @@ Paragraph >> buildSceneGraphNodeWith: builder bounds: aRectangle color: aColor [
 	| displayScanner offset leftInRun result visibleRectangle |
 	
 	displayScanner := builder displayScannerFor: self.
-	visibleRectangle := aRectangle intersect: builder clippingBounds ifNone: [ ^ builder null ].
+	visibleRectangle := aRectangle intersect: builder untransformedFullClipping ifNone: [ ^ builder null ].
 	offset := aRectangle topLeft - positionWhenComposed.
 	leftInRun := 0.
 	self

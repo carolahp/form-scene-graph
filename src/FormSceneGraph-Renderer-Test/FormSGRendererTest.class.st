@@ -28,7 +28,7 @@ FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 	
 	morphBounds := aMorph bounds.
 
-	clipping := { morphBounds scaleBy: aScale}.
+	clipping := { "morphBounds scaleBy: aScale" 100@50 extent: 50@50}.
 
 	renderer := FormSGNewAthensRenderer new.
 	renderer clippingRectangles: clipping.
@@ -40,11 +40,26 @@ FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 		yourself.
 
 	nodes := aMorph buildFullSceneGraphWith: builder.
-1halt.
 	surface drawDuring: [ :aCanvas |
-		surface clear: Color white.
+		surface clear: Color transparent.
 		renderer render: nodes on: aCanvas ].
-	
+
+	morphBounds := aMorph bounds.
+
+	clipping := { "morphBounds scaleBy: aScale" 100@50 extent: 50@50}.
+
+	renderer := FormSGNewAthensRenderer new.
+	renderer clippingRectangles: clipping.
+
+	builder := FormSGBuilder new 
+		scale: aScale; 
+		clippingRectangles: clipping;
+		yourself.
+
+	nodes := aMorph buildFullSceneGraphWith: builder.
+	surface drawDuring: [ :aCanvas |
+		renderer render: nodes on: aCanvas ].
+
 	^ surface
 
 ]
@@ -180,7 +195,7 @@ FormSGRendererTest >> testPlaygroundScaled [
 	| surface window |
 	[ 
 		window := ((SmalltalkImage current tools toolNamed: #workspace) openContents: (Object >> #printString) sourceCode) adapter widget.
-		window position: 10@10.
+		window position: 100@100.
 		surface := self renderMorph: window withScale: 1.5.
 
 	] ensure: [ window delete ].

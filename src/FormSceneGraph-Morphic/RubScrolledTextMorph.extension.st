@@ -46,5 +46,5 @@ RubScrolledTextMorph >> buildSceneGraphNodeWith: builder [
 
 { #category : #'*FormSceneGraph-Morphic' }
 RubScrolledTextMorph >> shouldCacheSceneGraphSurface [
-	^ self fillStyle isTransparent not
+	^ "self fillStyle isTransparent not" false
 ]

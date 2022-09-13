@@ -10,7 +10,8 @@ Class {
 		'currentMorph',
 		'currentTranslation',
 		'scale',
-		'drawnAreas'
+		'drawnAreas',
+		'originalClippingRectangles'
 	],
 	#category : #'FormSceneGraph-Core-Builder'
 }
@@ -23,8 +24,13 @@ FormSGBuilder class >> extent: anExtent [
 { #category : #testing }
 FormSGBuilder >> addDrawnArea: aRect [
 
-	drawnAreas add: (self clippingBounds intersect: (self scaleRectangle: aRect))
-
+	| scaledRect |
+	
+	scaledRect := self scaleRectangle: aRect.
+	
+	clippingBounds
+		detect: [ :e | e intersects: scaledRect ]
+		ifFound: [ :e | drawnAreas add: (e intersect: scaledRect) ]
 ]
 
 { #category : #'node building' }
@@ -119,7 +125,8 @@ FormSGBuilder >> clippingBounds [
 { #category : #'building context' }
 FormSGBuilder >> clippingRectangles: aCollection [ 
 
-	clippingBounds := aCollection allButFirst inject: aCollection first into: [ :a :b | a merge: b ].
+	originalClippingRectangles := aCollection.
+	clippingBounds := aCollection.
 ]
 
 { #category : #'node building' }
@@ -153,7 +160,7 @@ FormSGBuilder >> drawnAreas [
 
 { #category : #'building context' }
 FormSGBuilder >> extent: anExtent [
-	clippingBounds := 0@0 extent: anExtent.
+	clippingBounds := {0@0 extent: anExtent}.
 ]
 
 { #category : #'node building helpers' }
@@ -173,7 +180,8 @@ FormSGBuilder >> initialize [
 	
 	drawnAreas := OrderedCollection new.
 	currentTranslation := 0@0.
-	clippingBounds := Rectangle fullSpace.
+	clippingBounds := {Rectangle fullSpace}.
+	originalClippingRectangles := {Rectangle fullSpace}.
 	scale := 1.0
 ]
 
@@ -209,17 +217,21 @@ FormSGBuilder >> insetShadow: rectangle width: width [
 { #category : #testing }
 FormSGBuilder >> isAlreadyDrawn: aRect [
 
-	| aTransformedRect |
+	| aTransformedRect clippedRects |
 	aTransformedRect := self scaleRectangle: aRect.
 
+	clippedRects := clippingBounds collect: [ :e | e intersect: aTransformedRect ifNone: nil ] thenReject: [ :e | e isNil ].
+
 	^ drawnAreas anySatisfy: [ :anArea |
-			anArea containsRect: aTransformedRect]
+			clippedRects anySatisfy: [ :aClipped | anArea containsRect: aClipped ]]
 ]
 
 { #category : #'building context' }
 FormSGBuilder >> isRectangleVisible: aRectangle [
 
-	^ (self scaleRectangle: aRectangle) intersects: clippingBounds 
+	| scaled |
+	scaled := self scaleRectangle: aRectangle.
+	^ clippingBounds anySatisfy: [ :e | e intersects: scaled ].
 ]
 
 { #category : #'node building helpers' }
@@ -294,10 +306,16 @@ FormSGBuilder >> ovalInRectangle: rectangle color: color [
 { #category : #'node building' }
 FormSGBuilder >> rectangle: rectangle color: color [
 
+	| translatedRect |
+	
 	color isTransparent ifTrue: [ ^ self null ].
+	translatedRect := self translateAndScaleRectangle: rectangle.
+
+	(self isRectangleVisible: (self translateRectangle: rectangle)) 
+		ifFalse: [ ^ self null ].
 
 	^ FormSGColorRectangleNode new
-		  rectangle: (self translateAndScaleRectangle: rectangle);
+		  rectangle: translatedRect;
 		  morph: currentMorph;
 		  color: color;
 		  yourself
@@ -418,7 +436,7 @@ FormSGBuilder >> rectangle: rectangle surface: surface drawWithAthens: drawBlock
 FormSGBuilder >> resetAfterRoot [
 	
 	currentTranslation := 0@0.
-	clippingBounds := Rectangle fullSpace.
+	clippingBounds := originalClippingRectangles
 
 ]
 
@@ -451,7 +469,7 @@ FormSGBuilder >> scale: child withFactorX: scaleFactorX Y: scaleFactorY [
 	^ self transform: child with: (FormSGAffineTransform scaleX: scaleFactorX Y: scaleFactorY)
 ]
 
-{ #category : #utils }
+{ #category : #transformations }
 FormSGBuilder >> scaleRectangle: aRectangle [ 
 	
 	scale = 1 ifTrue: [ ^ aRectangle ].
@@ -466,9 +484,9 @@ FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle fon
 { #category : #'node building' }
 FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle font: font color: color kern: kern underline: underline underlineColor: underlineColor strikethrough: strikethrough strikethroughColor: strikethroughColor [
 
-"	(self isRectangleVisible: (rectangle translateBy: currentTranslation )) 
+	(self isRectangleVisible: (self translateRectangle: rectangle))
 		ifFalse: [ ^ self null ].
-"			
+			
 	^ FormSGTextNode new
 		  rectangle: (self translateAndScaleRectangle: rectangle);
 		  morph: currentMorph;
@@ -555,14 +573,21 @@ FormSGBuilder >> transformWithTranslation: translation [
 { #category : #transformations }
 FormSGBuilder >> translateAndScaleRectangle: aRectangle [
 
-	^ ((aRectangle scaleBy: scale) roundTo: 1) translateBy: currentTranslation 
+	^ ((aRectangle translateBy: currentTranslation) scaleBy: scale) 
+		  roundTo: 1
+]
+
+{ #category : #transformations }
+FormSGBuilder >> translateRectangle: aRectangle [
+
+	^ aRectangle translateBy: currentTranslation
 ]
 
 { #category : #accessing }
-FormSGBuilder >> untransformedClippingBounds [
-	
-	^ ((clippingBounds translateBy: currentTranslation negated) scaleBy: 1/scale) roundTo: 1
-		
+FormSGBuilder >> untransformedFullClipping [
+
+	^ (((Rectangle merging: clippingBounds) scaleBy: 1 / scale) roundTo:1) 
+			translateBy: currentTranslation negated
 ]
 
 { #category : #'node building helpers' }
@@ -576,7 +601,12 @@ FormSGBuilder >> withClippingBounds: additionalClippingBound build: aBlock [
 
 	translatedRectangle := self translateAndScaleRectangle: additionalClippingBound.
 
-	newClippingBounds := clippingBounds intersect: translatedRectangle ifNone: [ ^ self null ].
+	newClippingBounds := clippingBounds 
+		collect: [ :e | e intersect: translatedRectangle ] 
+		thenReject: [ :e | e isEmpty ].
+
+	newClippingBounds ifEmpty: [ ^ self null ].
+		
 	oldClippingBounds := clippingBounds.
 	clippingBounds := newClippingBounds.
 
@@ -613,7 +643,7 @@ FormSGBuilder >> withTranslation: translation build: aBlock [
 	translation isZero ifTrue: [ ^ aBlock value ].
 
 	oldTranslation := currentTranslation.
-	currentTranslation := currentTranslation translateBy: (translation * scale).
+	currentTranslation := currentTranslation translateBy: translation.
 
 	^ aBlock ensure: [ 
 		  currentTranslation := oldTranslation ]

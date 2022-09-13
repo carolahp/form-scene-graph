@@ -46,7 +46,7 @@ Morph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 		]
 	].
 
-	^ submorphNodes reverse
+	^ submorphNodes
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
@@ -122,9 +122,10 @@ Morph >> doBuildFullSceneGraphWith: builder [
 	previousMorph := builder currentMorph.
 	builder currentMorph: self.
 
-	[ 	contentNode := self buildSceneGraphNodeWith: builder.
+	[ 	overlayNode := self buildOverlaySceneGraphNodeWith: builder.
 		childrenNode := self buildChildrenSceneGraphNodeWith: builder.
-		overlayNode := self buildOverlaySceneGraphNodeWith: builder ] 
+		contentNode := self buildSceneGraphNodeWith: builder.		
+		 ] 
 		ensure: [ builder currentMorph: previousMorph ].
 
 	^ contentNode , childrenNode , overlayNode

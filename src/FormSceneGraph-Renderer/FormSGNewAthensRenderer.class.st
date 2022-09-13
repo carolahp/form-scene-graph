@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'canvas',
 		'clippingRectangles',
-		'mergedRectangle',
 		'textRenderer'
 	],
 	#category : #'FormSceneGraph-Renderer-Basic'
@@ -69,7 +68,7 @@ FormSGNewAthensRenderer >> drawChildSubSceneAndCache: aCachedNode [
 FormSGNewAthensRenderer >> render: aNode on: aCanvas [
 
 	canvas := aCanvas.
-	textRenderer := FormSGAthensTextRenderer new.
+	textRenderer := "FormSGAthensTextRenderer" FormSGPangoTextRenderer new.
 	
 	"mergedRectangle := Rectangle merging: clippingRectangles.
 	aNode accept: self."

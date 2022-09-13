@@ -11,7 +11,7 @@ RubTextSegmentIconDisplayer >> buildSceneGraphNodeWith: builder [
 			| tl br clippedNodes visibleRectangle |
 			clippedNodes := OrderedCollection new.
 			clippedNodes add: (builder rectangle: self verticalSeparatorBounds color: self verticalSeparatorColor).
-			visibleRectangle := builder clippingBounds.
+			visibleRectangle := builder untransformedFullClipping.
 			tl := self lineIndexForPoint: visibleRectangle topLeft.
 			br := self lineIndexForPoint: visibleRectangle bottomRight.
 			tl to: br do: [ :i | 

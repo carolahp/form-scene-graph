@@ -16,5 +16,5 @@ MenuMorph >> buildSceneGraphNodeWith: builder [
 
 { #category : #'*FormSceneGraph-Morphic' }
 MenuMorph >> shouldCacheSceneGraphSurface [
-	^ true
+	^ false
 ]

@@ -2,7 +2,7 @@ Extension { #name : #FTTableMorph }
 
 { #category : #'*FormSceneGraph-Morphic' }
 FTTableMorph >> shouldCacheSceneGraphSurface [
-	^ true
+	^ false
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
