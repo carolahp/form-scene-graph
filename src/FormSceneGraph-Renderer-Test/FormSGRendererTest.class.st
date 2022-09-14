@@ -28,7 +28,7 @@ FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 	
 	morphBounds := aMorph bounds.
 
-	clipping := { "morphBounds scaleBy: aScale" 100@50 extent: 50@50}.
+	clipping := { morphBounds scaleBy: aScale}.
 
 	renderer := FormSGNewAthensRenderer new.
 	renderer clippingRectangles: clipping.
@@ -40,24 +40,9 @@ FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 		yourself.
 
 	nodes := aMorph buildFullSceneGraphWith: builder.
+
 	surface drawDuring: [ :aCanvas |
 		surface clear: Color transparent.
-		renderer render: nodes on: aCanvas ].
-
-	morphBounds := aMorph bounds.
-
-	clipping := { "morphBounds scaleBy: aScale" 100@50 extent: 50@50}.
-
-	renderer := FormSGNewAthensRenderer new.
-	renderer clippingRectangles: clipping.
-
-	builder := FormSGBuilder new 
-		scale: aScale; 
-		clippingRectangles: clipping;
-		yourself.
-
-	nodes := aMorph buildFullSceneGraphWith: builder.
-	surface drawDuring: [ :aCanvas |
 		renderer render: nodes on: aCanvas ].
 
 	^ surface

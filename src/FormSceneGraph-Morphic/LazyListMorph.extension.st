@@ -46,7 +46,7 @@ LazyListMorph >> buildSceneGraphNodeWith: builder [
 	listItems isEmpty ifTrue: [ ^ builder null ].
 
 	result := builder null.
-	clippingBounds := builder clippingBounds.
+	clippingBounds := builder untransformedFullClipping.
 	(self topVisibleRowForRectangle: clippingBounds) to:
 	(self bottomVisibleRowForRectangle: clippingBounds) do: [:row |
 		(listSource itemSelectedAmongMultiple: row)

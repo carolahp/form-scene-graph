@@ -1,9 +1,8 @@
 Extension { #name : #FTTableContainerMorph }
 
 { #category : #'*FormSceneGraph-Morphic' }
-FTTableContainerMorph >> buildSceneGraphNodeWith: builder [
-	| result |
-	result := super buildSceneGraphNodeWith: builder.
+FTTableContainerMorph >> doBuildFullSceneGraphWith:builder [
+
 	self drawRowsOn: nil.
-	^ result
+	^ super doBuildFullSceneGraphWith: builder.
 ]

@@ -3,8 +3,10 @@ Extension { #name : #FTCellMorph }
 { #category : #'*FormSceneGraph-Morphic' }
 FTCellMorph >> buildSceneGraphNodeWith: builder [
 	| result |
-	result := super buildSceneGraphNodeWith: builder.
+	
 	topSeparator
-		ifTrue: [ result := builder horizontalLineFrom: bounds topLeft to: bounds topRight width: 1 color: self seperatorColor ].
+		ifTrue: [ result := builder horizontalLineFrom: bounds topLeft to: bounds topRight width: 1 color: self seperatorColor ]
+		ifFalse: [ 	result := super buildSceneGraphNodeWith: builder ].
+			
 	^ result
 ]

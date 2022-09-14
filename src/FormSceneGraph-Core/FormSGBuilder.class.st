@@ -311,9 +311,6 @@ FormSGBuilder >> rectangle: rectangle color: color [
 	color isTransparent ifTrue: [ ^ self null ].
 	translatedRect := self translateAndScaleRectangle: rectangle.
 
-	(self isRectangleVisible: (self translateRectangle: rectangle)) 
-		ifFalse: [ ^ self null ].
-
 	^ FormSGColorRectangleNode new
 		  rectangle: translatedRect;
 		  morph: currentMorph;

@@ -49,9 +49,9 @@ HandMorph >> computeDamageRectForNextFrame [
 { #category : #'*FormSceneGraph-Morphic' }
 HandMorph >> doBuildFullSceneGraphWith: builder [
 	| contentNode childrenNode overlayNode |
-	childrenNode := self buildChildrenSceneGraphNodeWith: builder.
-	contentNode := self buildSceneGraphNodeWith: builder.
 	overlayNode := self buildOverlaySceneGraphNodeWith: builder.
+	contentNode := self buildSceneGraphNodeWith: builder.
+	childrenNode := self buildChildrenSceneGraphNodeWith: builder.	
 	^ childrenNode , contentNode , overlayNode
 ]
 

@@ -6,8 +6,8 @@ MorphTreeTransformMorph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 
 	submorphs ifEmpty: [ ^ #() ].
 	submorphNodes := OrderedCollection new.
-	top := self rowAtLocation: builder clippingBounds topLeft.
-	bottom := self rowAtLocation: builder clippingBounds bottomRight startingAt: top.
+	top := self rowAtLocation: builder untransformedFullClipping topLeft.
+	bottom := self rowAtLocation: builder untransformedFullClipping bottomRight startingAt: top.
 	top to: bottom do: [:row | | m |
 		m := submorphs basicAt: row.
 		(self buildRawColorWith: builder forSubmorph: m) ifNotNil: [ :n |

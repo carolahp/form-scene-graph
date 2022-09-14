@@ -28,7 +28,7 @@ FormSGNewWorldTreeBuilder >> buildTreeForDamagedAreasOf: aWorldMorph [
 	
 	subTrees := self buildTreeForSubmorphsOf: aWorldMorph.
 	worldTree := self buildTreeForWorldOf: aWorldMorph.
-	
+		
 	^ worldTree , subTrees
 ]
 
@@ -69,6 +69,8 @@ FormSGNewWorldTreeBuilder >> extractDamagedAreasOf: aWorldMorph [
 	rects := damageRecorder invalidRectsFullBounds: aWorldMorph bounds.
 	damageRecorder reset.
 
+	Stdio stdout << rects printString; crlf; flush.
+
 	^ rects
 ]
 
@@ -77,4 +79,5 @@ FormSGNewWorldTreeBuilder >> initialize [
 
 	super initialize.
 	scale := 1.
+
 ]

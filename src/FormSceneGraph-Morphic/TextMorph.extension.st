@@ -2,10 +2,14 @@ Extension { #name : #TextMorph }
 
 { #category : #'*FormSceneGraph-Morphic' }
 TextMorph >> buildSceneGraphNodeWith: builder [
-	| result fauxBounds |
-	result := super buildSceneGraphNodeWith: builder.
+	| result fauxBounds paragraphNode |
+	
 	(self startingIndex > text size)
-		ifTrue: [ ^ result ].
+		ifTrue: [ ^ super buildSceneGraphNodeWith: builder ].
+	
 	fauxBounds := self bounds topLeft corner: self innerBounds bottomRight.
-	^ result , (self paragraph buildSceneGraphNodeWith: builder bounds: fauxBounds color: color)
+	paragraphNode := self paragraph buildSceneGraphNodeWith: builder bounds: fauxBounds color: color.
+	result := super buildSceneGraphNodeWith: builder.
+			
+	^ result , paragraphNode
 ]

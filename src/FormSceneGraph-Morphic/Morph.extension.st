@@ -46,7 +46,7 @@ Morph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 		]
 	].
 
-	^ submorphNodes
+	^ submorphNodes reversed
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
