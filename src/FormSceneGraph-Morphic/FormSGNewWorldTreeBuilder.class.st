@@ -6,7 +6,8 @@ Class {
 		'subTrees',
 		'worldTree',
 		'builder',
-		'scale'
+		'scale',
+		'scaledDamagedAreas'
 	],
 	#pools : [
 		'SDL2Constants'
@@ -17,11 +18,11 @@ Class {
 { #category : #building }
 FormSGNewWorldTreeBuilder >> buildTreeForDamagedAreasOf: aWorldMorph [ 
 		
-	damagedAreas := self extractDamagedAreasOf: aWorldMorph.
+	self extractDamagedAreasOf: aWorldMorph.
 
 	builder := FormSGBuilder new
 		scale: scale;
-		clippingRectangles: damagedAreas;
+		clippingRectangles: scaledDamagedAreas;
 		yourself.	
 
 	damagedAreas ifEmpty: [ builder null ].
@@ -61,17 +62,24 @@ FormSGNewWorldTreeBuilder >> clippingRectangles [
 	^ damagedAreas
 ]
 
+{ #category : #accessing }
+FormSGNewWorldTreeBuilder >> damagedAreas [
+	
+	^ damagedAreas
+]
+
 { #category : #'private - building' }
 FormSGNewWorldTreeBuilder >> extractDamagedAreasOf: aWorldMorph [ 
 	
-	| damageRecorder rects |
+	| damageRecorder |
+
 	damageRecorder := aWorldMorph worldState damageRecorder.
-	rects := damageRecorder invalidRectsFullBounds: aWorldMorph bounds.
+	damagedAreas := damageRecorder invalidRectsFullBounds: aWorldMorph bounds.
 	damageRecorder reset.
 
-	Stdio stdout << rects printString; crlf; flush.
-
-	^ rects
+	scaledDamagedAreas := (scale closeTo: 1) 
+		ifTrue: [ damagedAreas ]
+		ifFalse: [ damagedAreas collect: [ :e | (e scaleBy: scale) roundTo:1 ] ]
 ]
 
 { #category : #initialization }
@@ -80,4 +88,16 @@ FormSGNewWorldTreeBuilder >> initialize [
 	super initialize.
 	scale := 1.
 
+]
+
+{ #category : #accessing }
+FormSGNewWorldTreeBuilder >> scale: aValue [
+	
+	scale := aValue
+]
+
+{ #category : #accessing }
+FormSGNewWorldTreeBuilder >> scaledDamagedAreas [
+	
+	^ scaledDamagedAreas
 ]

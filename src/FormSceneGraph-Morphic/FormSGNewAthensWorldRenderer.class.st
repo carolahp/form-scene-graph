@@ -131,16 +131,16 @@ FormSGNewAthensWorldRenderer >> doActivate [
 FormSGNewAthensWorldRenderer >> doDisplayWorldState: aWorldState ofWorld: aWorld [
 
 	| worldTreeBuilder tree |
-	worldTreeBuilder := FormSGNewWorldTreeBuilder new.	
+	worldTreeBuilder := FormSGNewWorldTreeBuilder new scale: self scaleFactor; yourself.
 	tree := worldTreeBuilder buildTreeForDamagedAreasOf: world.
 
-	renderer clippingRectangles: worldTreeBuilder clippingRectangles.
+	renderer clippingRectangles: worldTreeBuilder scaledDamagedAreas.
 
 	self worldSurface drawDuring: [ :aCanvas | 
 		renderer render: tree on: aCanvas ].
 	
 	self
-		displayWorldRectangles: worldTreeBuilder clippingRectangles
+		displayWorldRectangles: worldTreeBuilder scaledDamagedAreas
 		handRectangles: #()
 ]
 

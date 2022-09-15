@@ -222,8 +222,8 @@ FormSGBuilder >> isAlreadyDrawn: aRect [
 
 	clippedRects := clippingBounds collect: [ :e | e intersect: aTransformedRect ifNone: nil ] thenReject: [ :e | e isNil ].
 
-	^ drawnAreas anySatisfy: [ :anArea |
-			clippedRects anySatisfy: [ :aClipped | anArea containsRect: aClipped ]]
+	^ clippedRects allSatisfy: [ :aClipped |
+		drawnAreas anySatisfy: [ :anArea | anArea containsRect: aClipped ]].
 ]
 
 { #category : #'building context' }
