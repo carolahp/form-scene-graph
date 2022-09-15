@@ -73,6 +73,22 @@ FormSGWorldRendererTest >> setUp [
 	damagedAreas := OrderedCollection new.
 ]
 
+{ #category : #'tests - hands' }
+FormSGWorldRendererTest >> testEmptyHandMorphDoesNotObscureAreas [
+
+	world activeHand position: 100@100.
+	world worldState resetDamageRecorder.
+
+	worldTreeBuilder extractDamagedAreasOf: world.
+	
+	"If the hand is empty, and there is no damage in the world. We don't have damaged areas in the hand or in the world, and nothing is obscured"
+	
+	self assert: worldTreeBuilder damagedAreas isEmpty.
+	self assert: worldTreeBuilder handDamagedAreas isEmpty.
+	self assert: worldTreeBuilder handObscuredAreas isEmpty.
+
+]
+
 { #category : #tests }
 FormSGWorldRendererTest >> testEmptyWorldReturnsOnlyBackgroundColor [
 
@@ -88,6 +104,43 @@ FormSGWorldRendererTest >> testEmptyWorldReturnsOnlyBackgroundColor [
 	self assert: tree content isRectangleNode.
 	self assert: tree content rectangle equals: (self scaleRectangle: world innerBounds).
 	self assert: tree content color equals: world color
+]
+
+{ #category : #'tests - hands' }
+FormSGWorldRendererTest >> testHandMorphWithMorphDoesObscureAreas [
+
+	world activeHand position: 100@100.
+	world activeHand attachMorph: Morph new.
+
+	world worldState resetDamageRecorder.
+	world activeHand damagedRectangles. "Reset damage recorder"
+
+	worldTreeBuilder extractDamagedAreasOf: world.
+	
+	self assert: worldTreeBuilder damagedAreas isEmpty.
+	self assert: worldTreeBuilder handDamagedAreas isEmpty.
+		
+	"Default size is 50@40, with the shadow is 6@8, and the position is 100@100, but it is centered"
+	
+	self 
+		assertCollection: worldTreeBuilder scaledHandObscuredAreas 
+		hasSameElements: {(self scaleRectangle: (75@80 extent: 56@48))}.
+
+
+]
+
+{ #category : #'tests - hands' }
+FormSGWorldRendererTest >> testHandMorphWithNewMorphHasDamagedAreas [
+
+	world activeHand position: 100@100.
+	world activeHand attachMorph: Morph new.
+
+		worldTreeBuilder extractDamagedAreasOf: world.
+	
+	self assert: worldTreeBuilder damagedAreas isEmpty.
+	self 
+		assertCollection: worldTreeBuilder scaledHandDamagedAreas 
+		hasSameElements: {self scaleRectangle: (Rectangle center: 100@100 extent:50@40)}
 ]
 
 { #category : #tests }

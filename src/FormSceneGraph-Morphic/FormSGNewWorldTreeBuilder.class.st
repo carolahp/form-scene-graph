@@ -7,7 +7,11 @@ Class {
 		'worldTree',
 		'builder',
 		'scale',
-		'scaledDamagedAreas'
+		'scaledDamagedAreas',
+		'handDamagedAreas',
+		'scaledHandDamagedAreas',
+		'handObscuredAreas',
+		'scaledHandObscuredAreas'
 	],
 	#pools : [
 		'SDL2Constants'
@@ -69,17 +73,56 @@ FormSGNewWorldTreeBuilder >> damagedAreas [
 ]
 
 { #category : #'private - building' }
+FormSGNewWorldTreeBuilder >> extractDamagedAreasFromHandsOf: aWorldMorph [
+
+	handDamagedAreas := OrderedCollection new.
+	handObscuredAreas := OrderedCollection new.
+
+	aWorldMorph hands do: [ :e |
+		(e needsToBeDrawn and: [ e hasChanged ])
+			ifTrue: [ 
+				handDamagedAreas addAll: e damagedRectangles.
+				handObscuredAreas add: e fullBounds]].
+]
+
+{ #category : #'private - building' }
+FormSGNewWorldTreeBuilder >> extractDamagedAreasFromWorld: aWorldMorph [
+
+	| damageRecorder |
+	damageRecorder := aWorldMorph worldState damageRecorder.
+	damagedAreas := damageRecorder invalidRectsFullBounds:
+		                aWorldMorph bounds.
+	damageRecorder reset
+]
+
+{ #category : #'private - building' }
 FormSGNewWorldTreeBuilder >> extractDamagedAreasOf: aWorldMorph [ 
 	
-	| damageRecorder |
+	self extractDamagedAreasFromWorld: aWorldMorph.
+	self extractDamagedAreasFromHandsOf: aWorldMorph.
+	
+	(scale closeTo: 1) 
+		ifTrue: [ 
+			scaledDamagedAreas := damagedAreas.
+			scaledHandDamagedAreas := handDamagedAreas.
+			scaledHandObscuredAreas := handObscuredAreas.
+		] ifFalse: [ 
+			scaledDamagedAreas := damagedAreas collect: [ :e | (e scaleBy: scale) roundTo:1 ].
+			scaledHandDamagedAreas := handDamagedAreas collect: [ :e | (e scaleBy: scale) roundTo:1 ].
+			scaledHandObscuredAreas := handObscuredAreas collect: [ :e | (e scaleBy: scale) roundTo:1]
+		]
+]
 
-	damageRecorder := aWorldMorph worldState damageRecorder.
-	damagedAreas := damageRecorder invalidRectsFullBounds: aWorldMorph bounds.
-	damageRecorder reset.
+{ #category : #accessing }
+FormSGNewWorldTreeBuilder >> handDamagedAreas [
+	
+	^ handDamagedAreas
+]
 
-	scaledDamagedAreas := (scale closeTo: 1) 
-		ifTrue: [ damagedAreas ]
-		ifFalse: [ damagedAreas collect: [ :e | (e scaleBy: scale) roundTo:1 ] ]
+{ #category : #accessing }
+FormSGNewWorldTreeBuilder >> handObscuredAreas [
+	
+	^ handObscuredAreas
 ]
 
 { #category : #initialization }
@@ -100,4 +143,14 @@ FormSGNewWorldTreeBuilder >> scale: aValue [
 FormSGNewWorldTreeBuilder >> scaledDamagedAreas [
 	
 	^ scaledDamagedAreas
+]
+
+{ #category : #accessing }
+FormSGNewWorldTreeBuilder >> scaledHandDamagedAreas [
+	^ scaledHandDamagedAreas
+]
+
+{ #category : #accessing }
+FormSGNewWorldTreeBuilder >> scaledHandObscuredAreas [
+	^ scaledHandObscuredAreas
 ]

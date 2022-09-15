@@ -47,6 +47,18 @@ HandMorph >> computeDamageRectForNextFrame [
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
+HandMorph >> damagedRectangles [
+
+	| subBnds rectList |
+	
+	subBnds := Rectangle merging: (submorphs collect: [:m | m fullBounds]).
+	rectList := damageRecorder invalidRectsFullBounds: subBnds.
+	damageRecorder reset.
+
+	^ rectList
+]
+
+{ #category : #'*FormSceneGraph-Morphic' }
 HandMorph >> doBuildFullSceneGraphWith: builder [
 	| contentNode childrenNode overlayNode |
 	overlayNode := self buildOverlaySceneGraphNodeWith: builder.
