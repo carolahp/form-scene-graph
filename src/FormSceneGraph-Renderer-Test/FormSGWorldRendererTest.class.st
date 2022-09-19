@@ -135,7 +135,7 @@ FormSGWorldRendererTest >> testHandMorphWithNewMorphHasDamagedAreas [
 	world activeHand position: 100@100.
 	world activeHand attachMorph: Morph new.
 
-		worldTreeBuilder extractDamagedAreasOf: world.
+	worldTreeBuilder extractDamagedAreasOf: world.
 	
 	self assert: worldTreeBuilder damagedAreas isEmpty.
 	self 
@@ -222,6 +222,7 @@ FormSGWorldRendererTest >> testOpeningPlaygroundContextMenuGeneratesCorrectDamag
 	| aPlaygroundWindow aPlaygroundMorph rubEditingAreaMorph effectiveDamagedAreas form |
 
 self skip.
+
 	aPlaygroundWindow := StPlayground new asWindow.
 
 	aPlaygroundWindow buildWithSpecLayout: aPlaygroundWindow presenter layout.
@@ -261,7 +262,6 @@ self skip.
 
 	form := self worldFormWithDamagedAreas: effectiveDamagedAreas.
 	self error.	
-
 
 ]
 

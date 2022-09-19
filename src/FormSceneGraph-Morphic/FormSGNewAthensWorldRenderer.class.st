@@ -83,14 +83,16 @@ FormSGNewAthensWorldRenderer >> displayWorldRectangles: damageRectangles handRec
 	windowRenderer := self osWindowRenderer.
 
 	windowRenderer drawDuring: [ :aCanvas |
-		aCanvas pasteSurface: self worldSurface 
-				targetX: 0 
-				targetY: 0 
-				sourceX: 0
-				sourceY: 0 
-				width: self worldSurface extent x 
-				height: self worldSurface extent y.
-
+		damageRectangles do: [ :aRect |
+			aCanvas pasteSurface: self worldSurface 
+					targetX: aRect origin x 
+					targetY: aRect origin y 
+					sourceX: aRect origin x
+					sourceY: aRect origin y 
+					width: aRect extent x 
+					height: aRect extent y.			
+		].
+		
 "		aCanvas pasteSurface: self handSurface 
 				targetX: 0 
 				targetY: 0 
@@ -140,7 +142,7 @@ FormSGNewAthensWorldRenderer >> doDisplayWorldState: aWorldState ofWorld: aWorld
 		renderer render: tree on: aCanvas ].
 	
 	self
-		displayWorldRectangles: worldTreeBuilder scaledDamagedAreas
+		displayWorldRectangles: worldTreeBuilder scaledDamagedAreas, worldTreeBuilder scaledHandObscuredAreas
 		handRectangles: #()
 ]
 

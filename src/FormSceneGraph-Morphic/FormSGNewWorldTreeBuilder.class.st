@@ -33,7 +33,7 @@ FormSGNewWorldTreeBuilder >> buildTreeForDamagedAreasOf: aWorldMorph [
 	
 	subTrees := self buildTreeForSubmorphsOf: aWorldMorph.
 	worldTree := self buildTreeForWorldOf: aWorldMorph.
-		
+	
 	^ worldTree , subTrees
 ]
 
