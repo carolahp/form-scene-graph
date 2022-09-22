@@ -84,6 +84,12 @@ FormSGBuilder >> cachingSubSceneWith: aChild [
 	^ caching
 ]
 
+{ #category : #testing }
+FormSGBuilder >> clearDrawnAreas [
+
+	drawnAreas removeAll
+]
+
 { #category : #'node building' }
 FormSGBuilder >> clip: node withRectangle: rectangle [
 
@@ -447,6 +453,11 @@ FormSGBuilder >> rotate: child withDegrees: angle [
 FormSGBuilder >> rotate: child withRadians: angle [
 	(angle closeTo: 0) ifTrue: [ ^ child ].
 	^ self transform: child with: (FormSGAffineTransform rotationInRadians: angle)
+]
+
+{ #category : #accessing }
+FormSGBuilder >> scale [
+	^ scale
 ]
 
 { #category : #accessing }

@@ -8,10 +8,9 @@ Class {
 		'builder',
 		'scale',
 		'scaledDamagedAreas',
-		'handDamagedAreas',
-		'scaledHandDamagedAreas',
-		'handObscuredAreas',
-		'scaledHandObscuredAreas'
+		'scaledHandObscuredAreas',
+		'handBuilders',
+		'renderer'
 	],
 	#pools : [
 		'SDL2Constants'
@@ -33,8 +32,19 @@ FormSGNewWorldTreeBuilder >> buildTreeForDamagedAreasOf: aWorldMorph [
 	
 	subTrees := self buildTreeForSubmorphsOf: aWorldMorph.
 	worldTree := self buildTreeForWorldOf: aWorldMorph.
+
+	self buildTreeForHandsOf: aWorldMorph	
+]
+
+{ #category : #'private - building' }
+FormSGNewWorldTreeBuilder >> buildTreeForHandsOf: aWorldMorph [ 
 	
-	^ worldTree , subTrees
+	scaledHandObscuredAreas := OrderedCollection new.
+	
+	aWorldMorph hands do: [ :aHand | | handTreeBuilder |
+		handTreeBuilder := self handTreeBuilderFor: aHand.
+		handTreeBuilder buildHandTree.
+		scaledHandObscuredAreas addAll: handTreeBuilder scaledHandObscuredAreas].
 ]
 
 { #category : #'private - building' }
@@ -60,29 +70,10 @@ FormSGNewWorldTreeBuilder >> buildTreeForWorldOf: aWorldMorph [
 	^ aWorldMorph buildSceneGraphNodeWith: builder
 ]
 
-{ #category : #accessing }
-FormSGNewWorldTreeBuilder >> clippingRectangles [
-	
-	^ damagedAreas
-]
-
-{ #category : #accessing }
+{ #category : #'accessing - results' }
 FormSGNewWorldTreeBuilder >> damagedAreas [
 	
 	^ damagedAreas
-]
-
-{ #category : #'private - building' }
-FormSGNewWorldTreeBuilder >> extractDamagedAreasFromHandsOf: aWorldMorph [
-
-	handDamagedAreas := OrderedCollection new.
-	handObscuredAreas := OrderedCollection new.
-
-	aWorldMorph hands do: [ :e |
-		(e needsToBeDrawn and: [ e hasChanged ])
-			ifTrue: [ 
-				handDamagedAreas addAll: e damagedRectangles.
-				handObscuredAreas add: e fullBounds]].
 ]
 
 { #category : #'private - building' }
@@ -99,30 +90,44 @@ FormSGNewWorldTreeBuilder >> extractDamagedAreasFromWorld: aWorldMorph [
 FormSGNewWorldTreeBuilder >> extractDamagedAreasOf: aWorldMorph [ 
 	
 	self extractDamagedAreasFromWorld: aWorldMorph.
-	self extractDamagedAreasFromHandsOf: aWorldMorph.
 	
-	(scale closeTo: 1) 
-		ifTrue: [ 
-			scaledDamagedAreas := damagedAreas.
-			scaledHandDamagedAreas := handDamagedAreas.
-			scaledHandObscuredAreas := handObscuredAreas.
-		] ifFalse: [ 
-			scaledDamagedAreas := damagedAreas collect: [ :e | (e scaleBy: scale) roundTo:1 ].
-			scaledHandDamagedAreas := handDamagedAreas collect: [ :e | (e scaleBy: scale) roundTo:1 ].
-			scaledHandObscuredAreas := handObscuredAreas collect: [ :e | (e scaleBy: scale) roundTo:1]
-		]
+	damagedAreas := damagedAreas reduceRectangles.
+	
+	scaledDamagedAreas :=  (scale closeTo: 1) 
+		ifTrue: [ damagedAreas] 
+		ifFalse: [ damagedAreas collect: [ :e | (e scaleBy: scale) roundTo:1 ]]
 ]
 
-{ #category : #accessing }
-FormSGNewWorldTreeBuilder >> handDamagedAreas [
+{ #category : #'accessing - results' }
+FormSGNewWorldTreeBuilder >> handTree [
 	
-	^ handDamagedAreas
+	"This method is only valid if there is a single hand. 
+	If there is more, you have to access through the hand builder API"
+	
+	self assert: handBuilders size = 1.
+	^ handBuilders anyOne handTree
 ]
 
-{ #category : #accessing }
-FormSGNewWorldTreeBuilder >> handObscuredAreas [
+{ #category : #'private - accessing' }
+FormSGNewWorldTreeBuilder >> handTreeBuilderFor: aHandMorph [
+
+	^ handBuilders at: aHandMorph 
+		ifPresent: [ :aHandBuilder | aHandBuilder 
+				formBuilder: builder; 
+				renderer: renderer;
+				yourself ]
+		ifAbsentPut: [ 
+			  FormSGNewHandTreeBuilder new
+				  handMorph: aHandMorph;
+				  formBuilder: builder;
+				  renderer: renderer;				
+				  yourself ]
+]
+
+{ #category : #'accessing - result' }
+FormSGNewWorldTreeBuilder >> handTreeBuilders [
 	
-	^ handObscuredAreas
+	^ handBuilders values
 ]
 
 { #category : #initialization }
@@ -130,27 +135,42 @@ FormSGNewWorldTreeBuilder >> initialize [
 
 	super initialize.
 	scale := 1.
+	handBuilders := WeakIdentityKeyDictionary new
 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - parameters' }
+FormSGNewWorldTreeBuilder >> renderer [
+
+	^ renderer
+]
+
+{ #category : #'accessing - parameters' }
+FormSGNewWorldTreeBuilder >> renderer: aRenderer [
+
+	renderer := aRenderer
+]
+
+{ #category : #'accessing - parameters' }
 FormSGNewWorldTreeBuilder >> scale: aValue [
 	
 	scale := aValue
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - results' }
 FormSGNewWorldTreeBuilder >> scaledDamagedAreas [
 	
 	^ scaledDamagedAreas
 ]
 
-{ #category : #accessing }
-FormSGNewWorldTreeBuilder >> scaledHandDamagedAreas [
-	^ scaledHandDamagedAreas
+{ #category : #'accessing - results' }
+FormSGNewWorldTreeBuilder >> scaledHandObscuredAreas [
+
+	^ scaledHandObscuredAreas
 ]
 
-{ #category : #accessing }
-FormSGNewWorldTreeBuilder >> scaledHandObscuredAreas [
-	^ scaledHandObscuredAreas
+{ #category : #'accessing - results' }
+FormSGNewWorldTreeBuilder >> worldTree [
+	
+	^ worldTree , subTrees
 ]

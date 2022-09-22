@@ -1,22 +1,19 @@
 Extension { #name : #HandMorph }
 
 { #category : #'*FormSceneGraph-Morphic' }
-HandMorph >> activateSceneHardwareCursor [
-	| cursor |
-	self world ifNil: [ ^ self ].
-	self world activeHand == self ifFalse: [ ^ self ].
-	cursor := hardwareCursor ifNil: [Cursor normal].
-	self currentCursor == cursor ifFalse: [ cursor show ]
+HandMorph >> buildSceneGraphNodeWith: builder [
+	temporaryCursor ifNil: [ ^ builder null ].
+	^ builder texturedRectangle: (bounds topLeft extent: temporaryCursor extent) form: temporaryCursor
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
-HandMorph >> buildSceneGraphNodeWith: builder [
-	| cursor |
-	self activateSceneHardwareCursor.
-	self shouldUseHardwareCursorForScene ifTrue: [ ^ builder null ].
+HandMorph >> buildShadowForChildrenNode: aChildNode with: aBuilder [
 
-	cursor := temporaryCursor ifNil: [ NormalCursor ].
-	^ builder texturedRectangle: (bounds topLeft extent: cursor extent) form: cursor
+	| subBnds |
+	aChildNode isNullNode ifTrue: [ ^ aBuilder null ].
+	subBnds := Rectangle merging: (submorphs collect: [:m | m fullBounds]).
+
+	^ aBuilder rectangle: (subBnds translateBy: self shadowOffset) color: self shadowColor
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
@@ -60,29 +57,23 @@ HandMorph >> damagedRectangles [
 
 { #category : #'*FormSceneGraph-Morphic' }
 HandMorph >> doBuildFullSceneGraphWith: builder [
-	| contentNode childrenNode overlayNode |
+	
+	| contentNode childrenNode overlayNode shadowNode |
+	
 	overlayNode := self buildOverlaySceneGraphNodeWith: builder.
 	contentNode := self buildSceneGraphNodeWith: builder.
-	childrenNode := self buildChildrenSceneGraphNodeWith: builder.	
-	^ childrenNode , contentNode , overlayNode
-]
-
-{ #category : #'*FormSceneGraph-Morphic' }
-HandMorph >> sceneRenderingCursor [
-	^ hardwareCursor ifNil: [ temporaryCursor ifNil: [ Cursor normal ] ]
+	childrenNode := self buildChildrenSceneGraphNodeWith: builder.
+	shadowNode := self buildShadowForChildrenNode: childrenNode with: builder.
+	
+	^ shadowNode, childrenNode , contentNode , overlayNode
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
 HandMorph >> sceneSavedDamageRectangle [
-	^ self valueOfProperty: #sceneSavedDamageRectangle ifAbsent: [ Rectangle empty ]
+	^ self valueOfProperty: #sceneSavedDamageRectangle ifAbsent: [ nil ]
 ]
 
 { #category : #'*FormSceneGraph-Morphic' }
 HandMorph >> sceneSavedDamageRectangle: rectangle [
 	^ self setProperty: #sceneSavedDamageRectangle toValue: rectangle
-]
-
-{ #category : #'*FormSceneGraph-Morphic' }
-HandMorph >> shouldUseHardwareCursorForScene [
-	^ self sceneRenderingCursor isValidHardwareCompatibleCursor and: [self == self world activeHand]
 ]

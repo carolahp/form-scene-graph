@@ -68,7 +68,7 @@ FormSGNewAthensRenderer >> drawChildSubSceneAndCache: aCachedNode [
 FormSGNewAthensRenderer >> render: aNode on: aCanvas [
 
 	canvas := aCanvas.
-	textRenderer := "FormSGAthensTextRenderer" FormSGPangoTextRenderer new.
+	textRenderer := FormSGAthensTextRenderer new.
 	
 	"mergedRectangle := Rectangle merging: clippingRectangles.
 	aNode accept: self."
