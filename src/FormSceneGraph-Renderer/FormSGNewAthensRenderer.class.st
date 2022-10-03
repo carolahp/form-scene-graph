@@ -90,6 +90,38 @@ FormSGNewAthensRenderer >> render: aNode on: aCanvas [
 ]
 
 { #category : #visiting }
+FormSGNewAthensRenderer >> visitAthensNode: aFormSGAthensNode [
+
+	| surface rectangle scale |
+	surface := aFormSGAthensNode surface.
+	rectangle := aFormSGAthensNode rectangle.
+	surface extent = rectangle extent ifTrue: [ 
+		canvas
+			pasteSurface: surface
+			targetX: rectangle origin x
+			targetY: rectangle origin y
+			sourceX: 0
+			sourceY: 0
+			width: rectangle width
+			height: rectangle height.
+		^ self ].
+	scale := rectangle extent / surface extent.
+	surface := AthensCairoSurface extent: rectangle extent.
+	aFormSGAthensNode drawBlock
+		value: surface
+		value: scale x
+		value: scale y.
+	canvas
+		pasteSurface: surface
+		targetX: rectangle origin x
+		targetY: rectangle origin y
+		sourceX: 0
+		sourceY: 0
+		width: rectangle width
+		height: rectangle height
+]
+
+{ #category : #visiting }
 FormSGNewAthensRenderer >> visitBorderNode: aBorderNode [ 
 
 	aBorderNode color isTransparent 

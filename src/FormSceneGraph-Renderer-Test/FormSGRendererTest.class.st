@@ -239,6 +239,42 @@ FormSGRendererTest >> testRenderingTextScaledHasTheSameProportionOfNonScaled [
 ]
 
 { #category : #tests }
+FormSGRendererTest >> testRoassal [
+
+	| surface canvas athensMorph |
+	canvas := RSCanvas new.
+	canvas addShape: (RSLine new
+		strokeColor: Color red;
+		width: 2). 
+	athensMorph := canvas createMorph.
+	
+	[ 
+		surface := self renderMorph: athensMorph withScale: 1.
+
+	] ensure: [ athensMorph delete ].
+
+	athensMorph asForm inspect
+]
+
+{ #category : #tests }
+FormSGRendererTest >> testRoassalScaled [
+
+	| surface canvas athensMorph |
+	canvas := RSCanvas new.
+	canvas addShape: (RSLine new
+		strokeColor: Color red;
+		width: 2). 
+	athensMorph := canvas createMorph.
+	
+	[ 
+		surface := self renderMorph: athensMorph withScale: 2.
+
+	] ensure: [ athensMorph delete ].
+
+	surface asForm inspect
+]
+
+{ #category : #tests }
 FormSGRendererTest >> testSettings [
 
 	| surface window |

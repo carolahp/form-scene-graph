@@ -6,11 +6,19 @@ Class {
 		'worldSurface',
 		'worldTreeBuilder'
 	],
+	#classVars : [
+		'DebugMode'
+	],
 	#pools : [
 		'SDL2Constants'
 	],
 	#category : #'FormSceneGraph-Morphic-WorldRenderer'
 }
+
+{ #category : #initialization }
+FormSGNewAthensWorldRenderer class >> initialize [ 
+	DebugMode := false
+]
 
 { #category : #operations }
 FormSGNewAthensWorldRenderer >> displayWorldRectangles: damageRectangles handTreeBuilders: handTreeBuilders [
@@ -39,11 +47,12 @@ FormSGNewAthensWorldRenderer >> displayWorldRectangles: damageRectangles handTre
 			clear;
 			copy: windowRenderer texture.
 	
-	windowRenderer renderer drawBlendMode: SDL_BLENDMODE_BLEND.
-	windowRenderer renderer drawColorR: 255 g: 0 b: 0 a: 128.
+	DebugMode ifTrue: [
+		windowRenderer renderer drawBlendMode: SDL_BLENDMODE_BLEND.
+		windowRenderer renderer drawColorR: 255 g: 0 b: 0 a: 128.
 
-	damageRectangles do: [ :aRect |
-		windowRenderer renderer fillRect: aRect asSDLRect ].
+		damageRectangles do: [ :aRect |
+			windowRenderer renderer fillRect: aRect asSDLRect ]].
 	
 	windowRenderer renderer present.
 
