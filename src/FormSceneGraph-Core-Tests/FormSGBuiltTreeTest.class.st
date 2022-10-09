@@ -32,6 +32,35 @@ FormSGBuiltTreeTest >> grabMorphFromSpec: aPresenter [
 ]
 
 { #category : #tests }
+FormSGBuiltTreeTest >> inWorldScaledBy: scale do: aBlock thenDo: aBlockOfAssertions [
+
+	| originalScale |
+	originalScale := WorldMorph scaleFactor.
+	UIManager default defer: [ 
+		[ 
+		WorldMorph scaleFactor: scale.
+		aBlock value ] ensure: [ WorldMorph scaleFactor: originalScale ].
+		aBlockOfAssertions value ]
+]
+
+{ #category : #tests }
+FormSGBuiltTreeTest >> newIconMorph [
+
+	| form forms icon |
+	form := Smalltalk ui iconNamed: #smallDebug. "a 16x16 form"
+	forms := { 
+		         (1.0 -> form).
+		         (1.5 -> (form magnifyBy: 1.5)).
+		         (2.0 -> (form magnifyBy: 2.0)) } asDictionary.
+	icon := Icon new
+		        forms: forms;
+		        yourself.
+	^ ImageMorph new
+		  image: icon;
+		  yourself
+]
+
+{ #category : #tests }
 FormSGBuiltTreeTest >> testColorMorphWithBorderReturnsBorder [
 
 	| morph graph |
@@ -102,6 +131,48 @@ FormSGBuiltTreeTest >> testFastTableRow [
 	self assert: graph rectangle equals: row bounds.
 	self assert: (graph child children at: 1) string equals: 'AIGraphReducer'.
 	self assert: (graph child children at: 2) form equals: (Smalltalk ui theme iconNamed: #class)
+]
+
+{ #category : #tests }
+FormSGBuiltTreeTest >> testIcon [
+
+	| morph graph |
+	morph := self newIconMorph.
+
+	self
+		inWorldScaledBy: 1
+		do: [ graph := self buildGraphFor: morph ]
+		thenDo: [ 
+			self assert: graph isTextureNode.
+			self assert: graph rectangle extent equals: 16 @ 16 ]
+]
+
+{ #category : #tests }
+FormSGBuiltTreeTest >> testIconInScaledWorld [
+
+	| morph graph |
+	morph := self newIconMorph.
+
+	self
+		inWorldScaledBy: 2
+		do: [ graph := self buildGraphFor: morph ]
+		thenDo: [ 
+			self assert: graph isTextureNode.
+			self assert: graph rectangle extent equals: 32 @ 32 ]
+]
+
+{ #category : #tests }
+FormSGBuiltTreeTest >> testIconInScaledWorldDecimal [
+
+	| morph graph |
+	morph := self newIconMorph.
+
+	self
+		inWorldScaledBy: 1.125
+		do: [ graph := self buildGraphFor: morph ]
+		thenDo: [ 
+			self assert: graph isTextureNode.
+			self assert: graph rectangle extent equals: 18 @ 18 ]
 ]
 
 { #category : #tests }
