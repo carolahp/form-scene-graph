@@ -92,7 +92,7 @@ FormSGNewAthensRenderer >> render: aNode on: aCanvas [
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitAthensNode: aFormSGAthensNode [
 
-	| surface rectangle scale |
+	| surface rectangle |
 	surface := aFormSGAthensNode surface.
 	rectangle := aFormSGAthensNode rectangle.
 	surface extent = rectangle extent ifTrue: [ 
@@ -105,12 +105,12 @@ FormSGNewAthensRenderer >> visitAthensNode: aFormSGAthensNode [
 			width: rectangle width
 			height: rectangle height.
 		^ self ].
-	scale := rectangle extent / surface extent.
+	
 	surface := AthensCairoSurface extent: rectangle extent.
 	aFormSGAthensNode drawBlock
 		value: surface
-		value: scale x
-		value: scale y.
+		value: aFormSGAthensNode scale
+		value: aFormSGAthensNode scale.
 	canvas
 		pasteSurface: surface
 		targetX: rectangle origin x
@@ -208,6 +208,30 @@ FormSGNewAthensRenderer >> visitNode: aNode [
 { #category : #visiting }
 FormSGNewAthensRenderer >> visitNullNode: aFormSGNullNode [ 
 
+	
+]
+
+{ #category : #visiting }
+FormSGNewAthensRenderer >> visitRadialGradientNode: node [
+	| paint maxRadius |
+	(node startColor isTransparent and: [ node endColor isTransparent ]) ifTrue: [ ^ self ].
+	
+	maxRadius := node maxRadius asFloat.
+	paint := (RadialGradientPaint fromArray: {
+		node clipInnerRadius / maxRadius -> Color transparent.
+		node innerRadius / maxRadius -> node startColor.
+		node outerRadius / maxRadius -> node endColor.
+		node clipOuterRadius / maxRadius -> Color transparent.
+		})
+		center: node center asFloatPoint;
+		focalPoint: node focalPoint asFloatPoint;
+		radius: maxRadius;
+		yourself.
+
+	canvas paintTransform loadIdentity.
+	canvas
+		setPaint: paint;
+		drawShape: node rectangle
 	
 ]
 

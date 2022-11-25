@@ -432,6 +432,7 @@ FormSGBuilder >> rectangle: rectangle surface: surface drawWithAthens: drawBlock
 		  morph: currentMorph;
 		  surface: surface;
 		  drawBlock: drawBlock;
+		  scale: scale;
 		  yourself
 ]
 

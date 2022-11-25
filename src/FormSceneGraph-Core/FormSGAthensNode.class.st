@@ -9,7 +9,8 @@ Class {
 		'drawBlock',
 		'surfaceSession',
 		'isSurfaceValidated',
-		'modificationCount'
+		'modificationCount',
+		'scale'
 	],
 	#category : #'FormSceneGraph-Core-Nodes'
 }
@@ -74,6 +75,16 @@ FormSGAthensNode >> isAthensNode [
 { #category : #accessing }
 FormSGAthensNode >> modificationCount [
 	^ modificationCount
+]
+
+{ #category : #accessing }
+FormSGAthensNode >> scale [
+	^scale
+]
+
+{ #category : #accessing }
+FormSGAthensNode >> scale: aScale [
+	scale := aScale
 ]
 
 { #category : #accessing }

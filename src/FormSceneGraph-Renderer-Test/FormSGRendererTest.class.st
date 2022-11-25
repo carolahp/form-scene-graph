@@ -275,6 +275,30 @@ FormSGRendererTest >> testRoassalScaled [
 ]
 
 { #category : #tests }
+FormSGRendererTest >> testRoassalWindow [
+
+	| surface canvas athensMorph window |
+	canvas := RSCanvas new.
+	canvas addShape: (RSBox new
+			 extent: 100 @ 100;
+			 yourself).
+	canvas addShape: (RSBox new
+			 position: 100 @ 100;
+			 color: Color blue;
+			 extent: 100 @ 100;
+			 yourself).
+
+	window := canvas open.
+
+	athensMorph := window.
+
+	[ surface := self renderMorph: athensMorph withScale: 1 ] ensure: [ 
+		athensMorph delete ].
+
+	athensMorph asForm inspect
+]
+
+{ #category : #tests }
 FormSGRendererTest >> testSettings [
 
 	| surface window |
