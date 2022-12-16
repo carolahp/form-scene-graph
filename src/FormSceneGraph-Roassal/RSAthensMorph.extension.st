@@ -35,8 +35,6 @@ RSAthensMorph >> drawShapesWithScaleX: scaleX Y: scaleY [
 		"We display the elements that are subject to the camera"
 		camera := roassalCanvas camera.
 		
-		scaleX traceCr.
-		
 		athensCanvas pathTransform
 			translateBy: (self extent * scaleX / 2) asFloatPoint;
 			scaleBy: scaleX * camera scale asFloat;

@@ -97,9 +97,6 @@ FormSGNewHandTreeBuilder >> extractAreas [
 	"Add the obscured areas, and keep it for next frame"
 	previousObscuredArea := handMorph fullBounds.
 	handObscuredAreas add: handMorph fullBounds.
-
-	Stdio stdout << handDamagedAreas printString; crlf; flush.
-
 ]
 
 { #category : #accessing }
