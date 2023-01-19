@@ -4,9 +4,7 @@ Extension { #name : #ImageMorph }
 ImageMorph >> buildSceneGraphNodeWith: builder [
 
 	| form node |
-	form := (image isKindOf: Icon)
-		        ifTrue: [ image resolveFormForScaleFactor: World scaleFactor ]
-		        ifFalse: [ image asForm ].
+	form := image asForm.
 
 	node := builder
 		   textureForm: form

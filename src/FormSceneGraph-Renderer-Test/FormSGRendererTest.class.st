@@ -112,6 +112,20 @@ FormSGRendererTest >> testCalypso [
 ]
 
 { #category : #tests }
+FormSGRendererTest >> testCalypsoBrowsingClass [
+
+	UIManager default defer: [ 
+		| surface window |
+		[ 
+		window := (ClyFullBrowserMorph openOnClass: SmalltalkImage) owner.
+		window position: 10 @ 10.
+		surface := self renderMorph: window withScale: 1 ] ensure: [ 
+			window delete ].
+
+		surface asForm inspect ]
+]
+
+{ #category : #tests }
 FormSGRendererTest >> testCalypsoScaled [
 
 	| surface window |
