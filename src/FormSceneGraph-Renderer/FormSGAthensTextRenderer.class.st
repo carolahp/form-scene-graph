@@ -21,6 +21,7 @@ FormSGAthensTextRenderer >> renderTextNode: node on: canvas [
 	
 	rectangle := node rectangle.
 	
+	stringWidthOffset := font widthOfString: node string from: node firstIndex to: node lastIndex.
 	font realFont mutex criticalReleasingOnError: [
 		canvas setFont: font.
 		canvas setPaint: node color.
@@ -32,7 +33,7 @@ FormSGAthensTextRenderer >> renderTextNode: node on: canvas [
 		].
 		
 		(node underline or: [node strikethrough]) ifFalse: [ ^ self ].
-		stringWidthOffset := font widthOfString: node string from: node firstIndex to: node lastIndex.
+		"stringWidthOffset := font widthOfString: node string from: node firstIndex to: node lastIndex."
 		(node underline and: [ node underlineColor isTransparent not ]) ifTrue: [
 			| underlineThickness underlineTop |
 		 	underlineThickness := font underlineThickness asFloat.
