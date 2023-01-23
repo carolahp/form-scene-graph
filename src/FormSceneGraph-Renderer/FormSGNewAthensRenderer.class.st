@@ -248,7 +248,7 @@ FormSGNewAthensRenderer >> visitTextureNode: node [
 
 	rectangle := node rectangle.
 	extent := rectangle extent.
-
+	extent := extent / WorldMorph scaleFactor.
 	scaledForm := node form scaledToSize: extent.  
 	originSurface := (scaledForm asFormOfDepth: 32) asSurface.
 	
