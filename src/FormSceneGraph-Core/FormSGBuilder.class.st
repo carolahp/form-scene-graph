@@ -485,11 +485,6 @@ FormSGBuilder >> scaleRectangle: aRectangle [
 	^ (aRectangle scaleBy: scale) roundTo: 1
 ]
 
-{ #category : #'node building helpers' }
-FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle font: font color: color kern: kern [ 
-	^ self string: string from: firstIndex to: lastIndex in: rectangle font: font color: color kern: kern underline: false underlineColor: nil strikethrough: false strikethroughColor: nil
-]
-
 { #category : #'node building' }
 FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle font: font color: color kern: kern underline: underline underlineColor: underlineColor strikethrough: strikethrough strikethroughColor: strikethroughColor [
 
@@ -514,18 +509,13 @@ FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle fon
 ]
 
 { #category : #'node building helpers' }
-FormSGBuilder >> string: string from: firstIndex to: lastIndex in: rectangle font: font color: color underline: underline underlineColor: underlineColor strikethrough: strikethrough strikethroughColor: strikethroughColor [
-	^ self string: string from: firstIndex to: lastIndex in: rectangle font: font color: color kern: 0 underline: underline underlineColor: underlineColor strikethrough: strikethrough strikethroughColor: strikethroughColor
-]
-
-{ #category : #'node building helpers' }
 FormSGBuilder >> string: string in: boundsRect font: fontOrNil color: c [
 	^ self string: string in: boundsRect font: fontOrNil color: c underline: false underlineColor: nil strikethrough: false strikethroughColor: nil
 ]
 
 { #category : #'node building helpers' }
 FormSGBuilder >> string: string in: boundsRect font: fontOrNil color: c underline: underline underlineColor: underlineColor strikethrough: strikethrough strikethroughColor: strikethroughColor [
-	^ self string: string from: 1 to: string size in: boundsRect font: fontOrNil color: c underline: underline underlineColor: underlineColor strikethrough: strikethrough strikethroughColor: strikethroughColor
+	^ self string: string from: 1 to: string size in: boundsRect font: fontOrNil color: c kern: 0 underline: underline underlineColor: underlineColor strikethrough: strikethrough strikethroughColor: strikethroughColor
 ]
 
 { #category : #'node building helpers' }
