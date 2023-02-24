@@ -27,7 +27,7 @@ FormSGAthensTextRenderer >> renderTextNode: node on: canvas [
 		canvas setPaint: node color.
 		topLeftTextPoint := rectangle topLeft + (0 @ font ascent).
 		canvas pathTransform restoreAfter: [
-			canvas paintTransform loadIdentity.
+			"canvas paintTransform loadIdentity".
 			canvas pathTransform translateBy: topLeftTextPoint.
 			canvas drawString: node string from: node firstIndex to: node lastIndex
 		].

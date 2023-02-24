@@ -192,7 +192,8 @@ FormSGNewAthensRenderer >> visitLinearGradientNode: node [
 		stop: node endPoint;
 		yourself.
 
-	canvas paintTransform loadIdentity.
+	"canvas paintTransform loadIdentity."
+.
 	canvas
 		setPaint: paint;
 		drawShape: node rectangle
@@ -228,7 +229,7 @@ FormSGNewAthensRenderer >> visitRadialGradientNode: node [
 		radius: maxRadius;
 		yourself.
 
-	canvas paintTransform loadIdentity.
+	"canvas paintTransform loadIdentity."
 	canvas
 		setPaint: paint;
 		drawShape: node rectangle
@@ -248,7 +249,10 @@ FormSGNewAthensRenderer >> visitTextureNode: node [
 
 	rectangle := node rectangle.
 	extent := rectangle extent.
-	scaledForm := node form scaledToSize: extent.
+
+	scaledForm := [node form scaledToSize: extent] on: Error do: [
+		Stdio stdout nextPutAll: node asString ;crlf.
+		node form].
 	originSurface := (scaledForm asFormOfDepth: 32) asSurface.
 	
 	canvas setPathMatrix.

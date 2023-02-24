@@ -62,10 +62,10 @@ FormSGAthensRenderer >> visitAthensNode: node [
 	surface ifNil: [ ^ self ].
 
 	canvas pathTransform restoreAfter: [
-		canvas paintTransform loadIdentity.
-
+		"canvas paintTransform loadIdentity.
+"
 		canvas setPaint: surface.
-		canvas pathTransform loadIdentity
+		canvas pathTransform "loadIdentity"
 			translateBy: transformedRectangle origin rounded.
 		canvas drawShape: (0@0 extent: surfaceExtent).
 	].
@@ -101,10 +101,10 @@ FormSGAthensRenderer >> visitCachedSubScene: node [
 	surface ifNil: [ ^ self ].
 
 	canvas pathTransform restoreAfter: [
-		canvas paintTransform loadIdentity.
+		"canvas paintTransform loadIdentity."
 
 		canvas setPaint: surface.
-		canvas pathTransform loadIdentity
+		canvas pathTransform "loadIdentity"
 			translateBy: transformedRectangle origin rounded.
 		canvas drawShape: (0@0 extent: surfaceExtent).
 	].
@@ -147,7 +147,7 @@ FormSGAthensRenderer >> visitLinearGradientNode: node [
 		stop: node endPoint;
 		yourself.
 
-	canvas paintTransform loadIdentity.
+	"canvas paintTransform loadIdentity."
 	canvas
 		setPaint: paint;
 		drawShape: node rectangle
@@ -176,7 +176,7 @@ FormSGAthensRenderer >> visitRadialGradientNode: node [
 		radius: maxRadius;
 		yourself.
 
-	canvas paintTransform loadIdentity.
+	"canvas paintTransform loadIdentity."
 	canvas
 		setPaint: paint;
 		drawShape: node rectangle
@@ -194,7 +194,7 @@ FormSGAthensRenderer >> visitTextNode: node [
 	canvas setPaint: node color.
 	topLeftTextPoint := rectangle topLeft + (0 @ font ascent).
 	canvas pathTransform restoreAfter: [
-		canvas paintTransform loadIdentity.
+		"canvas paintTransform loadIdentity."
 		canvas pathTransform translateBy: topLeftTextPoint.
 		canvas drawString: node string from: node firstIndex to: node lastIndex
 	].
@@ -239,8 +239,8 @@ FormSGAthensRenderer >> visitTextureNode: node [
 	].
 
 	canvas pathTransform restoreAfter: [
-		canvas paintTransform
-			loadIdentity.
+		"canvas paintTransform
+			loadIdentity."
 		node isRepeated ifTrue: [
 			paint repeat
 		] ifFalse: [

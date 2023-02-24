@@ -40,7 +40,7 @@ FormSGAthensNode >> drawRedScreenOfDeathOn: targetSurface for: error [
 { #category : #'rendering helpers' }
 FormSGAthensNode >> drawRedScreenOfDeathOnCanvas: canvas for: error [
 	| trace font height |
-	canvas pathTransform loadIdentity.
+	"canvas pathTransform loadIdentity."
 	canvas
 		setPaint: (Color red alpha: 0.7);
 		setShape: (0@0 extent: surface extent);

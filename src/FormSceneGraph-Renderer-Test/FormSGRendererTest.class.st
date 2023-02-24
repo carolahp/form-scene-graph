@@ -40,7 +40,7 @@ FormSGRendererTest >> renderMorph: aMorph withScale: aScale [
 		yourself.
 
 	nodes := aMorph buildFullSceneGraphWith: builder.
-
+self halt.
 	surface drawDuring: [ :aCanvas |
 		surface clear: Color transparent.
 		renderer render: nodes on: aCanvas ].
