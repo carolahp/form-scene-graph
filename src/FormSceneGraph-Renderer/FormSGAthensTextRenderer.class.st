@@ -18,8 +18,7 @@ FormSGAthensTextRenderer >> renderTextNode: node on: canvas [
 	font ifNil: [ ^ self ].
 	
 	(font closeTo: 1.0) ifFalse: [
-		font := font withSizeIncrementedBy: (font pointSize*node scale) - font pointSize
-	].
+		font := font withSizeIncrementedBy: (font pointSize*node scale) - font pointSize - (0.2*node scale)].
 
 	font := font realFont.
 	
