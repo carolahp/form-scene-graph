@@ -29,18 +29,17 @@ FormSGDisplayScanner >> displayString: string from: startIndex to: stopIndex at:
 	textNodes add: (builder string: string from: startIndex to: stopIndex in: rectangle font: font color: foregroundColor kern: kern underline: underline underlineColor: foregroundColor strikethrough: strikethrough strikethroughColor: foregroundColor)
 ]
 
-{ #category : 'displaying' }
-FormSGDisplayScanner >> fillTextBackground [
-	backgroundColor ifNotNil: [
-		textNodes add: (builder rectangle: (line left @ lineY extent: line width @ line lineHeight) color: backgroundColor)
-	]
-]
-
 { #category : 'initialization' }
 FormSGDisplayScanner >> initWithParagraph: paragraph andBuilder: theBuilder [
 	self text: paragraph text textStyle: paragraph textStyle.
 	builder := theBuilder.
 	textNodes := OrderedCollection new.
+]
+
+{ #category : 'accessing' }
+FormSGDisplayScanner >> scale [
+
+	^ 1
 ]
 
 { #category : 'accessing' }
