@@ -1,6 +1,6 @@
-Extension { #name : #StringMorph }
+Extension { #name : 'StringMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 StringMorph >> buildSceneGraphNodeWith: builder [
 
 	^ (builder string: self contents 

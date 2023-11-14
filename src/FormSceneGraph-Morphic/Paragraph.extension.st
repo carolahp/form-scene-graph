@@ -1,6 +1,6 @@
-Extension { #name : #Paragraph }
+Extension { #name : 'Paragraph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Paragraph >> buildSceneGraphNodeWith: builder bounds: aRectangle color: aColor [
 	| displayScanner offset leftInRun result visibleRectangle |
 	

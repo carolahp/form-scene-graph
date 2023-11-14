@@ -1,6 +1,6 @@
 Class {
-	#name : #FormSGNewAthensWorldRenderer,
-	#superclass : #FormSGAbstractWorldRenderer,
+	#name : 'FormSGNewAthensWorldRenderer',
+	#superclass : 'FormSGAbstractWorldRenderer',
 	#instVars : [
 		'renderer',
 		'worldSurface',
@@ -12,15 +12,17 @@ Class {
 	#pools : [
 		'SDL2Constants'
 	],
-	#category : #'FormSceneGraph-Morphic-WorldRenderer'
+	#category : 'FormSceneGraph-Morphic-WorldRenderer',
+	#package : 'FormSceneGraph-Morphic',
+	#tag : 'WorldRenderer'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGNewAthensWorldRenderer class >> initialize [ 
 	DebugMode := false
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGNewAthensWorldRenderer >> displayWorldRectangles: damageRectangles handTreeBuilders: handTreeBuilders [
 
 	| windowRenderer |
@@ -58,14 +60,14 @@ FormSGNewAthensWorldRenderer >> displayWorldRectangles: damageRectangles handTre
 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FormSGNewAthensWorldRenderer >> doActivate [ 
 
 	super doActivate.
 	World allMorphsDo: [ :m | m invalidateSceneGraph ].
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGNewAthensWorldRenderer >> doDisplayWorldState: aWorldState ofWorld: aWorld [
 
 	worldTreeBuilder scale: self scaleFactor.
@@ -80,7 +82,7 @@ FormSGNewAthensWorldRenderer >> doDisplayWorldState: aWorldState ofWorld: aWorld
 		handTreeBuilders: worldTreeBuilder handTreeBuilders
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FormSGNewAthensWorldRenderer >> extractMergedDamageRectangleFromWorldState: aWorldState ofWorld: aWorld [
 	| handsToDraw worldDamageRectangles damageRectangles |
 	
@@ -99,7 +101,7 @@ FormSGNewAthensWorldRenderer >> extractMergedDamageRectangleFromWorldState: aWor
 	^ damageRectangles
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGNewAthensWorldRenderer >> initialize [
 
 	super initialize.
@@ -111,7 +113,7 @@ FormSGNewAthensWorldRenderer >> initialize [
 	
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGNewAthensWorldRenderer >> osWindowRenderer [
 	osWindow ifNil: [ ^ nil ].
 		^ osWindow renderer ifNil: [
@@ -121,7 +123,7 @@ FormSGNewAthensWorldRenderer >> osWindowRenderer [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGNewAthensWorldRenderer >> worldSurface [
 
 	(worldSurface isNil

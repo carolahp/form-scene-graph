@@ -1,6 +1,6 @@
-Extension { #name : #RubSegmentMorph }
+Extension { #name : 'RubSegmentMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubSegmentMorph >> buildBorderSceneGraphNodeWith: builder [
 	| result style |
 	result := builder null.
@@ -11,7 +11,7 @@ RubSegmentMorph >> buildBorderSceneGraphNodeWith: builder [
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubSegmentMorph >> buildSceneGraphNodeWith: builder [
 	| fillStyle result |
 	fillStyle := self fillStyle.
@@ -23,7 +23,7 @@ RubSegmentMorph >> buildSceneGraphNodeWith: builder [
 	^ result , (self buildBorderSceneGraphNodeWith: builder)
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubSegmentMorph >> computeInteriorRectangles [
 	^ #()
 ]

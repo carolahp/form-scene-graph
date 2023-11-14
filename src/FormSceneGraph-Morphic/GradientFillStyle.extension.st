@@ -1,6 +1,6 @@
-Extension { #name : #GradientFillStyle }
+Extension { #name : 'GradientFillStyle' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 GradientFillStyle >> buildSceneGraphNodeForFilling: aRectangle with: builder [
 	self isRadialFill ifTrue: [
 		 ^ builder rectangle: aRectangle radialGradientCenter: self origin

@@ -1,6 +1,6 @@
-Extension { #name : #ScrollPane }
+Extension { #name : 'ScrollPane' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 ScrollPane >> shouldDrawKeyboardFocusIndicator [
 	^ self hasKeyboardFocus
 ]

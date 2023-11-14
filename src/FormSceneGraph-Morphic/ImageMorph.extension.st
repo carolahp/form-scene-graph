@@ -1,6 +1,6 @@
-Extension { #name : #ImageMorph }
+Extension { #name : 'ImageMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 ImageMorph >> buildSceneGraphNodeWith: builder [
 
 	| form node |

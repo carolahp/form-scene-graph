@@ -1,6 +1,6 @@
-Extension { #name : #TextHighlightByBounds }
+Extension { #name : 'TextHighlightByBounds' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 TextHighlightByBounds >> buildSceneGraphNodeWith: builder in: rect offset: o [
 	"Draw the highlight on the given canvas for the given rectangle."
 

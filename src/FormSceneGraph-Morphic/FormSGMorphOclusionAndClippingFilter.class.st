@@ -1,10 +1,11 @@
 Class {
-	#name : #FormSGMorphOclusionAndClippingFilter,
-	#superclass : #Object,
-	#category : #'FormSceneGraph-Morphic'
+	#name : 'FormSGMorphOclusionAndClippingFilter',
+	#superclass : 'Object',
+	#category : 'FormSceneGraph-Morphic',
+	#package : 'FormSceneGraph-Morphic'
 }
 
-{ #category : #generation }
+{ #category : 'generation' }
 FormSGMorphOclusionAndClippingFilter >> filterMorphs: morphs inVisibleRectangles: visibleRectangles [
 
 	| alreadyDrawn unoclusedMorph visibleMorphs |

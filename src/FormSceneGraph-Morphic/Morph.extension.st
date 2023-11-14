@@ -1,6 +1,6 @@
-Extension { #name : #Morph }
+Extension { #name : 'Morph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> buildCachedFullSceneGraphWith: builder [
 	
 	| cachedSubSceneGraph |
@@ -25,7 +25,7 @@ Morph >> buildCachedFullSceneGraphWith: builder [
 	^ cachedSubSceneGraph
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> buildChildrenSceneGraphNodeWith: builder [
 	submorphs ifEmpty: [ ^ builder null ].
 	^ builder withClippingBounds: self clippingBounds when: self clipSubmorphs build: [ 
@@ -34,7 +34,7 @@ Morph >> buildChildrenSceneGraphNodeWith: builder [
 
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 	| submorphNodes |
 	submorphNodes := OrderedCollection new.
@@ -49,12 +49,12 @@ Morph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 	^ submorphNodes reversed
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> buildClippedChildrenSceneGraphNodeWith: builder [
 	^ builder containerWith: (self buildClippedChildrenSceneGraphNodeListWith: builder)
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> buildDrawErrorSceneGraphNodeWith: builder [
 	| nodes |
 	nodes := OrderedCollection new.
@@ -73,7 +73,7 @@ Morph >> buildDrawErrorSceneGraphNodeWith: builder [
 	^ builder containerWith: nodes asArray
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> buildFullSceneGraphWith: builder [ 
 	
 	| graph |
@@ -96,12 +96,12 @@ Morph >> buildFullSceneGraphWith: builder [
 	^ graph.
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> buildKeyboardFocusIndicatorSceneGraphNodeWith: builder [
 	^ self focusIndicatorMorph buildSceneGraphNodeWith: builder
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> buildOverlaySceneGraphNodeWith: builder [
 	| result |
 	result := builder null.
@@ -109,12 +109,12 @@ Morph >> buildOverlaySceneGraphNodeWith: builder [
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> buildSceneGraphNodeWith: builder [
 	^ builder fillRectangle: self bounds fillStyle: self fillStyle borderStyle: self borderStyle
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> doBuildFullSceneGraphWith: builder [
 
 	| contentNode childrenNode overlayNode previousMorph |
@@ -131,7 +131,7 @@ Morph >> doBuildFullSceneGraphWith: builder [
 	^ contentNode , childrenNode , overlayNode
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> invalidRect: aRectangle from: aMorph [
 	| damageRect |
 	
@@ -147,7 +147,7 @@ Morph >> invalidRect: aRectangle from: aMorph [
 	owner ifNotNil: [owner invalidRect: damageRect from: self].
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> listBuildSceneGraphWith: builder atRow: aRow bounds: drawBounds color: drawColor backgroundColor: backgroundColor from: aMorph [
 	| result |
 	self bounds: drawBounds.
@@ -158,17 +158,17 @@ Morph >> listBuildSceneGraphWith: builder atRow: aRow bounds: drawBounds color: 
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> shouldCacheSceneGraphSurface [
 	^ false
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> shouldDrawKeyboardFocusIndicator [
 	^ false
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Morph >> treeRenderSceneNodeWith: builder bounds: drawBounds color: drawColor font: aFont from: aMorph [
 
 	self bounds: drawBounds.

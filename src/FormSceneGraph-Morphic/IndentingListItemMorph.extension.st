@@ -1,6 +1,6 @@
-Extension { #name : #IndentingListItemMorph }
+Extension { #name : 'IndentingListItemMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 IndentingListItemMorph >> buildSceneGraphNodeWith: builder [
 
 	| tRect sRect columnScanner colorToUse columnLeft result |
@@ -46,7 +46,7 @@ IndentingListItemMorph >> buildSceneGraphNodeWith: builder [
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 IndentingListItemMorph >> buildToggleSceneGraphNodeWith: builder in: aRectangle [
 
 	| aForm centeringOffset |

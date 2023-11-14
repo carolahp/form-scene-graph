@@ -1,6 +1,6 @@
-Extension { #name : #TextMorph }
+Extension { #name : 'TextMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 TextMorph >> buildSceneGraphNodeWith: builder [
 	| result fauxBounds paragraphNode |
 	

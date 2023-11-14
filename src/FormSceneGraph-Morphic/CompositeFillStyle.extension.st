@@ -1,6 +1,6 @@
-Extension { #name : #CompositeFillStyle }
+Extension { #name : 'CompositeFillStyle' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 CompositeFillStyle >> buildSceneGraphNodeForFilling: aRectangle with: builder [
 	| result |
 	result := builder null.

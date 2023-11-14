@@ -1,6 +1,6 @@
-Extension { #name : #RubScrolledTextMorph }
+Extension { #name : 'RubScrolledTextMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubScrolledTextMorph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 	| submorphNodes drawBlock subs |
 
@@ -23,7 +23,7 @@ RubScrolledTextMorph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubScrolledTextMorph >> buildHighlightsSceneGraphNodeWith: builder [
 	| scrollBounds scrollOffset |
 	
@@ -37,14 +37,14 @@ RubScrolledTextMorph >> buildHighlightsSceneGraphNodeWith: builder [
 	].
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubScrolledTextMorph >> buildSceneGraphNodeWith: builder [
 
 	^ (super buildSceneGraphNodeWith: builder) ,
 	(self buildHighlightsSceneGraphNodeWith: builder)
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubScrolledTextMorph >> shouldCacheSceneGraphSurface [
 	^ "self fillStyle isTransparent not" false
 ]

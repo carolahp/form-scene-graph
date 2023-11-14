@@ -1,6 +1,6 @@
-Extension { #name : #Text }
+Extension { #name : 'Text' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Text >> listBuildSceneGraphWith: builder atRow: aRow bounds: bounds color: color backgroundColor: backgroundColor from: aMorph [
 	"Method extracted from LazyListMorph"
 	| attrs useDefaultFont f itemBounds |
@@ -32,7 +32,7 @@ Text >> listBuildSceneGraphWith: builder atRow: aRow bounds: bounds color: color
 		strikethroughColor: color
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Text >> treeRenderSceneNodeWith: builder bounds: drawBounds color: drawColor font: aFont from: aMorph [
 
 	"Method extracted from LazyListMorph"

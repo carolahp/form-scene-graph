@@ -1,6 +1,6 @@
-Extension { #name : #DockingBarToggleMenuItemMorph }
+Extension { #name : 'DockingBarToggleMenuItemMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 DockingBarToggleMenuItemMorph >> buildSceneGraphNodeWith: builder [
 	| stringColor stringBounds result |
 	result := builder null.

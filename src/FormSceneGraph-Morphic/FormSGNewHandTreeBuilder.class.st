@@ -1,6 +1,6 @@
 Class {
-	#name : #FormSGNewHandTreeBuilder,
-	#superclass : #Object,
+	#name : 'FormSGNewHandTreeBuilder',
+	#superclass : 'Object',
 	#instVars : [
 		'handMorph',
 		'formBuilder',
@@ -13,10 +13,12 @@ Class {
 		'renderer',
 		'handSurface'
 	],
-	#category : #'FormSceneGraph-Morphic-WorldRenderer'
+	#category : 'FormSceneGraph-Morphic-WorldRenderer',
+	#package : 'FormSceneGraph-Morphic',
+	#tag : 'WorldRenderer'
 }
 
-{ #category : #building }
+{ #category : 'building' }
 FormSGNewHandTreeBuilder >> buildHandTree [
 
 	handDamagedAreas := OrderedCollection new.
@@ -31,7 +33,7 @@ FormSGNewHandTreeBuilder >> buildHandTree [
 	self drawTreeInSurface.
 ]
 
-{ #category : #building }
+{ #category : 'building' }
 FormSGNewHandTreeBuilder >> buildTree [
 
 	formBuilder resetAfterRoot.
@@ -41,7 +43,7 @@ FormSGNewHandTreeBuilder >> buildTree [
 	handTree := handMorph buildFullSceneGraphWith: formBuilder
 ]
 
-{ #category : #'private - building' }
+{ #category : 'private - building' }
 FormSGNewHandTreeBuilder >> drawTreeInSurface [
 
 	| originOffset |
@@ -55,7 +57,7 @@ FormSGNewHandTreeBuilder >> drawTreeInSurface [
 		renderer render: handTree on: aCanvas ]
 ]
 
-{ #category : #'private - building' }
+{ #category : 'private - building' }
 FormSGNewHandTreeBuilder >> ensureHandSurface [
 
 	"If the surface is valid and we can fit the handMorph, we not need to create it.
@@ -74,7 +76,7 @@ FormSGNewHandTreeBuilder >> ensureHandSurface [
 	^ true
 ]
 
-{ #category : #building }
+{ #category : 'building' }
 FormSGNewHandTreeBuilder >> extractAreas [
 
 	previousObscuredArea ifNotNil: [ 
@@ -99,23 +101,23 @@ FormSGNewHandTreeBuilder >> extractAreas [
 	handObscuredAreas add: handMorph fullBounds.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGNewHandTreeBuilder >> formBuilder: aFormSGBuilder [ 
 	formBuilder := aFormSGBuilder
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGNewHandTreeBuilder >> handMorph: aHandMorph [ 
 	handMorph := aHandMorph
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGNewHandTreeBuilder >> handTree [
 	
 	^ handTree
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 FormSGNewHandTreeBuilder >> pasteOnCanvas: aCanvas [
 
 	| scaledFullBounds |
@@ -134,12 +136,12 @@ FormSGNewHandTreeBuilder >> pasteOnCanvas: aCanvas [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGNewHandTreeBuilder >> renderer: aRenderer [ 
 	renderer := aRenderer
 ]
 
-{ #category : #building }
+{ #category : 'building' }
 FormSGNewHandTreeBuilder >> scaleAreas [
 
 	| scale |
@@ -159,13 +161,13 @@ FormSGNewHandTreeBuilder >> scaleAreas [
 		                           (e scaleBy: scale) roundTo: 1 ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGNewHandTreeBuilder >> scaledHandDamagedAreas [
 
 	^ scaledHandDamagedAreas
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGNewHandTreeBuilder >> scaledHandObscuredAreas [
 	
 	^ scaledHandObscuredAreas 

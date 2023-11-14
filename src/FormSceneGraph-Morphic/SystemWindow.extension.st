@@ -1,6 +1,6 @@
-Extension { #name : #SystemWindow }
+Extension { #name : 'SystemWindow' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 SystemWindow >> shouldCacheSceneGraphSurface [
 	^ true
 ]

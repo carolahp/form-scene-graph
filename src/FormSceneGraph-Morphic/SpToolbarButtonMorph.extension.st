@@ -1,6 +1,6 @@
-Extension { #name : #SpToolbarButtonMorph }
+Extension { #name : 'SpToolbarButtonMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 SpToolbarButtonMorph >> buildBadgeSceneGraphNodeWith: builder [
 	| badgeString badgeBounds textBounds textWidth textHeight width result radius |
 	badgeString := self badge asString.
@@ -17,7 +17,7 @@ SpToolbarButtonMorph >> buildBadgeSceneGraphNodeWith: builder [
 	^ result , (builder string: badgeString in: textBounds font: self badgeFont color: self badgeTextColor)
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 SpToolbarButtonMorph >> buildSceneGraphNodeWith: builder [
 	| result |
 	

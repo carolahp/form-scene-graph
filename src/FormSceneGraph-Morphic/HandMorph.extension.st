@@ -1,12 +1,12 @@
-Extension { #name : #HandMorph }
+Extension { #name : 'HandMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 HandMorph >> buildSceneGraphNodeWith: builder [
 	temporaryCursor ifNil: [ ^ builder null ].
 	^ builder texturedRectangle: (bounds topLeft extent: temporaryCursor extent) form: temporaryCursor
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 HandMorph >> buildShadowForChildrenNode: aChildNode with: aBuilder [
 
 	| subBnds |
@@ -16,7 +16,7 @@ HandMorph >> buildShadowForChildrenNode: aChildNode with: aBuilder [
 	^ aBuilder rectangle: (subBnds translateBy: self shadowOffset) color: self shadowColor
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 HandMorph >> computeDamageRectForNextFrame [
 	| savedDamageRectangle damageRect myBounds |
 	savedDamageRectangle := self sceneSavedDamageRectangle.
@@ -43,7 +43,7 @@ HandMorph >> computeDamageRectForNextFrame [
 	^ damageRect
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 HandMorph >> damagedRectangles [
 
 	| subBnds rectList |
@@ -55,7 +55,7 @@ HandMorph >> damagedRectangles [
 	^ rectList
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 HandMorph >> doBuildFullSceneGraphWith: builder [
 	
 	| contentNode childrenNode overlayNode shadowNode |
@@ -68,12 +68,12 @@ HandMorph >> doBuildFullSceneGraphWith: builder [
 	^ shadowNode, childrenNode , contentNode , overlayNode
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 HandMorph >> sceneSavedDamageRectangle [
 	^ self valueOfProperty: #sceneSavedDamageRectangle ifAbsent: [ nil ]
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 HandMorph >> sceneSavedDamageRectangle: rectangle [
 	^ self setProperty: #sceneSavedDamageRectangle toValue: rectangle
 ]

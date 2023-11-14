@@ -1,6 +1,6 @@
-Extension { #name : #FTTableContainerMorph }
+Extension { #name : 'FTTableContainerMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 FTTableContainerMorph >> doBuildFullSceneGraphWith:builder [
 
 	self drawRowsOn: nil.

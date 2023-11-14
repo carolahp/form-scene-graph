@@ -1,12 +1,12 @@
-Extension { #name : #NECMenuMorph }
+Extension { #name : 'NECMenuMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 NECMenuMorph >> buildBottomScrollSceneGraphNodeWith: builder [
 	self flag: 'TODO:'.
 	^ builder null
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 NECMenuMorph >> buildLine: index sceneGraphNodeWith: builder rectangle: rectangle [
 	| necEntry string preString type font result highlightRectangle clippedHighlightRectangle |
 	necEntry := context entries at: index.
@@ -35,7 +35,7 @@ NECMenuMorph >> buildLine: index sceneGraphNodeWith: builder rectangle: rectangl
 	^ result , (builder string: string in: (rectangle insetBy: 1) font: font color: (self selectColor: type))
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 NECMenuMorph >> buildMessageSceneGraphNodeWith: builder in: rectangle [
 	| result |
 	self hasMessage ifFalse: [ ^ builder null ].
@@ -47,7 +47,7 @@ NECMenuMorph >> buildMessageSceneGraphNodeWith: builder in: rectangle [
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 NECMenuMorph >> buildSceneGraphNodeWith: builder [
 	| result rectangle |
 	result := super buildSceneGraphNodeWith: builder.
@@ -73,7 +73,7 @@ NECMenuMorph >> buildSceneGraphNodeWith: builder [
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 NECMenuMorph >> buildTopScrollSceneGraphNodeWith: builder [
 	self flag: 'TODO:'.
 	^ builder null

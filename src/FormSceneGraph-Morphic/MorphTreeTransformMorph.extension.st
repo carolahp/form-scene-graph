@@ -1,6 +1,6 @@
-Extension { #name : #MorphTreeTransformMorph }
+Extension { #name : 'MorphTreeTransformMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MorphTreeTransformMorph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 	| submorphNodes top bottom |
 
@@ -19,7 +19,7 @@ MorphTreeTransformMorph >> buildClippedChildrenSceneGraphNodeListWith: builder [
 	^ submorphNodes
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MorphTreeTransformMorph >> buildRawColorWith: builder forSubmorph: aSubMorph [
 	| c frame |
 	frame := (aSubMorph fullBounds withWidth: owner scroller innerBounds width) translateBy:(owner scroller offset x)@0.

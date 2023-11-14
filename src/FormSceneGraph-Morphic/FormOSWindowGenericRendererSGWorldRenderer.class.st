@@ -1,10 +1,12 @@
 Class {
-	#name : #FormOSWindowGenericRendererSGWorldRenderer,
-	#superclass : #FormSGAbstractWorldRenderer,
-	#category : #'FormSceneGraph-Morphic-WorldRenderer'
+	#name : 'FormOSWindowGenericRendererSGWorldRenderer',
+	#superclass : 'FormSGAbstractWorldRenderer',
+	#category : 'FormSceneGraph-Morphic-WorldRenderer',
+	#package : 'FormSceneGraph-Morphic',
+	#tag : 'WorldRenderer'
 }
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormOSWindowGenericRendererSGWorldRenderer >> displayNewSceneGraph: newSceneGraph withDamageRectangle: damageRectangle [
 	| renderer |
 	renderer := self osWindowRenderer.
@@ -15,7 +17,7 @@ FormOSWindowGenericRendererSGWorldRenderer >> displayNewSceneGraph: newSceneGrap
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormOSWindowGenericRendererSGWorldRenderer >> osWindowRenderer [
 	osWindow ifNil: [ ^ nil ].
 	^ osWindow renderer ifNil: [

@@ -1,6 +1,6 @@
-Extension { #name : #TabActionButtonMorph }
+Extension { #name : 'TabActionButtonMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 TabActionButtonMorph >> buildSceneGraphNodeWith: builder [
 	| result |
 	result := super buildSceneGraphNodeWith: builder.

@@ -1,6 +1,6 @@
-Extension { #name : #AColorSelectorMorph }
+Extension { #name : 'AColorSelectorMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 AColorSelectorMorph >> buildSceneGraphNodeWith: builder [
 	^ (builder rectangle: self innerBounds
 		fillStyle: (InfiniteForm with: self hatchForm)) ,

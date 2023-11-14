@@ -1,6 +1,6 @@
-Extension { #name : #ImageFillStyle }
+Extension { #name : 'ImageFillStyle' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 ImageFillStyle >> buildSceneGraphNodeForFilling: aRectangle with: builder [
 	^ 	self extent
 		ifNil: [ builder textureForm: self form at: self origin + self offset ]

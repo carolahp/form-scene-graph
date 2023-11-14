@@ -1,6 +1,6 @@
-Extension { #name : #MenuMorph }
+Extension { #name : 'MenuMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MenuMorph >> buildSceneGraphNodeWith: builder [
 	| result |
 	result := super buildSceneGraphNodeWith: builder.
@@ -14,7 +14,7 @@ MenuMorph >> buildSceneGraphNodeWith: builder [
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MenuMorph >> shouldCacheSceneGraphSurface [
 	^ false
 ]

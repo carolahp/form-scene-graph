@@ -1,6 +1,6 @@
-Extension { #name : #DropListMorph }
+Extension { #name : 'DropListMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 DropListMorph >> shouldDrawKeyboardFocusIndicator [
 	^ self hasKeyboardFocus
 ]

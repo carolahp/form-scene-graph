@@ -1,6 +1,6 @@
-Extension { #name : #RubTextSegmentIconDisplayer }
+Extension { #name : 'RubTextSegmentIconDisplayer' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubTextSegmentIconDisplayer >> buildSceneGraphNodeWith: builder [
 	| result clippedContent |
 	result := super buildSceneGraphNodeWith: builder.

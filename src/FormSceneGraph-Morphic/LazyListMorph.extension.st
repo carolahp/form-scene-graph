@@ -1,11 +1,11 @@
-Extension { #name : #LazyListMorph }
+Extension { #name : 'LazyListMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 LazyListMorph >> bottomVisibleRowForRectangle: rectangle [
 	^self rowAtLocation: rectangle bottomLeft.
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 LazyListMorph >> buildBackgroundSceneGraphForRow: row with: builder color: col [
 	| frame  |
 	"shade the background darker, if this row is selected"
@@ -13,17 +13,17 @@ LazyListMorph >> buildBackgroundSceneGraphForRow: row with: builder color: col [
 	^ builder rectangle: frame color: col
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 LazyListMorph >> buildBackgroundSceneGraphForSearchedRow: row with: builder [
 	^ self buildBackgroundSceneGraphForRow: row with: builder color: listSource secondarySelectionColor
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 LazyListMorph >> buildBackgroundSceneGraphForSelectedRow: row with: builder [
 	^ self buildBackgroundSceneGraphForRow: row with: builder color: listSource selectionColorToUse
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 LazyListMorph >> buildItemSceneGraph: item atRow: row with: builder [
 	| drawBounds itemColor backgroundColor result |
 	drawBounds := self drawBoundsForRow: row.
@@ -40,7 +40,7 @@ LazyListMorph >> buildItemSceneGraph: item atRow: row with: builder [
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 LazyListMorph >> buildSceneGraphNodeWith: builder [
 	| result clippingBounds |
 	listItems isEmpty ifTrue: [ ^ builder null ].
@@ -66,14 +66,14 @@ LazyListMorph >> buildSceneGraphNodeWith: builder [
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 LazyListMorph >> buildSelectionSceneGraphWith: builder [
 	selectedRow ifNil: [ ^self ].
 	selectedRow = 0 ifTrue: [ ^self ].
 	^ self buildBackgroundSceneGraphForSelectedRow: selectedRow with: builder
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 LazyListMorph >> buildSeparatorSceneGraphAfter: aRow with: builder [
 	| height separatorColor frame rectangle |
 	height := listSource separatorSize.
@@ -84,7 +84,7 @@ LazyListMorph >> buildSeparatorSceneGraphAfter: aRow with: builder [
 	^ builder rectangle: rectangle color: separatorColor
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 LazyListMorph >> topVisibleRowForRectangle: rectangle [
 	^self rowAtLocation: rectangle topLeft.
 ]

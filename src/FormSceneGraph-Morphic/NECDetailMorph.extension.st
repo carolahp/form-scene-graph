@@ -1,18 +1,18 @@
-Extension { #name : #NECDetailMorph }
+Extension { #name : 'NECDetailMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 NECDetailMorph >> buildArrowSceneGraphNodeWith: builder [
 	self flag: 'TODO:'.
 	^ builder null
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 NECDetailMorph >> buildMessageSceneGraphNodeWith: builder [
 	self flag: 'TODO:'.
 	^ builder null
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 NECDetailMorph >> buildSceneGraphNodeWith: builder [
 	| result |
 	result := super buildSceneGraphNodeWith: builder.

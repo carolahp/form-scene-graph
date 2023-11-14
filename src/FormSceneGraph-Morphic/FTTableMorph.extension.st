@@ -1,11 +1,11 @@
-Extension { #name : #FTTableMorph }
+Extension { #name : 'FTTableMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 FTTableMorph >> shouldCacheSceneGraphSurface [
 	^ false
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 FTTableMorph >> shouldDrawKeyboardFocusIndicator [
 	^ self hasKeyboardFocus
 ]

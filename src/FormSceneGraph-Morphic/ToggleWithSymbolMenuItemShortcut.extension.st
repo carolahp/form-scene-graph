@@ -1,6 +1,6 @@
-Extension { #name : #ToggleWithSymbolMenuItemShortcut }
+Extension { #name : 'ToggleWithSymbolMenuItemShortcut' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 ToggleWithSymbolMenuItemShortcut >> buildSceneGraphNodeWith: builder [
 	| text keyFont keyBounds paragraph |
 	text := self text.

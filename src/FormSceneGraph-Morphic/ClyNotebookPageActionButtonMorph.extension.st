@@ -1,6 +1,6 @@
-Extension { #name : #ClyNotebookPageActionButtonMorph }
+Extension { #name : 'ClyNotebookPageActionButtonMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 ClyNotebookPageActionButtonMorph >> buildSceneGraphNodeWith: builder [
 	| result |
 	result := super buildSceneGraphNodeWith: builder.

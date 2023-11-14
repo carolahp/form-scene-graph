@@ -1,6 +1,6 @@
-Extension { #name : #OSWorldRenderer }
+Extension { #name : 'OSWorldRenderer' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 OSWorldRenderer >> scaleFactor [
 	^ self screenScaleFactor
 ]

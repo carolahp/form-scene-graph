@@ -1,6 +1,6 @@
-Extension { #name : #TaskbarMorph }
+Extension { #name : 'TaskbarMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 TaskbarMorph >> shouldCacheSceneGraphSurface [
 	^ false
 ]

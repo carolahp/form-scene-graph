@@ -1,6 +1,6 @@
-Extension { #name : #RubColumnDisplayer }
+Extension { #name : 'RubColumnDisplayer' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubColumnDisplayer >> buildSceneGraphNodeWith: builder [
 	| cwidth col dsh lw cw dc nb bnds gap result columnNodes |
 	result := super buildSceneGraphNodeWith: builder.

@@ -1,6 +1,6 @@
-Extension { #name : #TransformMorph }
+Extension { #name : 'TransformMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 TransformMorph >> buildChildrenSceneGraphNodeWith: builder [
 
 	submorphs isEmpty ifTrue: [ ^ builder null ].
@@ -12,7 +12,7 @@ TransformMorph >> buildChildrenSceneGraphNodeWith: builder [
 
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 TransformMorph >> invalidRect: damageRect from: aMorph [
 	"Translate damage reports from submorphs by the scrollOffset."
 	

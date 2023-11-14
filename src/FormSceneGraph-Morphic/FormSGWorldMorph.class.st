@@ -2,12 +2,14 @@
 I am OSWindowMorph that uses the form scene graph for all of its rendering tasks.
 "
 Class {
-	#name : #FormSGWorldMorph,
-	#superclass : #OSWindowWorldMorph,
-	#category : #'FormSceneGraph-Morphic-WorldRenderer'
+	#name : 'FormSGWorldMorph',
+	#superclass : 'OSWindowWorldMorph',
+	#category : 'FormSceneGraph-Morphic-WorldRenderer',
+	#package : 'FormSceneGraph-Morphic',
+	#tag : 'WorldRenderer'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FormSGWorldMorph >> open [
 	self worldState worldRenderer: ((self worldRendererClass forWorld: self)
 		windowCloseAction: [self osWindowCloseButtonPressed]).
@@ -15,13 +17,13 @@ FormSGWorldMorph >> open [
 	self class addExtraWorld: self.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGWorldMorph >> scaleFactor: value [
 	^ self setProperty: #scaleFactor toValue: value
 
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 FormSGWorldMorph >> worldRendererClass [
 	^ self subclassResponsibility
 ]

@@ -1,6 +1,6 @@
-Extension { #name : #RubCodeSizeFeedback }
+Extension { #name : 'RubCodeSizeFeedback' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubCodeSizeFeedback >> buildSceneGraphNodeWith: builder [
 	| font s result |
 	result := super buildSceneGraphNodeWith: builder.

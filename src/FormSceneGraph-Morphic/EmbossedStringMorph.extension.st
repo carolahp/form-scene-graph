@@ -1,6 +1,6 @@
-Extension { #name : #EmbossedStringMorph }
+Extension { #name : 'EmbossedStringMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 EmbossedStringMorph >> buildSceneGraphNodeWith: builder [
 	| result box |
 	self style == #plain ifTrue: [^super buildSceneGraphNodeWith: builder].

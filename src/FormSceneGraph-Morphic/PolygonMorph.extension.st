@@ -1,6 +1,6 @@
-Extension { #name : #PolygonMorph }
+Extension { #name : 'PolygonMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 PolygonMorph >> buildSceneGraphNodeWith: builder [
 	^ super buildSceneGraphNodeWith: builder
 ]

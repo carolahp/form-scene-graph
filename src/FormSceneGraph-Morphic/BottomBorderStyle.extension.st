@@ -1,7 +1,7 @@
-Extension { #name : #BottomBorder }
+Extension { #name : 'BottomBorderStyle' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
-BottomBorder >> buildSceneGraphNodeForBorder: aRectangle with: builder [
+{ #category : '*FormSceneGraph-Morphic' }
+BottomBorderStyle >> buildSceneGraphNodeForBorder: aRectangle with: builder [
 	| trimOffset trimmedRectangle |
 	trimOffset := self trimSize @ 0.
 	trimmedRectangle := aRectangle origin + trimOffset corner: aRectangle corner - trimOffset.

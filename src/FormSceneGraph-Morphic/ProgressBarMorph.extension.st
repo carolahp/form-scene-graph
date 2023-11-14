@@ -1,6 +1,6 @@
-Extension { #name : #ProgressBarMorph }
+Extension { #name : 'ProgressBarMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 ProgressBarMorph >> buildSceneGraphNodeWith: builder [
 	| area result |
 	area := self innerBounds.

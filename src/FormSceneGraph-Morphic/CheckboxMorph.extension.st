@@ -1,6 +1,6 @@
-Extension { #name : #CheckboxMorph }
+Extension { #name : 'CheckboxMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 CheckboxMorph >> listBuildSceneGraphWith: builder atRow: aRow bounds: drawBounds color: drawColor backgroundColor: backgroundColor from: aMorph [
 
 	| result |
@@ -11,7 +11,7 @@ CheckboxMorph >> listBuildSceneGraphWith: builder atRow: aRow bounds: drawBounds
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 CheckboxMorph >> shouldDrawKeyboardFocusIndicator [
 	^ self hasKeyboardFocus
 ]

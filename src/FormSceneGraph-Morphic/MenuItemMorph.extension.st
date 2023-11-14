@@ -1,6 +1,6 @@
-Extension { #name : #MenuItemMorph }
+Extension { #name : 'MenuItemMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MenuItemMorph >> buildIconSceneGraphNodeWith: builder [
 	| iconForm |
 	self hasIcon ifFalse: [ ^ builder null ].
@@ -10,7 +10,7 @@ MenuItemMorph >> buildIconSceneGraphNodeWith: builder [
 
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MenuItemMorph >> buildSceneGraphNodeWith: builder [
 	| result stringColor |
 	result := builder null.
@@ -31,7 +31,7 @@ MenuItemMorph >> buildSceneGraphNodeWith: builder [
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MenuItemMorph >> buildSubmenuMarkerSceneGraphNodeWith: builder [
 	| subMenuMarker subMenuMarkerPosition |
 	self hasSubMenu ifFalse: [ ^ builder null ].

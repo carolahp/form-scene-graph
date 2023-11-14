@@ -1,6 +1,6 @@
-Extension { #name : #RubAbstractTextArea }
+Extension { #name : 'RubAbstractTextArea' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubAbstractTextArea >> buildChildrenSceneGraphNodeWith: builder [
 	| result paragraphDecorator |
 
@@ -9,7 +9,7 @@ RubAbstractTextArea >> buildChildrenSceneGraphNodeWith: builder [
 	^ result , paragraphDecorator
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubAbstractTextArea >> shouldDrawKeyboardFocusIndicator [
 	^ (scrollPane isNil and: [ self readOnly not and: [ self hasKeyboardFocus or: [ self hasFindReplaceFocus ] ] ])
 ]

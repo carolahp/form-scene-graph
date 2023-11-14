@@ -1,6 +1,6 @@
-Extension { #name : #CheckboxButtonMorph }
+Extension { #name : 'CheckboxButtonMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 CheckboxButtonMorph >> buildSceneGraphNodeWith: builder [
 	| result imageToUse |
 	result := builder fillRectangle: self bounds fillStyle: self fillStyle borderStyle: self borderStyle.

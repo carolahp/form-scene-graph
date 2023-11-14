@@ -1,6 +1,6 @@
-Extension { #name : #MenubarItemMorph }
+Extension { #name : 'MenubarItemMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MenubarItemMorph >> buildSubmenuMarkerSceneGraphNodeWith: builder [
 
 	^ builder null

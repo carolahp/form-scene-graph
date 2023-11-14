@@ -1,6 +1,6 @@
-Extension { #name : #FuzzyLabelMorph }
+Extension { #name : 'FuzzyLabelMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 FuzzyLabelMorph >> buildSceneGraphNodeWith: builder [
 	|pc fuzzColor labelColor result|
 	pc := self paneColor.

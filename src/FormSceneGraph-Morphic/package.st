@@ -1,1 +1,1 @@
-Package { #name : #'FormSceneGraph-Morphic' }
+Package { #name : 'FormSceneGraph-Morphic' }

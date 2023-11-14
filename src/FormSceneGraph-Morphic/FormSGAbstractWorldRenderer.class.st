@@ -4,8 +4,8 @@ I am a world renderer that renders morphic in two steps:
 - Render the scene graph into the OSWindow.
 "
 Class {
-	#name : #FormSGAbstractWorldRenderer,
-	#superclass : #OSWorldRenderer,
+	#name : 'FormSGAbstractWorldRenderer',
+	#superclass : 'OSWorldRenderer',
 	#instVars : [
 		'isDisplayingWorld'
 	],
@@ -13,36 +13,38 @@ Class {
 		'IsEnabled',
 		'SelectedWorldRendererClass'
 	],
-	#category : #'FormSceneGraph-Morphic-WorldRenderer'
+	#category : 'FormSceneGraph-Morphic-WorldRenderer',
+	#package : 'FormSceneGraph-Morphic',
+	#tag : 'WorldRenderer'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGAbstractWorldRenderer class >> isAbstract [
 	^ self == FormSGAbstractWorldRenderer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGAbstractWorldRenderer class >> isApplicableFor: aWorld [
 	self isAbstract ifTrue: [ ^ false ].
 	^ self isEnabledClass and: [Smalltalk isHeadless and: [ CommandLineArguments new hasOption: 'interactive'  ]]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGAbstractWorldRenderer class >> isEnabled [
 	^ IsEnabled ifNil: [ IsEnabled := false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGAbstractWorldRenderer class >> isEnabled: aBoolean [
 	IsEnabled := aBoolean
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGAbstractWorldRenderer class >> isEnabledClass [
 	^ self isEnabled and: [ self selectedWorldRendererClass == self ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGAbstractWorldRenderer class >> isEnabledSettingsOn: aBuilder [
 	<systemsettings>
 	(aBuilder setting: #isEnabled)
@@ -52,22 +54,22 @@ FormSGAbstractWorldRenderer class >> isEnabledSettingsOn: aBuilder [
 		target: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGAbstractWorldRenderer class >> priority [
 	^ OSWorldRenderer priority + 1
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGAbstractWorldRenderer class >> selectedWorldRendererClass [
 	^ SelectedWorldRendererClass ifNil: [ SelectedWorldRendererClass := FormAthensSGWorldRenderer ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGAbstractWorldRenderer class >> selectedWorldRendererClass: aClass [
 	SelectedWorldRendererClass := aClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGAbstractWorldRenderer class >> selectedWorldRendererClassSettingsOn: aBuilder [
 	<systemsettings>
 	(aBuilder pickOne: #selectedWorldRendererClass)
@@ -78,13 +80,13 @@ FormSGAbstractWorldRenderer class >> selectedWorldRendererClassSettingsOn: aBuil
 		target: self
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 FormSGAbstractWorldRenderer >> adjustSurfaceDamageRectangle: damageRectangle [
 	"In some cases we may need to extend the by damage rectangle an additional pixel to overcome differences between inclusive versus exclusive definitions."
 	^ damageRectangle
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGAbstractWorldRenderer >> buildSceneGraphForWorldState: aWorldState ofWorld: aWorld [
 	| builder rootNodes scaleFactor actualScreenSize |
 	scaleFactor := self scaleFactor.
@@ -100,7 +102,7 @@ FormSGAbstractWorldRenderer >> buildSceneGraphForWorldState: aWorldState ofWorld
 	^ builder scale: (builder containerWith: rootNodes) with: scaleFactor asFloat
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGAbstractWorldRenderer >> checkForNewScreenSize [
 
 	osWindow ifNil: [ ^ self ].
@@ -111,17 +113,17 @@ FormSGAbstractWorldRenderer >> checkForNewScreenSize [
 
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGAbstractWorldRenderer >> deferUpdatesDuring: aBlock [
 	"Nothing required here."
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGAbstractWorldRenderer >> displayNewSceneGraph: newSceneGraph withDamageRectangle: damageRecorder [
 	self subclassResponsibility
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGAbstractWorldRenderer >> displayWorldState: aWorldState ofWorld: aWorld [
 	| submorphs |
 	osWindow ifNil: [ ^ self ].
@@ -146,7 +148,7 @@ FormSGAbstractWorldRenderer >> displayWorldState: aWorldState ofWorld: aWorld [
 
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGAbstractWorldRenderer >> doDisplayWorldState: aWorldState ofWorld: aWorld [
 	| newSceneGraph damageRectangle |
 
@@ -159,7 +161,7 @@ FormSGAbstractWorldRenderer >> doDisplayWorldState: aWorldState ofWorld: aWorld 
 
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGAbstractWorldRenderer >> doDisplayWorldStateWhileProfiling: aWorldState ofWorld: aWorld [
 	| sceneGraphBuildingTime builder font displayRectangle newSceneGraph measurements damageRectangle | 
 	sceneGraphBuildingTime := [ newSceneGraph := self buildSceneGraphForWorldState: aWorldState ofWorld: aWorld ] timeToRunWithoutGC.
@@ -198,24 +200,24 @@ FormSGAbstractWorldRenderer >> doDisplayWorldStateWhileProfiling: aWorldState of
 
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGAbstractWorldRenderer >> drawDuring: aBlock [
 	"Nothing required here."
 ]
 
-{ #category : #'scale factor' }
+{ #category : 'scale factor' }
 FormSGAbstractWorldRenderer >> drawingSurfaceBounds [
 	^ 0@0 extent: self drawingSurfaceExtent
 ]
 
-{ #category : #'scale factor' }
+{ #category : 'scale factor' }
 FormSGAbstractWorldRenderer >> drawingSurfaceExtent [
 	^ (osWindow isNotNil and: [ osWindow renderer isNotNil ])
 		ifTrue: [ osWindow renderer pixelExtent ]
 		ifFalse: [ self windowExtent ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FormSGAbstractWorldRenderer >> extractMergedDamageRectangleFromWorldState: aWorldState ofWorld: aWorld [
 	| handsToDraw worldDamageRectangles damageRectangles result scaleFactor surfaceDamageRectangle |
 	worldDamageRectangles := aWorldState damageRecorder invalidRectsFullBounds: self drawingSurfaceBounds.
@@ -232,34 +234,34 @@ FormSGAbstractWorldRenderer >> extractMergedDamageRectangleFromWorldState: aWorl
 	^ self adjustSurfaceDamageRectangle: surfaceDamageRectangle.
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGAbstractWorldRenderer >> isDisplayingWorld [
 	^ isDisplayingWorld ifNil: [ isDisplayingWorld := false ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FormSGAbstractWorldRenderer >> newBuilderWithExtent: extent [
 	^ FormSGBuilder extent: extent
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGAbstractWorldRenderer >> osWindowRenderer [
 	self subclassResponsibility
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGAbstractWorldRenderer >> scaleFactor [
 	^ self surfaceScaleFactor * self screenScaleFactor
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGAbstractWorldRenderer >> surfaceScaleFactor [
 	| result |
 	result := self drawingSurfaceExtent / self windowExtent.
 	^ (result x min: result y) asFloat
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormSGAbstractWorldRenderer >> updateDamage: allDamage [
 	"Nothing required here."
 ]

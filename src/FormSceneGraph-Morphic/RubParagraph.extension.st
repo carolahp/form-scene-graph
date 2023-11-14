@@ -1,6 +1,6 @@
-Extension { #name : #RubParagraph }
+Extension { #name : 'RubParagraph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubParagraph >> buildSceneGraphNodeWith: builder bounds: aRectangle color: aColor [
 	| displayScanner offset leftInRun result visibleRectangle |
 

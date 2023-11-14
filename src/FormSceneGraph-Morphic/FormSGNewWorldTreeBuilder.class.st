@@ -1,6 +1,6 @@
 Class {
-	#name : #FormSGNewWorldTreeBuilder,
-	#superclass : #Object,
+	#name : 'FormSGNewWorldTreeBuilder',
+	#superclass : 'Object',
 	#instVars : [
 		'damagedAreas',
 		'subTrees',
@@ -15,10 +15,12 @@ Class {
 	#pools : [
 		'SDL2Constants'
 	],
-	#category : #'FormSceneGraph-Morphic-WorldRenderer'
+	#category : 'FormSceneGraph-Morphic-WorldRenderer',
+	#package : 'FormSceneGraph-Morphic',
+	#tag : 'WorldRenderer'
 }
 
-{ #category : #building }
+{ #category : 'building' }
 FormSGNewWorldTreeBuilder >> buildTreeForDamagedAreasOf: aWorldMorph [ 
 		
 	self extractDamagedAreasOf: aWorldMorph.
@@ -36,7 +38,7 @@ FormSGNewWorldTreeBuilder >> buildTreeForDamagedAreasOf: aWorldMorph [
 	self buildTreeForHandsOf: aWorldMorph	
 ]
 
-{ #category : #'private - building' }
+{ #category : 'private - building' }
 FormSGNewWorldTreeBuilder >> buildTreeForHandsOf: aWorldMorph [ 
 	
 	scaledHandObscuredAreas := OrderedCollection new.
@@ -47,7 +49,7 @@ FormSGNewWorldTreeBuilder >> buildTreeForHandsOf: aWorldMorph [
 		scaledHandObscuredAreas addAll: handTreeBuilder scaledHandObscuredAreas].
 ]
 
-{ #category : #'private - building' }
+{ #category : 'private - building' }
 FormSGNewWorldTreeBuilder >> buildTreeForSubmorphsOf: aWorldMorph [ 
 	
 	| nodes |
@@ -61,7 +63,7 @@ FormSGNewWorldTreeBuilder >> buildTreeForSubmorphsOf: aWorldMorph [
 	^ builder containerWith: nodes reversed
 ]
 
-{ #category : #'private - building' }
+{ #category : 'private - building' }
 FormSGNewWorldTreeBuilder >> buildTreeForWorldOf: aWorldMorph [ 
 	
 	(builder isAlreadyDrawn: aWorldMorph bounds)	
@@ -70,13 +72,13 @@ FormSGNewWorldTreeBuilder >> buildTreeForWorldOf: aWorldMorph [
 	^ aWorldMorph buildSceneGraphNodeWith: builder
 ]
 
-{ #category : #'accessing - results' }
+{ #category : 'accessing - results' }
 FormSGNewWorldTreeBuilder >> damagedAreas [
 	
 	^ damagedAreas
 ]
 
-{ #category : #'private - building' }
+{ #category : 'private - building' }
 FormSGNewWorldTreeBuilder >> extractDamagedAreasFromWorld: aWorldMorph [
 
 	| damageRecorder |
@@ -86,7 +88,7 @@ FormSGNewWorldTreeBuilder >> extractDamagedAreasFromWorld: aWorldMorph [
 	damageRecorder reset
 ]
 
-{ #category : #'private - building' }
+{ #category : 'private - building' }
 FormSGNewWorldTreeBuilder >> extractDamagedAreasOf: aWorldMorph [ 
 	
 	self extractDamagedAreasFromWorld: aWorldMorph.
@@ -98,7 +100,7 @@ FormSGNewWorldTreeBuilder >> extractDamagedAreasOf: aWorldMorph [
 		ifFalse: [ damagedAreas collect: [ :e | (e scaleBy: scale) roundTo:1 ]]
 ]
 
-{ #category : #'accessing - results' }
+{ #category : 'accessing - results' }
 FormSGNewWorldTreeBuilder >> handTree [
 	
 	"This method is only valid if there is a single hand. 
@@ -108,7 +110,7 @@ FormSGNewWorldTreeBuilder >> handTree [
 	^ handBuilders anyOne handTree
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 FormSGNewWorldTreeBuilder >> handTreeBuilderFor: aHandMorph [
 
 	^ handBuilders at: aHandMorph 
@@ -124,13 +126,13 @@ FormSGNewWorldTreeBuilder >> handTreeBuilderFor: aHandMorph [
 				  yourself ]
 ]
 
-{ #category : #'accessing - result' }
+{ #category : 'accessing - result' }
 FormSGNewWorldTreeBuilder >> handTreeBuilders [
 	
 	^ handBuilders values
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGNewWorldTreeBuilder >> initialize [ 
 
 	super initialize.
@@ -139,37 +141,37 @@ FormSGNewWorldTreeBuilder >> initialize [
 
 ]
 
-{ #category : #'accessing - parameters' }
+{ #category : 'accessing - parameters' }
 FormSGNewWorldTreeBuilder >> renderer [
 
 	^ renderer
 ]
 
-{ #category : #'accessing - parameters' }
+{ #category : 'accessing - parameters' }
 FormSGNewWorldTreeBuilder >> renderer: aRenderer [
 
 	renderer := aRenderer
 ]
 
-{ #category : #'accessing - parameters' }
+{ #category : 'accessing - parameters' }
 FormSGNewWorldTreeBuilder >> scale: aValue [
 	
 	scale := aValue
 ]
 
-{ #category : #'accessing - results' }
+{ #category : 'accessing - results' }
 FormSGNewWorldTreeBuilder >> scaledDamagedAreas [
 	
 	^ scaledDamagedAreas
 ]
 
-{ #category : #'accessing - results' }
+{ #category : 'accessing - results' }
 FormSGNewWorldTreeBuilder >> scaledHandObscuredAreas [
 
 	^ scaledHandObscuredAreas
 ]
 
-{ #category : #'accessing - results' }
+{ #category : 'accessing - results' }
 FormSGNewWorldTreeBuilder >> worldTree [
 	
 	^ worldTree , subTrees

@@ -2,21 +2,22 @@
 I am a display scanner that is used for building a scene graph for text.
 "
 Class {
-	#name : #FormSGDisplayScanner,
-	#superclass : #DisplayScanner,
+	#name : 'FormSGDisplayScanner',
+	#superclass : 'DisplayScanner',
 	#instVars : [
 		'builder',
 		'textNodes'
 	],
-	#category : #'FormSceneGraph-Morphic'
+	#category : 'FormSceneGraph-Morphic',
+	#package : 'FormSceneGraph-Morphic'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FormSGDisplayScanner class >> for: paragraph with: builder [
 	^ self new initWithParagraph: paragraph andBuilder: builder; yourself
 ]
 
-{ #category : #displaying }
+{ #category : 'displaying' }
 FormSGDisplayScanner >> displayString: string from: startIndex to: stopIndex at: aPoint [
 	| rectangle underline strikethrough |
 	
@@ -28,28 +29,28 @@ FormSGDisplayScanner >> displayString: string from: startIndex to: stopIndex at:
 	textNodes add: (builder string: string from: startIndex to: stopIndex in: rectangle font: font color: foregroundColor kern: kern underline: underline underlineColor: foregroundColor strikethrough: strikethrough strikethroughColor: foregroundColor)
 ]
 
-{ #category : #displaying }
+{ #category : 'displaying' }
 FormSGDisplayScanner >> fillTextBackground [
 	backgroundColor ifNotNil: [
 		textNodes add: (builder rectangle: (line left @ lineY extent: line width @ line lineHeight) color: backgroundColor)
 	]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGDisplayScanner >> initWithParagraph: paragraph andBuilder: theBuilder [
 	self text: paragraph text textStyle: paragraph textStyle.
 	builder := theBuilder.
 	textNodes := OrderedCollection new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGDisplayScanner >> sceneGraphNode [
 	textNodes isEmpty ifTrue: [ ^ builder null ].
 	textNodes size = 1 ifTrue: [ ^ textNodes first ].
 	^ builder containerWith: textNodes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGDisplayScanner >> textNodes [
 	^ textNodes
 ]

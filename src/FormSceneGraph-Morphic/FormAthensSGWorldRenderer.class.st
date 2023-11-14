@@ -2,17 +2,19 @@
 I am a scene graph based world renderer that uses the Athens renderer.
 "
 Class {
-	#name : #FormAthensSGWorldRenderer,
-	#superclass : #FormSGAbstractWorldRenderer,
-	#category : #'FormSceneGraph-Morphic-WorldRenderer'
+	#name : 'FormAthensSGWorldRenderer',
+	#superclass : 'FormSGAbstractWorldRenderer',
+	#category : 'FormSceneGraph-Morphic-WorldRenderer',
+	#package : 'FormSceneGraph-Morphic',
+	#tag : 'WorldRenderer'
 }
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 FormAthensSGWorldRenderer >> adjustSurfaceDamageRectangle: rectangle [
 	^ rectangle origin floor corner: (rectangle corner + (1@1)) ceiling
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormAthensSGWorldRenderer >> displayNewSceneGraph: newSceneGraph withDamageRectangle: damageRectangle [
 	| renderer |
 	renderer := self osWindowRenderer.
@@ -33,7 +35,7 @@ FormAthensSGWorldRenderer >> displayNewSceneGraph: newSceneGraph withDamageRecta
 	renderer present
 ]
 
-{ #category : #activation }
+{ #category : 'activation' }
 FormAthensSGWorldRenderer >> initialize [
 	super initialize.
 	
@@ -41,7 +43,7 @@ FormAthensSGWorldRenderer >> initialize [
 	OSSDL2ExternalForm extent: 1@1 depth: 32 bits: ExternalAddress null.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormAthensSGWorldRenderer >> osWindowRenderer [
 	osWindow ifNil: [ ^ nil ].
 	^ osWindow renderer ifNil: [

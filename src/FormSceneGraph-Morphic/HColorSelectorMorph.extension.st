@@ -1,12 +1,12 @@
-Extension { #name : #HColorSelectorMorph }
+Extension { #name : 'HColorSelectorMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 HColorSelectorMorph >> buildSceneGraphNodeWith: builder [
 	^ (builder texturedRectangle: self bounds form: self hueForm) ,
 		(builder borderRectangle: self bounds style: self borderStyle)
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 HColorSelectorMorph >> hueForm [
 	^ self valueOfProperty: #hueForm ifAbsentPut: [
 		|hueColors hueForm|

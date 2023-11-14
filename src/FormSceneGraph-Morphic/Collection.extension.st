@@ -1,6 +1,6 @@
-Extension { #name : #Collection }
+Extension { #name : 'Collection' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 Collection >> reduceRectangles [
 
 	^ self inject: OrderedCollection new into: [ :a :e | 

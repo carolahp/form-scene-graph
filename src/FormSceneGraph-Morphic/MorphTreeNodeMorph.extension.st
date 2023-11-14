@@ -1,6 +1,6 @@
-Extension { #name : #MorphTreeNodeMorph }
+Extension { #name : 'MorphTreeNodeMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MorphTreeNodeMorph >> buildCheckSceneGraphNodeWith: builder [
 	| topLeft icon |
 	topLeft := self computeCheckTopLeft.
@@ -8,7 +8,7 @@ MorphTreeNodeMorph >> buildCheckSceneGraphNodeWith: builder [
 	^ builder textureForm: icon at: topLeft
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MorphTreeNodeMorph >> buildSceneGraphNodeWith: builder [
 	| result |
 	result := builder null.
@@ -25,7 +25,7 @@ MorphTreeNodeMorph >> buildSceneGraphNodeWith: builder [
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MorphTreeNodeMorph >> buildToggleSceneGraphNodeWith: builder in: aRectangle [
 	| aForm centeringOffset |
 	aForm := self toggleImageForm.

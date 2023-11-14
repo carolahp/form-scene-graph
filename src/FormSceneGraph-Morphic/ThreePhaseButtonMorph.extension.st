@@ -1,6 +1,6 @@
-Extension { #name : #ThreePhaseButtonMorph }
+Extension { #name : 'ThreePhaseButtonMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 ThreePhaseButtonMorph >> buildSceneGraphNodeWith: builder [
 	state == #off ifTrue: [
 		offImage ifNotNil: [^ builder textureForm: offImage at: bounds origin]].

@@ -1,6 +1,6 @@
-Extension { #name : #ToggleMenuItemShortcut }
+Extension { #name : 'ToggleMenuItemShortcut' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 ToggleMenuItemShortcut >> buildSceneGraphNodeWith: builder [
 	^ self subclassResponsibility
 ]

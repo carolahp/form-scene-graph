@@ -1,12 +1,12 @@
-Extension { #name : #SimpleHierarchicalListMorph }
+Extension { #name : 'SimpleHierarchicalListMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 SimpleHierarchicalListMorph >> buildLinesSceneGraphNodeWith: builder [
 	"TODO: Implement this if this is required."
 	^ builder null
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 SimpleHierarchicalListMorph >> buildSceneGraphNodeWith: builder [
 	"Draw the selection and lines."
 	

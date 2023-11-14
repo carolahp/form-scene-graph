@@ -1,6 +1,6 @@
-Extension { #name : #RubLineNumberDisplayer }
+Extension { #name : 'RubLineNumberDisplayer' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 RubLineNumberDisplayer >> buildSceneGraphNodeWith: builder [
 	| prev right font lines visibleRectangle tcolor left result clippedContent |
 	result := super buildSceneGraphNodeWith: builder.

@@ -1,6 +1,6 @@
-Extension { #name : #FillStyle }
+Extension { #name : 'FillStyle' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 FillStyle >> buildSceneGraphNodeForFilling: aRectangle with: builder [
 	| color |
 	color := self asColor.

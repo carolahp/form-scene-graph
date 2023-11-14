@@ -1,6 +1,6 @@
-Extension { #name : #LabelMorph }
+Extension { #name : 'LabelMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 LabelMorph >> buildSceneGraphNodeWith: builder [
 
 	(self enabled not and: [ self disabledStyle = #inset ])	ifTrue: [

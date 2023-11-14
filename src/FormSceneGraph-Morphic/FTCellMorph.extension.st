@@ -1,6 +1,6 @@
-Extension { #name : #FTCellMorph }
+Extension { #name : 'FTCellMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 FTCellMorph >> buildSceneGraphNodeWith: builder [
 	| result |
 	

@@ -1,6 +1,6 @@
-Extension { #name : #MenuLineMorph }
+Extension { #name : 'MenuLineMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 MenuLineMorph >> buildSceneGraphNodeWith: builder [
 	^ self theme flatMenu ifFalse: [
 		(builder rectangle: (bounds topLeft corner: bounds rightCenter) color: self baseColor twiceDarker) ,

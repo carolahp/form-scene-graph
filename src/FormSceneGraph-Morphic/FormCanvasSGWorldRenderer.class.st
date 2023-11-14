@@ -2,12 +2,14 @@
 I am a world renderer that uses the BitBlt canvas for rendering.
 "
 Class {
-	#name : #FormCanvasSGWorldRenderer,
-	#superclass : #FormSGAbstractWorldRenderer,
-	#category : #'FormSceneGraph-Morphic-WorldRenderer'
+	#name : 'FormCanvasSGWorldRenderer',
+	#superclass : 'FormSGAbstractWorldRenderer',
+	#category : 'FormSceneGraph-Morphic-WorldRenderer',
+	#package : 'FormSceneGraph-Morphic',
+	#tag : 'WorldRenderer'
 }
 
-{ #category : #operations }
+{ #category : 'operations' }
 FormCanvasSGWorldRenderer >> displayNewSceneGraph: newSceneGraph withDamageRectangle: damageRectangle [
 	| renderer requiredFormExtent |
 	renderer := self osWindowRenderer.
@@ -24,7 +26,7 @@ FormCanvasSGWorldRenderer >> displayNewSceneGraph: newSceneGraph withDamageRecta
 	renderer updateRectangle: damageRectangle.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormCanvasSGWorldRenderer >> osWindowRenderer [
 	osWindow ifNil: [ ^ nil ].
 	display ifNil: [ display := Form extent: self drawingSurfaceExtent depth: 32 ].

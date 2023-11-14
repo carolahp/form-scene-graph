@@ -1,12 +1,12 @@
-Extension { #name : #ToggleMenuItemMorph }
+Extension { #name : 'ToggleMenuItemMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 ToggleMenuItemMorph >> buildKeyTextSceneGraphNodeWith: builder [
 	self keyText ifNil: [^ builder null].
 	^ self itemShortcut buildSceneGraphNodeWith: builder
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 ToggleMenuItemMorph >> buildSceneGraphNodeWith: builder [
 	| result |
 	self isEnabled.
@@ -15,7 +15,7 @@ ToggleMenuItemMorph >> buildSceneGraphNodeWith: builder [
 	^ result
 ]
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 ToggleMenuItemMorph >> buildText: aStringOrText sceneGraphNodeWith: builder in: aRectangle color: stringColor [
 	(self enabled not and: [self theme disabledItemStyle = #inset]) ifTrue: [
 		^ (builder string: aStringOrText

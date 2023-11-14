@@ -1,6 +1,6 @@
-Extension { #name : #PluggableButtonMorph }
+Extension { #name : 'PluggableButtonMorph' }
 
-{ #category : #'*FormSceneGraph-Morphic' }
+{ #category : '*FormSceneGraph-Morphic' }
 PluggableButtonMorph >> shouldDrawKeyboardFocusIndicator [
 	^ self hasKeyboardFocus
 ]
