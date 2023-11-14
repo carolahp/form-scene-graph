@@ -1,6 +1,6 @@
-Extension { #name : #Form }
+Extension { #name : 'Form' }
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 Form >> asTextureRenderingGlyphForm [
 	| contentForm resultExtent |
 	contentForm := depth <= 8
@@ -14,7 +14,7 @@ Form >> asTextureRenderingGlyphForm [
 		yourself
 ]
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 Form >> inverted [
 	^ (self asFormOfDepth: 32) collectColors: [ :c |
 		Color r: 1.0 - c red g: 1.0 - c green b: 1.0 - c blue alpha: c alpha

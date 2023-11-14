@@ -1,17 +1,19 @@
 Class {
-	#name : #FormSGAthensSurface,
-	#superclass : #AthensCairoSurface,
-	#category : #'FormSceneGraph-Renderer-Basic'
+	#name : 'FormSGAthensSurface',
+	#superclass : 'AthensCairoSurface',
+	#category : 'FormSceneGraph-Renderer-Basic',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'Basic'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 FormSGAthensSurface class >> primImage: aFormat width: aWidth height: aHeight [
 	^ self ffiCall: #(FormSGAthensSurface cairo_image_surface_create (int aFormat,
                                                          int aWidth,
                                                          int aHeight) )
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FormSGAthensSurface class >> primImageFromData: data width: width height: height pitch: stride [
 	
 	"CAIRO_FORMAT_ARGB32 -> 0"
@@ -24,7 +26,7 @@ FormSGAthensSurface class >> primImageFromData: data width: width height: height
 		int stride) )
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FormSGAthensSurface >> primCreateCanvas [
 
 	^ self ffiCall: #( FormSGAthensCanvas cairo_create (self) )

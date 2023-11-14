@@ -2,8 +2,8 @@
 I am a scene graph renderer that uses the OSWindow generic renderer API.
 "
 Class {
-	#name : #FormSGOSWindowGenericRenderer,
-	#superclass : #FormSGRenderer,
+	#name : 'FormSGOSWindowGenericRenderer',
+	#superclass : 'FormSGRenderer',
 	#instVars : [
 		'renderer',
 		'currentTranslation',
@@ -11,20 +11,22 @@ Class {
 		'currentScale',
 		'fontTextureAtlasCache'
 	],
-	#category : #'FormSceneGraph-Renderer-Basic'
+	#category : 'FormSceneGraph-Renderer-Basic',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'Basic'
 }
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGOSWindowGenericRenderer class >> render: node with: renderer [
 	^ self new render: node with: renderer
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGOSWindowGenericRenderer class >> render: node with: renderer clippingBounds: clippingBounds [
 	^ self new render: node with: renderer clippingBounds: clippingBounds
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> attemptRectangle: rectangle textureBlittingWithPrecision: texture extent: surfaceExtent [
 	| attemptScaledPixelPerfectBlitting |
 	attemptScaledPixelPerfectBlitting := currentScale closeTo: surfaceScaleFactor.
@@ -37,7 +39,7 @@ FormSGOSWindowGenericRenderer >> attemptRectangle: rectangle textureBlittingWith
 	].
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FormSGOSWindowGenericRenderer >> blitFontPage: page glyphEntry: glyphEntry scaledGlyphEntry: scaledGlyphEntry destPosition: destPosition attemptScaledPixelPerfectBlitting: attemptScaledPixelPerfectBlitting [
 	| glyphForm sourceRectangle destRectangle pageTexture |
 	glyphForm := scaledGlyphEntry glyphForm.
@@ -57,7 +59,7 @@ FormSGOSWindowGenericRenderer >> blitFontPage: page glyphEntry: glyphEntry scale
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> drawTextNodeString: node font: font startPosition: startPosition [
 	| scaledFont attemptScaledPixelPerfectBlitting hasSubpixelAntialiasing rectangle widthAndKernedWidth destPositionX destPositionY |
 	scaledFont := font.
@@ -124,27 +126,27 @@ FormSGOSWindowGenericRenderer >> drawTextNodeString: node font: font startPositi
 	^ destPositionX @ destPositionY
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGOSWindowGenericRenderer >> fontTextureAtlasCache [
 	^ fontTextureAtlasCache
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGOSWindowGenericRenderer >> fontTextureAtlasCache: anObject [
 	fontTextureAtlasCache := anObject
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGOSWindowGenericRenderer >> render: node with: theRenderer [
 	^ self render: node with: theRenderer clippingBounds: theRenderer fullClippingBounds
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGOSWindowGenericRenderer >> render: node with: theRenderer clippingBounds: clippingBounds [
 	self render: node with: theRenderer scaleFactor: 1.0 translation: 0@0 clippingBounds: clippingBounds
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGOSWindowGenericRenderer >> render: node with: theRenderer scaleFactor: scaleFactor translation: translation clippingBounds: clippingBounds [
 	renderer := theRenderer.
 	renderer useCompositeAlphaBlending.
@@ -156,7 +158,7 @@ FormSGOSWindowGenericRenderer >> render: node with: theRenderer scaleFactor: sca
 	self visitNode: node.
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> renderCachedSubScene: node onRenderTarget: renderTarget [
 	renderer withRenderTarget: renderTarget do: [
 		| translation |
@@ -176,12 +178,12 @@ FormSGOSWindowGenericRenderer >> renderCachedSubScene: node onRenderTarget: rend
 		useCompositeAlphaBlending
 ]
 
-{ #category : #transformation }
+{ #category : 'transformation' }
 FormSGOSWindowGenericRenderer >> transformPosition: aPosition [
 	^ (currentScale * aPosition) + currentTranslation
 ]
 
-{ #category : #transformation }
+{ #category : 'transformation' }
 FormSGOSWindowGenericRenderer >> transformRectangle: rectangle [
 	| bottomLeft bottomRight topLeft topRight |
 	bottomLeft := (self transformPosition: rectangle bottomLeft) rounded.
@@ -191,12 +193,12 @@ FormSGOSWindowGenericRenderer >> transformRectangle: rectangle [
 	^ Rectangle encompassing: { bottomLeft . bottomRight . topLeft . topRight }
 ]
 
-{ #category : #transformation }
+{ #category : 'transformation' }
 FormSGOSWindowGenericRenderer >> transformVector: aVector [
 	^ currentScale * aVector
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> validateCachedSubSceneRenderTarget: node extent: surfaceExtent [
 	| renderTarget |
 	renderTarget := renderer getOrCreateRenderTargetTextureFor: node withExtent: surfaceExtent.
@@ -208,7 +210,7 @@ FormSGOSWindowGenericRenderer >> validateCachedSubSceneRenderTarget: node extent
 	^ renderTarget
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> visitAthensNode: node [
 	| rectangle surface surfaceExtent texture |
 	rectangle := node rectangle.
@@ -227,7 +229,7 @@ FormSGOSWindowGenericRenderer >> visitAthensNode: node [
 	self attemptRectangle: rectangle textureBlittingWithPrecision: texture extent: surfaceExtent.
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> visitBorderNode: node [
 	node color isTransparent ifTrue: [ ^ self ].
 	
@@ -238,7 +240,7 @@ FormSGOSWindowGenericRenderer >> visitBorderNode: node [
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> visitCachedSubScene: node [
 	| rectangle surfaceExtent renderTarget |
 	rectangle := node rectangle.
@@ -258,7 +260,7 @@ FormSGOSWindowGenericRenderer >> visitCachedSubScene: node [
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> visitClipNode: node [
 	| convertedClipRectangle oldClipRectangle |
 	convertedClipRectangle := self transformRectangle: node rectangle.
@@ -276,24 +278,24 @@ FormSGOSWindowGenericRenderer >> visitClipNode: node [
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> visitColorRectangleNode: node [
 	node color isTransparent ifTrue: [ ^ self ].
 	renderer color: node color;
 		fillRectangle: (self transformRectangle: node rectangle)
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> visitContainerNode: node [
 	self visitNodes: node children
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> visitNullNode: node [
 	"Nothing required"
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> visitTextNode: node [
 	| convertedRectangle font rectangle startPosition destPosition |
 	fontTextureAtlasCache ifNil: [ ^ self ].
@@ -309,7 +311,7 @@ FormSGOSWindowGenericRenderer >> visitTextNode: node [
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> visitTextureNode: node [
 	| texture convertedRectangle sourceRectangle sourceExtent rectangle textureRectangle |
 	node form ifNil: [ ^ self ].
@@ -333,7 +335,7 @@ FormSGOSWindowGenericRenderer >> visitTextureNode: node [
 		drawTexture: texture rectangle: textureRectangle in: convertedRectangle
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> visitTransformNode: node [
 	node transform isTranslationAndPositiveScaleOnly ifTrue: [ 
 		^ self withScale: node transform positiveScale andTranslation: node transform translation do: [ 
@@ -345,14 +347,14 @@ FormSGOSWindowGenericRenderer >> visitTransformNode: node [
 	self visitNode: node child
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGOSWindowGenericRenderer >> visitTranslationNode: node [
 	^ self withTranslation: node translation do: [ 
 		self visitNode: node child
 	].
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FormSGOSWindowGenericRenderer >> withScale: newScale andTranslation: newTranslation do: aBlock [
 	| oldTranslation oldScale |
 	oldScale := currentScale.
@@ -366,7 +368,7 @@ FormSGOSWindowGenericRenderer >> withScale: newScale andTranslation: newTranslat
 	].
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FormSGOSWindowGenericRenderer >> withTranslation: newTranslation do: aBlock [
 	| oldTranslation |
 	oldTranslation := currentTranslation.

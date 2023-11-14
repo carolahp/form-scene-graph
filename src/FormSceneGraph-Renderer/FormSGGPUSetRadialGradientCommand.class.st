@@ -2,8 +2,8 @@
 I am command used for specifying a radial gradient as a texture.
 "
 Class {
-	#name : #FormSGGPUSetRadialGradientCommand,
-	#superclass : #FormSGGPUDrawCommand,
+	#name : 'FormSGGPUSetRadialGradientCommand',
+	#superclass : 'FormSGGPUDrawCommand',
 	#instVars : [
 		'center',
 		'focalPoint',
@@ -14,95 +14,97 @@ Class {
 		'startColor',
 		'endColor'
 	],
-	#category : #'FormSceneGraph-Renderer-GPU'
+	#category : 'FormSceneGraph-Renderer-GPU',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'GPU'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUSetRadialGradientCommand >> accept: visitor [
 	^ visitor setRadialGradientCommand: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> center [
 	^ center
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> center: anObject [
 	center := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> clipInnerRadius [
 	^ clipInnerRadius
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> clipInnerRadius: anObject [
 	clipInnerRadius := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> clipOuterRadius [
 	^ clipOuterRadius
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> clipOuterRadius: anObject [
 	clipOuterRadius := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> endColor [
 	^ endColor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> endColor: anObject [
 	endColor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> focalPoint [
 	^ focalPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> focalPoint: anObject [
 	focalPoint := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> innerRadius [
 	^ innerRadius
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> innerRadius: anObject [
 	innerRadius := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUSetRadialGradientCommand >> isSetRadialGradient [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> outerRadius [
 	^ outerRadius
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> outerRadius: anObject [
 	outerRadius := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> startColor [
 	^ startColor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRadialGradientCommand >> startColor: anObject [
 	startColor := anObject
 ]

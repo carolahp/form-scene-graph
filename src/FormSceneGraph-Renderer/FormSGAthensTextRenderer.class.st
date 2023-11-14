@@ -3,12 +3,14 @@ I am a strategy to render text using Athens support.
 I don't need to have Pango installed.
 "
 Class {
-	#name : #FormSGAthensTextRenderer,
-	#superclass : #Object,
-	#category : #'FormSceneGraph-Renderer-Text'
+	#name : 'FormSGAthensTextRenderer',
+	#superclass : 'Object',
+	#category : 'FormSceneGraph-Renderer-Text',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'Text'
 }
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGAthensTextRenderer >> renderTextNode: node on: canvas [
 
 	| font rectangle topLeftTextPoint stringWidthOffset |
@@ -25,8 +27,8 @@ FormSGAthensTextRenderer >> renderTextNode: node on: canvas [
 	
 	stringWidthOffset := font widthOfString: node string from: node firstIndex to: node lastIndex.
 	
-	rectangle width trace. ' ' trace. 
-	stringWidthOffset traceCr.
+	"rectangle width trace. ' ' trace. 
+	stringWidthOffset traceCr."
 	
 	font mutex criticalReleasingOnError: [
 		canvas setFont: font.

@@ -2,8 +2,8 @@
 I am a GPU based renderer that builds buffers and command lists for GPU based renderers.
 "
 Class {
-	#name : #FormSGGPUCommandListRenderer,
-	#superclass : #FormSGRenderer,
+	#name : 'FormSGGPUCommandListRenderer',
+	#superclass : 'FormSGRenderer',
 	#instVars : [
 		'currentTransform',
 		'currentClipRectangle',
@@ -11,25 +11,27 @@ Class {
 		'fontTextureAtlasCache',
 		'hasDirectSubpixelBlending'
 	],
-	#category : #'FormSceneGraph-Renderer-GPU'
+	#category : 'FormSceneGraph-Renderer-GPU',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'GPU'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUCommandListRenderer class >> isAbstract [
 	^ self == FormSGGPUCommandListRenderer
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGGPUCommandListRenderer class >> render: sceneNode with: commandListBuilder [
 	^ self new render: sceneNode with: commandListBuilder
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGGPUCommandListRenderer class >> render: sceneNode with: commandListBuilder transform: initialTransform clippingBounds: initialClippingBounds [
 	^ self new render: sceneNode with: commandListBuilder transform: initialTransform clippingBounds: initialClippingBounds
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> attemptRectangleBlittingWithPrecision: rectangle extent: surfaceExtent [
 	commandList
 		beginTriangles;
@@ -59,7 +61,7 @@ FormSGGPUCommandListRenderer >> attemptRectangleBlittingWithPrecision: rectangle
 		endSubmesh
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> drawRectangle: rectangle color: color [
 	color isTransparent ifTrue: [ ^ self ].
 	
@@ -78,27 +80,27 @@ FormSGGPUCommandListRenderer >> drawRectangle: rectangle color: color [
 		endSubmesh
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUCommandListRenderer >> fontTextureAtlasCache [
 	^ fontTextureAtlasCache
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUCommandListRenderer >> fontTextureAtlasCache: anObject [
 	fontTextureAtlasCache := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUCommandListRenderer >> hasDirectSubpixelBlending [
 	^ hasDirectSubpixelBlending
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUCommandListRenderer >> hasDirectSubpixelBlending: anObject [
 	hasDirectSubpixelBlending := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGGPUCommandListRenderer >> initialize [
 	super initialize.
 	currentTransform := FormSGAffineTransform identity.
@@ -106,26 +108,26 @@ FormSGGPUCommandListRenderer >> initialize [
 	hasDirectSubpixelBlending := false.
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGGPUCommandListRenderer >> render: sceneNode with: theCommandListBuilder [
 	commandList := theCommandListBuilder.
 	commandList setScissor: currentClipRectangle.
 	self visitNode: sceneNode
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGGPUCommandListRenderer >> render: sceneNode with: theCommandListBuilder transform: initialTransform clippingBounds: initialClippingBounds [
 	currentTransform := initialTransform.
 	currentClipRectangle := initialClippingBounds.
 	self render: sceneNode with: theCommandListBuilder
 ]
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 FormSGGPUCommandListRenderer >> shouldAttemptScaledPixelPerfectBlitting [
 	^ currentTransform hasNoRotationAndScale: surfaceScaleFactor
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> validateCachedSubSceneRenderTarget: node extent: extent [
 	commandList setRenderTargetTextureWithExtent: extent for: node withModificationCount: node modificationCount renderedWith: [:subsceneCommandList |
 		| translation |
@@ -146,7 +148,7 @@ FormSGGPUCommandListRenderer >> validateCachedSubSceneRenderTarget: node extent:
 	^ true
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitAthensNode: node [
 	| rectangle surface surfaceExtent |
 	rectangle := node rectangle.
@@ -164,7 +166,7 @@ FormSGGPUCommandListRenderer >> visitAthensNode: node [
 	self attemptRectangleBlittingWithPrecision: rectangle extent: surfaceExtent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitBorderNode: node [
 	| rectangle interiorRectangle |
 	node color isTransparent ifTrue: [ ^ self ].
@@ -207,7 +209,7 @@ FormSGGPUCommandListRenderer >> visitBorderNode: node [
 		
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitCachedSubScene: node [
 	| rectangle surfaceExtent |
 	rectangle := node rectangle.
@@ -220,7 +222,7 @@ FormSGGPUCommandListRenderer >> visitCachedSubScene: node [
 	self attemptRectangleBlittingWithPrecision: rectangle extent: surfaceExtent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitClipNode: node [
 	| convertedClipRectangle oldClipRectangle |
 	convertedClipRectangle := currentTransform transformRectangle: node rectangle.
@@ -238,17 +240,17 @@ FormSGGPUCommandListRenderer >> visitClipNode: node [
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitColorRectangleNode: node [
 	self drawRectangle: node rectangle color: node color
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitContainerNode: node [
 	self visitNodes: node children
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitLinearGradientNode: node [
 	| rectangle |
 	(node startColor isTransparent and: [ node endColor isTransparent ]) ifTrue: [ ^ self ].
@@ -270,12 +272,12 @@ FormSGGPUCommandListRenderer >> visitLinearGradientNode: node [
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitNullNode: node [
 	"Nothing is required here."
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitRadialGradientNode: node [
 	| rectangle |
 	(node startColor isTransparent and: [ node endColor isTransparent ]) ifTrue: [ ^ self ].
@@ -300,7 +302,7 @@ FormSGGPUCommandListRenderer >> visitRadialGradientNode: node [
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitTextNode: node [
 	| scaledFont font rectangle convertedRectangle startPositionX startPositionY widthAndKernedWidth destPositionX destPositionY hasSubpixelAntialiasing stringCommandStartRecording stringCommandEndRecording attemptScaledPixelPerfectBlitting |
 	node color isTransparent ifTrue: [ ^ self ].
@@ -419,7 +421,7 @@ FormSGGPUCommandListRenderer >> visitTextNode: node [
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitTextureNode: node [
 	| sourceRectangle rectangle extent sourceExtent texcoordScale textureRectangle |
 	node form ifNil: [ ^ self ].
@@ -462,7 +464,7 @@ FormSGGPUCommandListRenderer >> visitTextureNode: node [
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitTransformNode: node [
 	| oldTransform |
 	(node transform determinant closeTo: 0) ifTrue: [ ^ self ].
@@ -475,7 +477,7 @@ FormSGGPUCommandListRenderer >> visitTransformNode: node [
 	]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUCommandListRenderer >> visitTranslationNode: node [
 	| oldTransform |
 	oldTransform := currentTransform.

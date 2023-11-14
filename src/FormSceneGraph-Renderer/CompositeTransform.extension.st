@@ -1,6 +1,6 @@
-Extension { #name : #CompositeTransform }
+Extension { #name : 'CompositeTransform' }
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 CompositeTransform >> asFormSGTransform [
 	^ self asMatrixTransform2x3 asFormSGTransform
 ]

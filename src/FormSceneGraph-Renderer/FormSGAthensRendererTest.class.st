@@ -2,12 +2,14 @@
 A FormSGAthensRendererTest is a test class for testing the behavior of FormSGAthensRenderer
 "
 Class {
-	#name : #FormSGAthensRendererTest,
-	#superclass : #TestCase,
-	#category : #'FormSceneGraph-Renderer-Basic'
+	#name : 'FormSGAthensRendererTest',
+	#superclass : 'TestCase',
+	#category : 'FormSceneGraph-Renderer-Basic',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'Basic'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FormSGAthensRendererTest >> testConvertAffineTransform [
 	| transform athensTransform |
 	transform := FormSGAffineTransform rows: #(

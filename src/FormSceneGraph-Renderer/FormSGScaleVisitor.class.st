@@ -1,19 +1,20 @@
 Class {
-	#name : #FormSGScaleVisitor,
-	#superclass : #Object,
+	#name : 'FormSGScaleVisitor',
+	#superclass : 'Object',
 	#instVars : [
 		'scaleFactor'
 	],
-	#category : #'FormSceneGraph-Renderer'
+	#category : 'FormSceneGraph-Renderer',
+	#package : 'FormSceneGraph-Renderer'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGScaleVisitor >> scaleFactor: aNumber [ 
 	
 	scaleFactor := aNumber
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGScaleVisitor >> visitColorRectangleNode: aFormSGColorRectangleNode [ 
 	
 	^ aFormSGColorRectangleNode copy

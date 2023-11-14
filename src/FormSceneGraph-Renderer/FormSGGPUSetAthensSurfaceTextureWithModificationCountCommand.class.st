@@ -2,52 +2,54 @@
 I am GPU drawing command for activating a mutable texture whose content is specified through an AthensCairoSurface.
 "
 Class {
-	#name : #FormSGGPUSetAthensSurfaceTextureWithModificationCountCommand,
-	#superclass : #FormSGGPUDrawCommand,
+	#name : 'FormSGGPUSetAthensSurfaceTextureWithModificationCountCommand',
+	#superclass : 'FormSGGPUDrawCommand',
 	#instVars : [
 		'keyObject',
 		'athensSurface',
 		'modificationCount'
 	],
-	#category : #'FormSceneGraph-Renderer-GPU'
+	#category : 'FormSceneGraph-Renderer-GPU',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'GPU'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUSetAthensSurfaceTextureWithModificationCountCommand >> accept: visitor [
 	^ visitor setAthensSurfaceTextureWithModificationCount: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetAthensSurfaceTextureWithModificationCountCommand >> athensSurface [
 	^ athensSurface
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetAthensSurfaceTextureWithModificationCountCommand >> athensSurface: anObject [
 	athensSurface := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUSetAthensSurfaceTextureWithModificationCountCommand >> isSetAthensSurfaceTextureWithModificationCount [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetAthensSurfaceTextureWithModificationCountCommand >> keyObject [
 	^ keyObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetAthensSurfaceTextureWithModificationCountCommand >> keyObject: anObject [
 	keyObject := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetAthensSurfaceTextureWithModificationCountCommand >> modificationCount [
 	^ modificationCount
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetAthensSurfaceTextureWithModificationCountCommand >> modificationCount: anObject [
 	modificationCount := anObject
 ]

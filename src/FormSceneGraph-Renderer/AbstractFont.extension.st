@@ -1,6 +1,6 @@
-Extension { #name : #AbstractFont }
+Extension { #name : 'AbstractFont' }
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 AbstractFont >> makeFormSGFontTextureAtlasPageEntryFor: character subpixelAllowed: subpixelAllowed [
 	| glyphForm |
 	glyphForm := (self characterFormAt: character) asTextureRenderingGlyphForm.
@@ -10,7 +10,7 @@ AbstractFont >> makeFormSGFontTextureAtlasPageEntryFor: character subpixelAllowe
 		yourself
 ]
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 AbstractFont >> withSizeIncrementedBy: increment [
 	^ self
 ]

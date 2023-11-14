@@ -2,8 +2,8 @@
 I represent a single texture page for in the font texture atlas cache.
 "
 Class {
-	#name : #FormSGFontTextureAtlasPage,
-	#superclass : #Object,
+	#name : 'FormSGFontTextureAtlasPage',
+	#superclass : 'Object',
 	#instVars : [
 		'cache',
 		'modificationCount',
@@ -11,51 +11,53 @@ Class {
 		'form',
 		'remainingWidth'
 	],
-	#category : #'FormSceneGraph-Renderer-Font'
+	#category : 'FormSceneGraph-Renderer-Font',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'Font'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FormSGFontTextureAtlasPage class >> newAlpha [
 	^ self basicNew initializeWithForm: (Form extent: self pageExtent depth: 8)
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FormSGFontTextureAtlasPage class >> newColor [
 	^ self basicNew initializeWithForm: (Form extent: self pageExtent depth: 32)
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FormSGFontTextureAtlasPage class >> pageExtent [
 	^ 2048 @ 256
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPage >> cache [
 	^ cache
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPage >> cache: anObject [
 	cache := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPage >> form [
 	^ form
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPage >> form: anObject [
 	form := anObject
 ]
 
-{ #category : #modifying }
+{ #category : 'modifying' }
 FormSGFontTextureAtlasPage >> increaseModificationCount [
 	modificationCount := modificationCount + 1.
 	cache recordModifiedPage: self.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGFontTextureAtlasPage >> initializeWithForm: theForm [
 	form := theForm.
 	modificationCount := 0.
@@ -63,12 +65,12 @@ FormSGFontTextureAtlasPage >> initializeWithForm: theForm [
 	remainingWidth := form width - 2.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPage >> modificationCount [
 	^ modificationCount
 ]
 
-{ #category : #modifying }
+{ #category : 'modifying' }
 FormSGFontTextureAtlasPage >> tryToInsertEntry: entry [
 	| glyphForm |
 	glyphForm := entry glyphForm.

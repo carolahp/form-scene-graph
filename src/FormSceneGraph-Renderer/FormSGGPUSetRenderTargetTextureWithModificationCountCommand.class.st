@@ -2,63 +2,65 @@
 I am a command that is used for specifying a render target texture whose content is conditionally updated.
 "
 Class {
-	#name : #FormSGGPUSetRenderTargetTextureWithModificationCountCommand,
-	#superclass : #FormSGGPUDrawCommand,
+	#name : 'FormSGGPUSetRenderTargetTextureWithModificationCountCommand',
+	#superclass : 'FormSGGPUDrawCommand',
 	#instVars : [
 		'extent',
 		'keyObject',
 		'modificationCount',
 		'renderingBlock'
 	],
-	#category : #'FormSceneGraph-Renderer-GPU'
+	#category : 'FormSceneGraph-Renderer-GPU',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'GPU'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUSetRenderTargetTextureWithModificationCountCommand >> accept: visitor [
 	^ visitor setRenderTargetWithModificationCount: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRenderTargetTextureWithModificationCountCommand >> extent [
 	^ extent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRenderTargetTextureWithModificationCountCommand >> extent: anObject [
 	extent := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUSetRenderTargetTextureWithModificationCountCommand >> isSetRenderTargetTextureWithModificationCountCommand [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRenderTargetTextureWithModificationCountCommand >> keyObject [
 	^ keyObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRenderTargetTextureWithModificationCountCommand >> keyObject: anObject [
 	keyObject := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRenderTargetTextureWithModificationCountCommand >> modificationCount [
 	^ modificationCount
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRenderTargetTextureWithModificationCountCommand >> modificationCount: anObject [
 	modificationCount := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRenderTargetTextureWithModificationCountCommand >> renderingBlock [
 	^ renderingBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetRenderTargetTextureWithModificationCountCommand >> renderingBlock: anObject [
 	renderingBlock := anObject
 ]

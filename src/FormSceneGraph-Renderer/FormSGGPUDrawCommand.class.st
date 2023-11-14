@@ -2,72 +2,74 @@
 I represent an abstract GPU based draw command.
 "
 Class {
-	#name : #FormSGGPUDrawCommand,
-	#superclass : #Object,
-	#category : #'FormSceneGraph-Renderer-GPU'
+	#name : 'FormSGGPUDrawCommand',
+	#superclass : 'Object',
+	#category : 'FormSceneGraph-Renderer-GPU',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'GPU'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand class >> isAbstract [
 	^ self == FormSGGPUDrawCommand
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUDrawCommand >> accept: visitor [
 	self subclassResponsibility
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand >> isBeginCommandRecording [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand >> isDrawElements [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand >> isEndCommandRecording [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand >> isNoTexture [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand >> isSetAthensSurfaceTextureWithModificationCount [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand >> isSetFormTexture [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand >> isSetFormTextureWithModificationCount [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand >> isSetLinearGradient [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand >> isSetRadialGradient [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand >> isSetRenderTargetTextureWithModificationCountCommand [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawCommand >> isSetScissor [
 	^ false
 ]

@@ -2,31 +2,33 @@
 I am a scene graph renderer that uses athens.
 "
 Class {
-	#name : #FormSGAthensRenderer,
-	#superclass : #FormSGRenderer,
+	#name : 'FormSGAthensRenderer',
+	#superclass : 'FormSGRenderer',
 	#instVars : [
 		'canvas'
 	],
-	#category : #'FormSceneGraph-Renderer-Basic'
+	#category : 'FormSceneGraph-Renderer-Basic',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'Basic'
 }
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGAthensRenderer class >> render: node on: canvas [
 	^ self new render: node on: canvas
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGAthensRenderer class >> render: node withTransform: initialTransform on: canvas [
 	^ self new render: node withTransform: initialTransform on: canvas
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGAthensRenderer >> render: node on: aCanvas [
 	canvas := aCanvas.
 	self visitNode: node
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGAthensRenderer >> render: node withTransform: transform on: aCanvas [
 
 	canvas := aCanvas.
@@ -36,7 +38,7 @@ FormSGAthensRenderer >> render: node withTransform: transform on: aCanvas [
 	]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> transformRectangle: rectangle [
 	| pathTransform bottomLeft bottomRight topLeft topRight |
 	pathTransform := canvas pathTransform.
@@ -47,7 +49,7 @@ FormSGAthensRenderer >> transformRectangle: rectangle [
 	^ Rectangle encompassing: { bottomLeft . bottomRight . topLeft . topRight }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitAthensNode: node [
 	| rectangle transformedRectangle surface logicalExtent surfaceExtent |
 	rectangle := node rectangle.
@@ -73,7 +75,7 @@ FormSGAthensRenderer >> visitAthensNode: node [
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitBorderNode: node [
 	node color isTransparent ifTrue: [ 
 		^ self visitNode: node content ].
@@ -86,7 +88,7 @@ FormSGAthensRenderer >> visitBorderNode: node [
 	self visitNode: node content
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitCachedSubScene: node [
 	| rectangle surface transformedRectangle logicalExtent surfaceExtent |
 	rectangle := node rectangle.
@@ -111,7 +113,7 @@ FormSGAthensRenderer >> visitCachedSubScene: node [
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitClipNode: node [
 	canvas clipBy: node rectangle during: [ 
 		self visitNode: node child
@@ -119,7 +121,7 @@ FormSGAthensRenderer >> visitClipNode: node [
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitColorRectangleNode: node [
 	node color isTransparent ifTrue: [ ^ self ].
 	
@@ -129,12 +131,12 @@ FormSGAthensRenderer >> visitColorRectangleNode: node [
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitContainerNode: node [
 	node children do: [ :each | self visitNode: each ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitLinearGradientNode: node [
 	| paint |
 	(node startColor isTransparent and: [ node endColor isTransparent ]) ifTrue: [ ^ self ].
@@ -154,12 +156,12 @@ FormSGAthensRenderer >> visitLinearGradientNode: node [
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitNullNode: node [
 	"Nothing is required here."
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitRadialGradientNode: node [
 	| paint maxRadius |
 	(node startColor isTransparent and: [ node endColor isTransparent ]) ifTrue: [ ^ self ].
@@ -183,7 +185,7 @@ FormSGAthensRenderer >> visitRadialGradientNode: node [
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitTextNode: node [
 	| font rectangle topLeftTextPoint stringWidthOffset |
 	font := node font.
@@ -220,7 +222,7 @@ FormSGAthensRenderer >> visitTextNode: node [
 	].
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitTextureNode: node [
 	| paint sourceRectangle rectangle extent sourceExtent x y |
 	rectangle := node rectangle.
@@ -272,7 +274,7 @@ FormSGAthensRenderer >> visitTextureNode: node [
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitTransformNode: node [
 	(node transform determinant closeTo: 0) ifTrue: [ ^ self ].
 	canvas pathTransform restoreAfter: [
@@ -281,7 +283,7 @@ FormSGAthensRenderer >> visitTransformNode: node [
 	]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGAthensRenderer >> visitTranslationNode: node [
 	canvas pathTransform restoreAfter: [
 		canvas pathTransform translateBy: node translation.

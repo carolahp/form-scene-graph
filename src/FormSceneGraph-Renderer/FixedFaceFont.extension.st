@@ -1,6 +1,6 @@
-Extension { #name : #FixedFaceFont }
+Extension { #name : 'FixedFaceFont' }
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 FixedFaceFont >> realFont [
 	
 	^ self baseFont realFont

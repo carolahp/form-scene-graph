@@ -2,8 +2,8 @@
 I represent a column in a texture atlas page. I am used for computing the remaining height for placing glyphs.
 "
 Class {
-	#name : #FormSGFontTextureAtlasPageColumn,
-	#superclass : #Object,
+	#name : 'FormSGFontTextureAtlasPageColumn',
+	#superclass : 'Object',
 	#instVars : [
 		'page',
 		'offset',
@@ -11,16 +11,18 @@ Class {
 		'remainingHeight',
 		'nextRow'
 	],
-	#category : #'FormSceneGraph-Renderer-Font'
+	#category : 'FormSceneGraph-Renderer-Font',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'Font'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGFontTextureAtlasPageColumn >> initialize [
 	super initialize.
 	nextRow := 1.
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FormSGFontTextureAtlasPageColumn >> insertEntry: newEntry [
 	| glyphForm destPosition pageExtent |
 	glyphForm := newEntry glyphForm.
@@ -44,42 +46,42 @@ FormSGFontTextureAtlasPageColumn >> insertEntry: newEntry [
 	].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPageColumn >> offset [
 	^ offset
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPageColumn >> offset: anObject [
 	offset := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPageColumn >> page [
 	^ page
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPageColumn >> page: anObject [
 	page := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPageColumn >> remainingHeight [
 	^ remainingHeight
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPageColumn >> remainingHeight: anObject [
 	remainingHeight := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPageColumn >> width [
 	^ width
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasPageColumn >> width: anObject [
 	width := anObject
 ]

@@ -82,7 +82,7 @@ FormSGNewAthensWorldRenderer >> doDisplayWorldState: aWorldState ofWorld: aWorld
 		handTreeBuilders: worldTreeBuilder handTreeBuilders
 ]
 
-{ #category : 'private' }
+{ #category : 'as yet unclassified' }
 FormSGNewAthensWorldRenderer >> extractMergedDamageRectangleFromWorldState: aWorldState ofWorld: aWorld [
 	| handsToDraw worldDamageRectangles damageRectangles |
 	
@@ -96,7 +96,9 @@ FormSGNewAthensWorldRenderer >> extractMergedDamageRectangleFromWorldState: aWor
 			collect: [:each | each computeDamageRectForNextFrame  ]
 			thenReject: [:each | each isEmpty ])".
 	
-	aWorldState damageRecorder reset.
+	"Stdio stdout nextPutAll: damageRectangles printString; cr; flush."
+	
+	aWorldState damageRecorder reset. 
 
 	^ damageRectangles
 ]

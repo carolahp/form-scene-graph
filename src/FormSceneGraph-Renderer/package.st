@@ -1,1 +1,1 @@
-Package { #name : #'FormSceneGraph-Renderer' }
+Package { #name : 'FormSceneGraph-Renderer' }

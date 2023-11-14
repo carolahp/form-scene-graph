@@ -3,16 +3,18 @@ I am a strategy that uses Pango to perform the rendering taking advantage of all
 Requires Pango installed.
 "
 Class {
-	#name : #FormSGPangoTextRenderer,
-	#superclass : #Object,
+	#name : 'FormSGPangoTextRenderer',
+	#superclass : 'Object',
 	#instVars : [
 		'textBuffer',
 		'pangoLayout'
 	],
-	#category : #'FormSceneGraph-Renderer-Text'
+	#category : 'FormSceneGraph-Renderer-Text',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'Text'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 FormSGPangoTextRenderer >> encodeStringForLayout: aString from: firstIndex length: length [
 
 	"I encode in utf8 the string in a pinned byteArray that is reused"
@@ -29,7 +31,7 @@ FormSGPangoTextRenderer >> encodeStringForLayout: aString from: firstIndex lengt
 	^ textBuffer
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FormSGPangoTextRenderer >> pangoLayoutFor: canvas [
 
 	^ pangoLayout ifNil: [ 
@@ -39,7 +41,7 @@ FormSGPangoTextRenderer >> pangoLayoutFor: canvas [
 
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGPangoTextRenderer >> renderTextNode: aTextNode on: canvas [
 
 	| stringLength layout |

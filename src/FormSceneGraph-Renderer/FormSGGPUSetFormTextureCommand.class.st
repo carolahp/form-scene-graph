@@ -2,30 +2,32 @@
 I am GPU drawing command for activating a texture that is specified from a form.
 "
 Class {
-	#name : #FormSGGPUSetFormTextureCommand,
-	#superclass : #FormSGGPUDrawCommand,
+	#name : 'FormSGGPUSetFormTextureCommand',
+	#superclass : 'FormSGGPUDrawCommand',
 	#instVars : [
 		'form'
 	],
-	#category : #'FormSceneGraph-Renderer-GPU'
+	#category : 'FormSceneGraph-Renderer-GPU',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'GPU'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUSetFormTextureCommand >> accept: visitor [
 	^ visitor setFormTexture: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetFormTextureCommand >> form [
 	^ form
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetFormTextureCommand >> form: anObject [
 	form := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUSetFormTextureCommand >> isSetFormTexture [
 	^ true
 ]

@@ -2,41 +2,43 @@
 I am a GPU command for drawing indexed elements.
 "
 Class {
-	#name : #FormSGGPUDrawElementsCommand,
-	#superclass : #FormSGGPUDrawCommand,
+	#name : 'FormSGGPUDrawElementsCommand',
+	#superclass : 'FormSGGPUDrawCommand',
 	#instVars : [
 		'firstIndex',
 		'indexCount'
 	],
-	#category : #'FormSceneGraph-Renderer-GPU'
+	#category : 'FormSceneGraph-Renderer-GPU',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'GPU'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUDrawElementsCommand >> accept: visitor [
 	^ visitor drawElements: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUDrawElementsCommand >> firstIndex [
 	^ firstIndex
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUDrawElementsCommand >> firstIndex: anObject [
 	firstIndex := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUDrawElementsCommand >> indexCount [
 	^ indexCount
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUDrawElementsCommand >> indexCount: anObject [
 	indexCount := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUDrawElementsCommand >> isDrawElements [
 	^ true
 ]

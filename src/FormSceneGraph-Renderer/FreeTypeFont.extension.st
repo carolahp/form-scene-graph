@@ -1,6 +1,6 @@
-Extension { #name : #FreeTypeFont }
+Extension { #name : 'FreeTypeFont' }
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 FreeTypeFont >> makeFormSGFontTextureAtlasPageEntryFor: character subpixelAllowed: subpixelAllowed [
 	| glyphForm |
 	(FreeTypeSettings current useSubPixelAntiAliasing and: [ subpixelAllowed ]) ifFalse: [ ^ super makeFormSGFontTextureAtlasPageEntryFor: character subpixelAllowed: subpixelAllowed ].

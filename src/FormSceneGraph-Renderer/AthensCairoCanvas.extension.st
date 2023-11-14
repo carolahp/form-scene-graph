@@ -1,6 +1,6 @@
-Extension { #name : #AthensCairoCanvas }
+Extension { #name : 'AthensCairoCanvas' }
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 AthensCairoCanvas >> pasteSurface: aSurface targetX: targetX targetY: targetY sourceX: sourceX sourceY: sourceY width: width height: height [ 
 	
 	self primSetSourceSurface: aSurface x: (targetX - sourceX) asFloat y: (targetY - sourceY).
@@ -8,13 +8,13 @@ AthensCairoCanvas >> pasteSurface: aSurface targetX: targetX targetY: targetY so
 	self fill
 ]
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 AthensCairoCanvas >> primScaleX: scaleX Y: scaleY [
 
 	^ self ffiCall: #( void cairo_scale ( self , double scaleX , double scaleY ) )
 ]
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 AthensCairoCanvas >> primSetSourceSurface: aSurface x: x y: y [
 
 	^ self ffiCall: #( void cairo_set_source_surface ( self , AthensCairoSurface aSurface , double x , double y ) )

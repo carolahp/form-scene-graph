@@ -1,6 +1,6 @@
-Extension { #name : #AthensCairoSurface }
+Extension { #name : 'AthensCairoSurface' }
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 AthensCairoSurface >> isValidSession [	
 
 	^ session == Smalltalk session

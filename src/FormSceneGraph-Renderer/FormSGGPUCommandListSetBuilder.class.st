@@ -2,16 +2,18 @@
 I am builder for a set of command lists. I am used for topological sorting command list for render target dependencies.
 "
 Class {
-	#name : #FormSGGPUCommandListSetBuilder,
-	#superclass : #Object,
+	#name : 'FormSGGPUCommandListSetBuilder',
+	#superclass : 'Object',
 	#instVars : [
 		'sortedCommandLists',
 		'visitedCommandLists'
 	],
-	#category : #'FormSceneGraph-Renderer-GPU'
+	#category : 'FormSceneGraph-Renderer-GPU',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'GPU'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 FormSGGPUCommandListSetBuilder >> addCommandListWithDependencies: commandList [
 	(visitedCommandLists includes: commandList) ifTrue: [ ^ self ].
 	
@@ -22,29 +24,29 @@ FormSGGPUCommandListSetBuilder >> addCommandListWithDependencies: commandList [
 	sortedCommandLists add: commandList
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGGPUCommandListSetBuilder >> initialize [
 	super initialize.
 	sortedCommandLists := OrderedCollection new.
 	visitedCommandLists := IdentitySet new.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUCommandListSetBuilder >> isRenderTargetCommandValidated: renderTargetCommand [
 	^ false
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 FormSGGPUCommandListSetBuilder >> makeCommandListBuilder [
 	^ FormSGGPUCommandListBuilder new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUCommandListSetBuilder >> sortedCommandLists [
 	^ sortedCommandLists
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FormSGGPUCommandListSetBuilder >> validateRenderTargetCommandsIfNeeded: renderTargetCommand [
 	| renderTargetCommandList |
 	(self isRenderTargetCommandValidated: renderTargetCommand) ifTrue: [ ^ self ].

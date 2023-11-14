@@ -1,6 +1,6 @@
-Extension { #name : #MatrixTransform2x3 }
+Extension { #name : 'MatrixTransform2x3' }
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 MatrixTransform2x3 >> asAthensTransform [
 
 	^ AthensAffineTransform new
@@ -9,7 +9,7 @@ MatrixTransform2x3 >> asAthensTransform [
 		yourself
 ]
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 MatrixTransform2x3 >> asFormSGTransform [
 	^ FormSGAffineTransform new
 		m11: self a11; m12: self a12; m13: self a13;

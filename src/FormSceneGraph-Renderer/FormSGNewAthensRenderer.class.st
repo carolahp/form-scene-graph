@@ -1,21 +1,23 @@
 Class {
-	#name : #FormSGNewAthensRenderer,
-	#superclass : #Object,
+	#name : 'FormSGNewAthensRenderer',
+	#superclass : 'Object',
 	#instVars : [
 		'canvas',
 		'clippingRectangles',
 		'textRenderer'
 	],
-	#category : #'FormSceneGraph-Renderer-Basic'
+	#category : 'FormSceneGraph-Renderer-Basic',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'Basic'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGNewAthensRenderer >> clippingRectangles: aCollection [ 
 	
 	clippingRectangles := aCollection
 ]
 
-{ #category : #caching }
+{ #category : 'caching' }
 FormSGNewAthensRenderer >> drawCachedSubScene: aCachedNode [
 
 	| translated |
@@ -32,7 +34,7 @@ FormSGNewAthensRenderer >> drawCachedSubScene: aCachedNode [
 		height: translated height asFloat
 ]
 
-{ #category : #'cached scenes' }
+{ #category : 'cached scenes' }
 FormSGNewAthensRenderer >> drawChildSubSceneAndCache: aCachedNode [
 
 	| cachedSurface transformed |
@@ -64,7 +66,7 @@ FormSGNewAthensRenderer >> drawChildSubSceneAndCache: aCachedNode [
 
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGNewAthensRenderer >> render: aNode on: aCanvas [
 
 	canvas := aCanvas.
@@ -89,7 +91,7 @@ FormSGNewAthensRenderer >> render: aNode on: aCanvas [
 	] ensure: [ canvas primRestoreState ].
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitAthensNode: aFormSGAthensNode [
 
 	| surface rectangle |
@@ -121,7 +123,7 @@ FormSGNewAthensRenderer >> visitAthensNode: aFormSGAthensNode [
 		height: rectangle height
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitBorderNode: aBorderNode [ 
 
 	aBorderNode color isTransparent 
@@ -145,7 +147,7 @@ FormSGNewAthensRenderer >> visitBorderNode: aBorderNode [
 		
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitCachedSubScene: aCachedNode [ 
 
 
@@ -155,13 +157,13 @@ FormSGNewAthensRenderer >> visitCachedSubScene: aCachedNode [
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitClipNode: aFormSGClipNode [
 
 	canvas clipBy: aFormSGClipNode rectangle during: [ self visitNode: aFormSGClipNode child ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitColorRectangleNode: aColorRectangleNode [ 
 
 	aColorRectangleNode color isTransparent ifTrue: [ ^ self ].
@@ -172,13 +174,13 @@ FormSGNewAthensRenderer >> visitColorRectangleNode: aColorRectangleNode [
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitContainerNode: aContainerNode [ 
 
 	aContainerNode children do: [ :each | self visitNode: each ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitLinearGradientNode: node [
 	| paint |
 	
@@ -200,19 +202,19 @@ FormSGNewAthensRenderer >> visitLinearGradientNode: node [
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitNode: aNode [ 
 
 	aNode accept: self
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitNullNode: aFormSGNullNode [ 
 
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitRadialGradientNode: node [
 	| paint maxRadius |
 	(node startColor isTransparent and: [ node endColor isTransparent ]) ifTrue: [ ^ self ].
@@ -236,13 +238,13 @@ FormSGNewAthensRenderer >> visitRadialGradientNode: node [
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitTextNode: node [
 
 	^ textRenderer renderTextNode: node on: canvas.
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitTextureNode: node [ 
 
 	| rectangle extent originSurface scaledForm |
@@ -267,7 +269,7 @@ FormSGNewAthensRenderer >> visitTextureNode: node [
 		height: extent y asFloat
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGNewAthensRenderer >> visitTransformNode: node [
 
 	canvas pathTransform restoreAfter: [

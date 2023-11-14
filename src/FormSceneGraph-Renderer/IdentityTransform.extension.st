@@ -1,6 +1,6 @@
-Extension { #name : #IdentityTransform }
+Extension { #name : 'IdentityTransform' }
 
-{ #category : #'*FormSceneGraph-Renderer' }
+{ #category : '*FormSceneGraph-Renderer' }
 IdentityTransform >> asFormSGTransform [
 	^ FormSGAffineTransform identity
 ]

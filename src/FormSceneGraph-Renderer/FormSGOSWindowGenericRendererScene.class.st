@@ -2,8 +2,8 @@
 I am a wrapper on top of an scene graph node that connects with the OSWindowGenericRenderer interface.
 "
 Class {
-	#name : #FormSGOSWindowGenericRendererScene,
-	#superclass : #OSWindowGenericRendererScene,
+	#name : 'FormSGOSWindowGenericRendererScene',
+	#superclass : 'OSWindowGenericRendererScene',
 	#instVars : [
 		'rootNode',
 		'fontTextureAtlasCache',
@@ -11,10 +11,12 @@ Class {
 		'renderTargetExtent',
 		'surfaceScaleFactor'
 	],
-	#category : #'FormSceneGraph-Renderer-Basic'
+	#category : 'FormSceneGraph-Renderer-Basic',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'Basic'
 }
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGOSWindowGenericRendererScene >> composeRenderTargetInto: renderer [
 	| fullBounds |
 	fullBounds := 0@0 extent: renderTargetExtent.
@@ -26,7 +28,7 @@ FormSGOSWindowGenericRendererScene >> composeRenderTargetInto: renderer [
 		present
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGOSWindowGenericRendererScene >> doRenderRectangle: rectangle with: renderer [
 	renderer clippingBounds: rectangle.
 	renderer
@@ -54,24 +56,24 @@ FormSGOSWindowGenericRendererScene >> doRenderRectangle: rectangle with: rendere
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGOSWindowGenericRendererScene >> fontTextureAtlasCache [
 	^ fontTextureAtlasCache ifNil: [ fontTextureAtlasCache := FormSGFontTextureAtlasCache new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGOSWindowGenericRendererScene >> fontTextureAtlasCache: anObject [
 	fontTextureAtlasCache := anObject
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGOSWindowGenericRendererScene >> renderAllWith: renderer [
 	self withRenderer: renderer drawInMainRenderTargetWith: [
 		self doRenderRectangle: (0@0 extent: renderer pixelExtent) with: renderer
 	].
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGOSWindowGenericRendererScene >> renderRectangle: rectangle with: renderer [
 	(self validateRenderTargetFor: renderer) ifFalse: [ ^ self renderAllWith: renderer ].
 
@@ -82,27 +84,27 @@ FormSGOSWindowGenericRendererScene >> renderRectangle: rectangle with: renderer 
 	self composeRenderTargetInto: renderer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGOSWindowGenericRendererScene >> rootNode [
 	^ rootNode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGOSWindowGenericRendererScene >> rootNode: anObject [
 	rootNode := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGOSWindowGenericRendererScene >> surfaceScaleFactor [
 	^ surfaceScaleFactor ifNil: [ surfaceScaleFactor := 1.0 ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGOSWindowGenericRendererScene >> surfaceScaleFactor: aNumber [
 	surfaceScaleFactor := aNumber
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGOSWindowGenericRendererScene >> validateRenderTargetFor: renderer [
 	"This optimization is not working yet."
 	| requiredExtent |
@@ -114,7 +116,7 @@ FormSGOSWindowGenericRendererScene >> validateRenderTargetFor: renderer [
 	^ renderTarget isNotNil
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 FormSGOSWindowGenericRendererScene >> withRenderer: renderer drawInMainRenderTargetWith: aBlock [
 	(self validateRenderTargetFor: renderer) ifTrue: [
 		renderer withRenderTarget: renderTarget do: aBlock.

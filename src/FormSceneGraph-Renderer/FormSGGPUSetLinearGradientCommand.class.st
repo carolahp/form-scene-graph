@@ -2,63 +2,65 @@
 I am command used for specifying a linear gradient as a texture.
 "
 Class {
-	#name : #FormSGGPUSetLinearGradientCommand,
-	#superclass : #FormSGGPUDrawCommand,
+	#name : 'FormSGGPUSetLinearGradientCommand',
+	#superclass : 'FormSGGPUDrawCommand',
 	#instVars : [
 		'startPoint',
 		'endPoint',
 		'startColor',
 		'endColor'
 	],
-	#category : #'FormSceneGraph-Renderer-GPU'
+	#category : 'FormSceneGraph-Renderer-GPU',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'GPU'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUSetLinearGradientCommand >> accept: visitor [
 	^ visitor setLinearGradientCommand: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetLinearGradientCommand >> endColor [
 	^ endColor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetLinearGradientCommand >> endColor: anObject [
 	endColor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetLinearGradientCommand >> endPoint [
 	^ endPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetLinearGradientCommand >> endPoint: anObject [
 	endPoint := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUSetLinearGradientCommand >> isSetLinearGradient [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetLinearGradientCommand >> startColor [
 	^ startColor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetLinearGradientCommand >> startColor: anObject [
 	startColor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetLinearGradientCommand >> startPoint [
 	^ startPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetLinearGradientCommand >> startPoint: anObject [
 	startPoint := anObject
 ]

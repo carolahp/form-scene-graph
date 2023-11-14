@@ -2,63 +2,65 @@
 I am GPU drawing command for activating a mutable texture whose content is specified through a form.
 "
 Class {
-	#name : #FormSGGPUSetFormTextureWithModificationCountCommand,
-	#superclass : #FormSGGPUDrawCommand,
+	#name : 'FormSGGPUSetFormTextureWithModificationCountCommand',
+	#superclass : 'FormSGGPUDrawCommand',
 	#instVars : [
 		'keyObject',
 		'form',
 		'modificationCount',
 		'isLinearTexture'
 	],
-	#category : #'FormSceneGraph-Renderer-GPU'
+	#category : 'FormSceneGraph-Renderer-GPU',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'GPU'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FormSGGPUSetFormTextureWithModificationCountCommand >> accept: visitor [
 	^ visitor setFormTextureWithModificationCount: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetFormTextureWithModificationCountCommand >> form [
 	^ form
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetFormTextureWithModificationCountCommand >> form: anObject [
 	form := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetFormTextureWithModificationCountCommand >> isLinearTexture [
 	^ isLinearTexture
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetFormTextureWithModificationCountCommand >> isLinearTexture: anObject [
 	isLinearTexture := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FormSGGPUSetFormTextureWithModificationCountCommand >> isSetFormTextureWithModificationCount [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetFormTextureWithModificationCountCommand >> keyObject [
 	^ keyObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetFormTextureWithModificationCountCommand >> keyObject: anObject [
 	keyObject := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetFormTextureWithModificationCountCommand >> modificationCount [
 	^ modificationCount
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGGPUSetFormTextureWithModificationCountCommand >> modificationCount: anObject [
 	modificationCount := anObject
 ]

@@ -2,8 +2,8 @@
 I am a cache for fonts that places glyphs dynamically in a large texture atlas. I am based in the following technique that is described for accelerated Android text rendering: https://medium.com/@romainguy/androids-font-renderer-c368bbde87d9
 "
 Class {
-	#name : #FormSGFontTextureAtlasCache,
-	#superclass : #Object,
+	#name : 'FormSGFontTextureAtlasCache',
+	#superclass : 'Object',
 	#instVars : [
 		'frameIndex',
 		'cachedCharacters',
@@ -11,16 +11,18 @@ Class {
 		'colorPages',
 		'modifiedPages'
 	],
-	#category : #'FormSceneGraph-Renderer-Font'
+	#category : 'FormSceneGraph-Renderer-Font',
+	#package : 'FormSceneGraph-Renderer',
+	#tag : 'Font'
 }
 
-{ #category : #api }
+{ #category : 'api' }
 FormSGFontTextureAtlasCache >> beginFrame [
 	frameIndex := frameIndex + 1.
 	modifiedPages removeAll.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FormSGFontTextureAtlasCache >> initialize [
 	super initialize.
 	frameIndex := 1.
@@ -30,12 +32,12 @@ FormSGFontTextureAtlasCache >> initialize [
 	modifiedPages := Set new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FormSGFontTextureAtlasCache >> modifiedPages [
 	^ modifiedPages
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 FormSGFontTextureAtlasCache >> prepareForCharacter: character font: font subpixelAllowed: subpixelAllowed [
 	^ cachedCharacters at: { character . font . subpixelAllowed } ifAbsentPut: [
 		| entry |
@@ -45,19 +47,19 @@ FormSGFontTextureAtlasCache >> prepareForCharacter: character font: font subpixe
 	]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 FormSGFontTextureAtlasCache >> prepareForString: string font: font subpixelAllowed: subpixelAllowed [
 	self prepareForString: string from: 1 to: string size font: font subpixelAllowed: subpixelAllowed
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 FormSGFontTextureAtlasCache >> prepareForString: string from: startIndex to: endIndex font: font subpixelAllowed: subpixelAllowed [
 	startIndex to: endIndex do: [ :i |
 		self prepareForCharacter: (string at: i) font: font subpixelAllowed: subpixelAllowed
 	]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 FormSGFontTextureAtlasCache >> prepareString: string from: startIndex to: endIndex font: font scaledFont: scaledFont subpixelAllowed: subpixelAllowed [
 	startIndex to: endIndex do: [ :i |
 		| character |
@@ -67,7 +69,7 @@ FormSGFontTextureAtlasCache >> prepareString: string from: startIndex to: endInd
 	]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 FormSGFontTextureAtlasCache >> processString: string from: startIndex to: endIndex font: font scaledFont: scaledFont subpixelAllowed: subpixelAllowed entriesWith: aBlock [
 	startIndex to: endIndex do: [ :i |
 		| character |
@@ -79,7 +81,7 @@ FormSGFontTextureAtlasCache >> processString: string from: startIndex to: endInd
 	]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 FormSGFontTextureAtlasCache >> processString: string from: startIndex to: endIndex font: font subpixelAllowed: subpixelAllowed entriesWith: aBlock [
 	startIndex to: endIndex do: [ :i |
 		| character |
@@ -88,12 +90,12 @@ FormSGFontTextureAtlasCache >> processString: string from: startIndex to: endInd
 	]
 ]
 
-{ #category : #internal }
+{ #category : 'internal' }
 FormSGFontTextureAtlasCache >> recordModifiedPage: page [
 	modifiedPages add: page
 ]
 
-{ #category : #internal }
+{ #category : 'internal' }
 FormSGFontTextureAtlasCache >> submitNewEntryIntoTexture: newEntry [
 	| pageList newPage |
 	newEntry hasValidGlyphForm ifFalse: [ ^ self ].
