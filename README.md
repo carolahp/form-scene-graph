@@ -1,10 +1,12 @@
 # Form Scene Graph
-## Rendering framework inspired on GSK for Pharo.
+Hi-DPI renderer for Pharo 12.
 
-### Loading the framework in Pharo
+### Take into account
+This is a beta version, and therefore it is still unstable. Please report issues found while trying it.
 
-For loading this framework with the default software based backend, you need to
-execute the following script in a playground:
+### Installing and activating in Pharo
+
+To install, execute the following script in a playground:
 
 ```smalltalk
 "Scene graph rendering framework"
@@ -14,3 +16,7 @@ Metacello new
    onConflictUseIncoming;
    load.
 ```
+
+To activate, go to settings, check the option `Enable scene graph renderer`, choose `FormSGNewAthensWorldRenderer` from the `Form Scene Graph World Renderer Class` select, and restart the image.
+
+<img width="670" alt="image" src="https://github.com/carolahp/form-scene-graph/assets/4822303/de2cd527-9c3f-42ee-985f-19f32e89bbbe">
