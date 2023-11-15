@@ -2,7 +2,7 @@
 Hi-DPI renderer for Pharo 12.
 
 ### Take into account
-This is a beta version, and therefore it is still unstable. Please report issues found while trying it.
+This is a beta version, and therefore it is still unstable. Please report new issues as you find them.
 
 ### Installing and activating in Pharo
 
